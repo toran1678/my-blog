@@ -2,12 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>선빈's Blog</title>
+    <base href="/my-blog/" />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="./src/main.jsx"></script>
+    <!-- 디버깅을 위한 스크립트 -->
+    <script>
+      console.log('index.html 로드됨');
+      console.log('root 요소 존재 여부:', !!document.getElementById('root'));
+    </script>
   </body>
 </html>

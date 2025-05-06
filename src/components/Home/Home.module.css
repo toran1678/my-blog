@@ -1,0 +1,81 @@
+.homeContainer {
+    width: 100%;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    margin-bottom: 3rem;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    margin-bottom: 2rem;
+  }
+  
+  .ctaButton {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .ctaButton:hover {
+    background-color: #2980b9;
+    text-decoration: none;
+  }
+  
+  .featuredProjects,
+  .recentPosts {
+    margin-bottom: 3rem;
+  }
+  
+  .featuredProjects h2,
+  .recentPosts h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--medium-gray);
+    padding-bottom: 0.5rem;
+  }
+  
+  .projectGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .postList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .hero {
+      padding: 2rem 1rem;
+    }
+  
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .projectGrid,
+    .postList {
+      grid-template-columns: 1fr;
+    }
+  }
+  

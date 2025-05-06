@@ -1,12 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import Home from './components/Home.jsx'
+import { StrictMode } from "react"
+import { createRoot } from "react-dom/client"
+import "./styles/variables.css"
+import "./styles/global.css"
+import App from "./App.jsx"
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    {/* <App /> */}
-    <Home />
-  </StrictMode>,
-)
+// 콘솔에 디버깅 메시지 추가
+console.log("main.jsx 실행 중...")
+
+const rootElement = document.getElementById("root")
+if (rootElement) {
+  console.log("root 요소를 찾았습니다.")
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+} else {
+  console.error("root 요소를 찾을 수 없습니다!")
+}

@@ -1,0 +1,117 @@
+.appContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: var(--header-height);
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .logo a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+  }
+  
+  .navigation ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  .navigation li {
+    margin-left: 1.5rem;
+  }
+  
+  .navigation a {
+    color: var(--secondary-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .navigation a:hover {
+    color: var(--primary-color);
+  }
+  
+  .mobileMenuButton {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--secondary-color);
+  }
+  
+  .content {
+    flex: 1;
+    padding: 2rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .footer {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: auto;
+  }
+  
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    .header {
+      padding: 0 1rem;
+    }
+  
+    .content {
+      padding: 1rem;
+    }
+  
+    .mobileMenuButton {
+      display: block;
+    }
+  
+    .navigation {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      width: 100%;
+      background-color: var(--white);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 99;
+    }
+  
+    .navigation.open {
+      transform: translateY(0);
+    }
+  
+    .navigation ul {
+      flex-direction: column;
+      padding: 1rem;
+    }
+  
+    .navigation li {
+      margin: 0;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--medium-gray);
+    }
+  
+    .navigation li:last-child {
+      border-bottom: none;
+    }
+  }
+  

@@ -1,0 +1,29 @@
+.projectsContainer {
+    width: 100%;
+  }
+  
+  .projectsContainer h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+  }
+  
+  .projectGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--dark-gray);
+  }
+  
+  @media (max-width: 768px) {
+    .projectGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

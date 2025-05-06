@@ -1,0 +1,142 @@
+.aboutContainer {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .aboutContainer h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+  }
+  
+  .aboutSection {
+    margin-bottom: 3rem;
+  }
+  
+  .aboutSection h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--medium-gray);
+    padding-bottom: 0.5rem;
+  }
+  
+  .skillsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .skillCategory {
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .skillCategory h3 {
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+  }
+  
+  .skillCategory ul {
+    list-style-type: none;
+  }
+  
+  .skillCategory li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--medium-gray);
+  }
+  
+  .skillCategory li:last-child {
+    border-bottom: none;
+  }
+  
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--medium-gray);
+  }
+  
+  .timelineItem {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .timelineItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timelineItem::before {
+    content: "";
+    position: absolute;
+    left: -2rem;
+    top: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+  
+  .timelineDate {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .timelineContent {
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .timelineContent h3 {
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .timelineContent p {
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+  }
+  
+  .timelineContent ul {
+    padding-left: 1.5rem;
+  }
+  
+  .education {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .educationItem {
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .educationItem h3 {
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .contactInfo p {
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .skillsContainer,
+    .education {
+      grid-template-columns: 1fr;
+    }
+  }
+  

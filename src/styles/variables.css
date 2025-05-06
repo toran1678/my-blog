@@ -1,0 +1,60 @@
+:root {
+    /* 색상 변수 */
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #2c3e50;
+    --secondary-dark: #1a252f;
+    --accent-color: #e74c3c;
+    --accent-dark: #c0392b;
+  
+    /* 텍스트 색상 */
+    --text-color: #333;
+    --text-light: #666;
+    --text-lighter: #888;
+  
+    /* 배경 색상 */
+    --bg-color: #fff;
+    --bg-light: #f5f5f5;
+    --bg-dark: #eee;
+  
+    /* 그레이 스케일 */
+    --white: #fff;
+    --light-gray: #f5f5f5;
+    --medium-gray: #ddd;
+    --dark-gray: #888;
+  
+    /* 레이아웃 변수 */
+    --max-width: 1200px;
+    --header-height: 60px;
+    --footer-height: 60px;
+    --container-padding: 2rem;
+    --section-spacing: 3rem;
+  
+    /* 테두리 및 그림자 */
+    --border-radius: 8px;
+    --border-color: var(--medium-gray);
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --box-shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.1);
+  
+    /* 폰트 크기 */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-md: 1rem; /* 16px */
+    --font-size-lg: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem; /* 20px */
+    --font-size-2xl: 1.5rem; /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem; /* 36px */
+    --font-size-5xl: 3rem; /* 48px */
+  
+    /* 애니메이션 */
+    --transition-speed: 0.3s;
+  }
+  
+  /* 다크 모드를 위한 변수 (나중에 구현할 경우) */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* 다크 모드 변수는 나중에 구현할 때 추가할 수 있습니다 */
+    }
+  }
+  

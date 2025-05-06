@@ -1,0 +1,92 @@
+.projectDetail {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .backLink {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--dark-gray);
+  }
+  
+  .projectDetail h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .projectDetailImage {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .projectMeta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .projectTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  
+  .projectLink {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .demoLink {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+  
+  .demoLink:hover {
+    background-color: #2980b9;
+    text-decoration: none;
+  }
+  
+  .repoLink {
+    background-color: var(--secondary-color);
+    color: var(--white);
+  }
+  
+  .repoLink:hover {
+    background-color: #1a252f;
+    text-decoration: none;
+  }
+  
+  .projectContent {
+    line-height: 1.8;
+  }
+  
+  .loading,
+  .error,
+  .notFound {
+    text-align: center;
+    padding: 3rem;
+    color: var(--dark-gray);
+  }
+  
+  .error,
+  .notFound {
+    color: var(--accent-color);
+  }
+  
