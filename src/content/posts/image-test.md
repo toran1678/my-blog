@@ -3,6 +3,7 @@ title: "이미지 테스트"
 date: "2025-05-07"
 author: "개발자"
 tags: ["테스트", "이미지"]
+coverImage: "1.png"
 # coverImage: "/placeholder.svg?height=600&width=1200&query=이미지+테스트"
 ---
 
