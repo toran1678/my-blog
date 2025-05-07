@@ -1,186 +1,440 @@
 .projectDetail {
-    max-width: 800px;
-    margin: 0 auto;
-    padding-bottom: 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
+.projectNavigation {
+  margin-bottom: 2rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.backLink:hover {
+  color: var(--primary-color);
+  transform: translateX(-3px);
+  text-decoration: none;
+}
+
+.backIcon {
+  transition: transform 0.3s ease;
+}
+
+.backLink:hover .backIcon {
+  transform: translateX(-3px);
+}
+
+.projectHeader {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.projectTitle {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.projectTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(var(--primary-rgb), 0.2);
+  text-decoration: none;
+}
+
+/* 다크 모드에서 태그 스타일 개선 */
+html.dark-theme .tag,
+[data-theme="dark"] .tag {
+  background-color: rgba(79, 192, 255, 0.3) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.dark-theme .tag:hover,
+[data-theme="dark"] .tag:hover {
+  background-color: rgba(79, 192, 255, 0.5) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  text-decoration: none !important;
+}
+
+.coverImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.coverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.coverImageWrapper:hover .coverImage {
+  transform: scale(1.02);
+}
+
+.placeholderContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projectLinks {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.demoLink {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.demoLink:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(var(--primary-rgb), 0.3);
+  text-decoration: none;
+}
+
+/* 다크 모드에서 데모 링크 버튼 스타일 개선 */
+html.dark-theme .demoLink,
+[data-theme="dark"] .demoLink {
+  background-color: #60c9ff !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark-theme .demoLink:hover,
+[data-theme="dark"] .demoLink:hover {
+  background-color: #7ad5ff !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  text-decoration: none !important;
+}
+
+.repoLink {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.repoLink:hover {
+  background-color: var(--secondary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+
+/* 다크 모드에서 저장소 링크 버튼 스타일 개선 */
+html.dark-theme .repoLink,
+[data-theme="dark"] .repoLink {
+  background-color: #2c3e50 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark-theme .repoLink:hover,
+[data-theme="dark"] .repoLink:hover {
+  background-color: #34495e !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  text-decoration: none !important;
+}
+
+.linkIcon {
+  transition: transform 0.3s ease;
+}
+
+.projectLink:hover .linkIcon {
+  transform: translateY(-2px);
+}
+
+.projectContent {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  background-color: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.relatedProjects {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--light-gray);
+}
+
+.relatedTitle {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+}
+
+.relatedTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+}
+
+.relatedProjectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.relatedProjectCard {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--white);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.relatedProjectCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.relatedProjectLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.relatedProjectLink:hover {
+  text-decoration: none;
+}
+
+.relatedImageWrapper {
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+}
+
+.relatedProjectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.relatedProjectCard:hover .relatedProjectImage {
+  transform: scale(1.05);
+}
+
+.relatedPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.relatedProjectInfo {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.relatedProjectInfo h3 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+.relatedProjectCard:hover .relatedProjectInfo h3 {
+  color: var(--primary-color);
+}
+
+.viewRelatedProject {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.viewRelatedProject:hover {
+  text-decoration: none;
+  color: var(--primary-dark);
+}
+
+.relatedArrow {
+  transition: transform 0.3s ease;
+}
+
+.relatedProjectCard:hover .relatedArrow {
+  transform: translateX(3px);
+}
+
+.projectFooter {
+  padding-top: 2rem;
+  border-top: 1px solid var(--light-gray);
+  margin-top: 3rem;
+  text-align: center;
+}
+
+/* 로딩 상태 */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--text-light);
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(var(--primary-rgb), 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .projectNavigation {
-    margin-bottom: 2rem;
+  100% {
+    transform: rotate(360deg);
   }
-  
-  .backLink {
-    display: inline-block;
-    color: var(--text-light);
-    transition: color 0.3s;
-  }
-  
-  .backLink:hover {
-    color: var(--primary-color);
-  }
-  
-  .projectHeader {
-    margin-bottom: 2rem;
-  }
-  
+}
+
+.error,
+.notFound {
+  text-align: center;
+  padding: 3rem;
+  color: var(--accent-color);
+  background-color: rgba(var(--accent-rgb), 0.1);
+  border-radius: var(--border-radius);
+  margin: 2rem 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
   .projectTitle {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+    font-size: 2.2rem;
   }
-  
-  .projectTags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .tag {
-    background-color: var(--light-gray);
-    color: var(--text-light);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  .tag:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-  }
-  
-  .coverImage {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: var(--border-radius);
-    margin-bottom: 2rem;
-  }
-  
-  .projectLinks {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-  
-  .projectLink {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    text-decoration: none;
-  }
-  
-  .demoLink {
-    background-color: var(--primary-color);
-    color: var(--white);
-  }
-  
-  .demoLink:hover {
-    background-color: var(--primary-dark);
-  }
-  
-  .repoLink {
-    background-color: var(--secondary-color);
-    color: var(--white);
-  }
-  
-  .repoLink:hover {
-    background-color: var(--secondary-dark);
-  }
-  
+
   .projectContent {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 3rem;
+    font-size: 1rem;
+    padding: 1.5rem;
   }
-  
-  .relatedProjects {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--medium-gray);
+
+  .coverImageWrapper {
+    padding-bottom: 60%;
   }
-  
-  .relatedProjects h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color);
-  }
-  
+
   .relatedProjectsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
-  
-  .relatedProjectCard {
-    border: 1px solid var(--medium-gray);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .relatedProjectCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .relatedProjectImage {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .relatedProjectInfo {
-    padding: 1rem;
-  }
-  
-  .relatedProjectInfo h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-  }
-  
-  .viewRelatedProject {
-    display: inline-block;
-    color: var(--primary-color);
-    font-weight: 500;
-    margin-top: 0.5rem;
-  }
-  
-  .projectFooter {
-    padding-top: 2rem;
-    border-top: 1px solid var(--medium-gray);
-    margin-top: 3rem;
-  }
-  
-  .loading,
-  .error,
-  .notFound {
-    text-align: center;
-    padding: 3rem;
-    color: var(--dark-gray);
-  }
-  
-  .error,
-  .notFound {
-    color: var(--accent-color);
-  }
-  
-  @media (max-width: 768px) {
-    .projectTitle {
-      font-size: 2rem;
-    }
-  
-    .projectContent {
-      font-size: 1rem;
-    }
-  
-    .relatedProjectsGrid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}
+
+/* 기존 스타일은 유지하고 fallbackCover 스타일만 추가 */
+.fallbackCover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--primary-rgb), 0.2));
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 2rem;
+}
+
+.fallbackCover span {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

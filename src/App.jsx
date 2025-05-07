@@ -1,34 +1,47 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+"use client"
+
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
+import { ThemeProvider } from "./contexts/ThemeContext"
 import Layout from "./components/Layout/Layout"
 import Home from "./components/Home/Home"
-import About from "./components/About/About"
-import ProjectList from "./components/ProjectList/ProjectList"
-import ProjectDetail from "./components/ProjectDetail/ProjectDetail"
 import PostList from "./components/PostList/PostList"
 import PostDetail from "./components/PostDetail/PostDetail"
-import TagProjects from "./components/TagProjects/TagProjects"
+import ProjectList from "./components/ProjectList/ProjectList"
+import ProjectDetail from "./components/ProjectDetail/ProjectDetail"
+import About from "./components/About/About"
 import NotFound from "./components/NotFound/NotFound"
+import { useEffect } from "react"
+import "./App.css"
 
-// 디버깅 메시지 추가
-console.log("App.jsx 렌더링 중...")
+// 스크롤 위치 초기화 컴포넌트
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return null
+}
 
 function App() {
-  console.log("App 컴포넌트 실행 중...")
   return (
-    <Router basename="/my-blog">
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="projects" element={<ProjectList />} />
-          <Route path="projects/:id" element={<ProjectDetail />} />
-          <Route path="posts" element={<PostList />} />
-          <Route path="posts/:slug" element={<PostDetail />} />
-          <Route path="tags/:tag" element={<TagProjects />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router basename="/my-blog">
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="posts" element={<PostList />} />
+            <Route path="posts/:slug" element={<PostDetail />} />
+            <Route path="projects" element={<ProjectList />} />
+            <Route path="projects/:id" element={<ProjectDetail />} />
+            <Route path="about" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   )
 }
 

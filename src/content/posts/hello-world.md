@@ -4,7 +4,7 @@ date: "2023-05-10"
 author: "선빈"
 tags: ["블로그", "마크다운", "React"]
 excerpt: "React와 마크다운을 사용하여 블로그를 만들게 된 이야기를 공유합니다."
-coverImage: "/my-blog/images/hello-world.jpg"
+#coverImage: "/placeholder.svg?height=600&width=1200&query=hello-world"
 ---
 
 # 블로그를 시작하며

@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { getProjects } from "../../utils/markdownLoader"
 import TagFilter from "../TagFilter/TagFilter"
+import ProjectCard from "../ProjectCard/ProjectCard"
 import styles from "./ProjectList.module.css"
 
 export default function ProjectList() {
@@ -53,7 +53,12 @@ export default function ProjectList() {
   }
 
   if (loading) {
-    return <div className="loading">프로젝트를 불러오는 중...</div>
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
+        <p>프로젝트를 불러오는 중...</p>
+      </div>
+    )
   }
 
   return (
@@ -64,62 +69,64 @@ export default function ProjectList() {
       </header>
 
       {/* 태그 필터 컴포넌트 */}
-      {allTags.length > 0 && <TagFilter tags={allTags} selectedTag={selectedTag} onTagSelect={handleTagSelect} />}
+      {allTags.length > 0 && (
+        <div className={styles.filterSection}>
+          <h2 className={styles.filterTitle}>기술 스택으로 필터링</h2>
+          <TagFilter tags={allTags} selectedTag={selectedTag} onTagSelect={handleTagSelect} />
+        </div>
+      )}
 
       {/* 필터링 결과 표시 */}
       {selectedTag && (
         <div className={styles.filterInfo}>
-          <p>
-            <span className={styles.tagName}>"{selectedTag}"</span> 태그로 필터링된 결과:
-            <span className={styles.resultCount}>{filteredProjects.length}개</span>의 프로젝트
-            {filteredProjects.length === 0 && (
-              <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
-                필터 초기화
-              </button>
-            )}
+          <div className={styles.filterBadge}>
+            <span className={styles.tagName}>{selectedTag}</span>
+            <button className={styles.clearTagButton} onClick={() => handleTagSelect(null)} aria-label="태그 필터 제거">
+              ×
+            </button>
+          </div>
+          <p className={styles.resultText}>
+            <span className={styles.resultCount}>{filteredProjects.length}개</span>의 프로젝트를 찾았습니다
           </p>
+          {filteredProjects.length === 0 && (
+            <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
+              모든 프로젝트 보기
+            </button>
+          )}
         </div>
       )}
 
       <div className={styles.projectGrid}>
         {filteredProjects.length > 0 ? (
           filteredProjects.map((project) => (
-            <article key={project.slug} className={styles.projectCard}>
-              {project.coverImage && (
-                <img
-                  src={project.coverImage || "/placeholder.svg"}
-                  alt={`${project.title} 썸네일`}
-                  className={styles.projectImage}
-                />
-              )}
-              <div className={styles.projectInfo}>
-                <h2 className={styles.projectTitle}>{project.title}</h2>
-                <p className={styles.projectExcerpt}>{project.excerpt}</p>
-                {project.tags && (
-                  <div className={styles.projectTags}>
-                    {project.tags.map((tag) => (
-                      <button
-                        key={tag}
-                        className={`${styles.tag} ${selectedTag === tag ? styles.activeTag : ""}`}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handleTagSelect(tag)
-                        }}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                <Link to={`/projects/${project.slug}`} className={styles.viewProject}>
-                  자세히 보기
-                </Link>
-              </div>
-            </article>
+            <ProjectCard
+              key={project.slug}
+              id={project.slug}
+              title={project.title}
+              summary={project.excerpt}
+              image={project.coverImage}
+              tags={project.tags}
+            />
           ))
         ) : (
-          <div className={styles.emptyMessage}>
-            <p>선택한 태그에 해당하는 프로젝트가 없습니다.</p>
+          <div className={styles.emptyState}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={styles.emptyIcon}
+            >
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <p className={styles.emptyMessage}>선택한 태그에 해당하는 프로젝트가 없습니다.</p>
             <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
               모든 프로젝트 보기
             </button>

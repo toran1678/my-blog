@@ -1,187 +1,210 @@
 .projectsContainer {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.projectsHeader {
+  margin-bottom: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.projectsHeader::after {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+}
+
+.projectsContainer h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.projectsDescription {
+  color: var(--text-light);
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.filterSection {
+  margin-bottom: 2rem;
+}
+
+.filterTitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.filterInfo {
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background-color: rgba(var(--primary-rgb), 0.05);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filterBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.clearTagButton {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.clearTagButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.resultText {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.resultCount {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 0 0.3rem;
+}
+
+.clearFilterButton {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.clearFilterButton:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(var(--primary-rgb), 0.3);
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+}
+
+/* 로딩 상태 */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--text-light);
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(var(--primary-rgb), 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .projectsHeader {
-    margin-bottom: 2.5rem;
-    text-align: center;
+  100% {
+    transform: rotate(360deg);
   }
-  
+}
+
+/* 빈 상태 */
+.emptyState {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background-color: rgba(var(--primary-rgb), 0.05);
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.emptyMessage {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
   .projectsContainer h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+    font-size: 2.2rem;
   }
-  
+
   .projectsDescription {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
+    font-size: 1rem;
   }
-  
-  .filterInfo {
-    margin-bottom: 1.5rem;
-    padding: 0.8rem 1rem;
-    background-color: var(--light-gray);
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .filterInfo p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: var(--text-color);
-  }
-  
-  .tagName {
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-  
-  .resultCount {
-    font-weight: bold;
-    margin: 0 0.3rem;
-  }
-  
-  .clearFilterButton {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.3rem 0.8rem;
-    margin-left: 1rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.3s;
-  }
-  
-  .clearFilterButton:hover {
-    background-color: var(--primary-dark);
-  }
-  
+
   .projectGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
-    width: 100%;
+    grid-template-columns: 1fr;
   }
-  
-  .projectCard {
-    border: 1px solid var(--medium-gray);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
+
+  .filterInfo {
     flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .projectCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .projectGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .projectImage {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .projectInfo {
-    padding: 1.5rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .projectTitle {
-    font-size: 1.5rem;
-    margin-bottom: 0.8rem;
-    color: var(--secondary-color);
-  }
-  
-  .projectExcerpt {
-    margin-bottom: 1rem;
-    color: var(--text-color);
-    line-height: 1.6;
-    flex-grow: 1;
-  }
-  
-  .projectTags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .tag {
-    background-color: var(--light-gray);
-    color: var(--text-light);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .tag:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-  }
-  
-  .activeTag {
-    background-color: var(--primary-color);
-    color: var(--white);
-  }
-  
-  .viewProject {
-    display: inline-block;
-    color: var(--primary-color);
-    font-weight: 500;
-    margin-top: auto;
-  }
-  
-  .emptyMessage {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-light);
-    background-color: var(--light-gray);
-    border-radius: var(--border-radius);
-    grid-column: 1 / -1;
-  }
-  
-  .loading {
-    text-align: center;
-    padding: 3rem;
-    color: var(--dark-gray);
-  }
-  
-  @media (max-width: 768px) {
-    .projectGrid {
-      grid-template-columns: 1fr;
-    }
-  
-    .projectsContainer h1 {
-      font-size: 2rem;
-    }
-  
-    .projectsDescription {
-      font-size: 1rem;
-    }
-  
-    .filterInfo {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .clearFilterButton {
-      margin-left: 0;
-      margin-top: 0.5rem;
-    }
-  }
-  
+}

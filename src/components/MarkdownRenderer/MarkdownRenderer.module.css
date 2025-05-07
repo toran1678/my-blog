@@ -19,7 +19,8 @@
   line-height: 1.3;
   color: var(--secondary-color);
   position: relative;
-  scroll-margin-top: 80px;
+  scroll-margin-top: 120px; /* 헤더 높이를 고려한 여백 */
+  padding-top: 10px; /* 추가 여백 */
 }
 
 .heading1 {
@@ -68,7 +69,15 @@
 .paragraph {
   margin-bottom: 1.5rem;
   font-size: 1.05rem;
-  max-width: 65ch; /* 가독성을 위한 최적 라인 길이 제한 */
+  max-width: 100%; /* 가독성을 위한 최적 라인 길이 제한 */
+}
+
+/* 코드 블록이 포함된 단락을 위한 스타일 추가 */
+.paragraphWithCode {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  max-width: 100%;
+  line-height: 1.8;
 }
 
 /* 강조 */
@@ -145,6 +154,17 @@
 .imageContainer {
   margin: 2rem 0;
   text-align: center;
+  width: 100%;
+  display: block; /* span을 블록 요소처럼 표시 */
+}
+
+.placeholderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 300px;
+  display: block; /* span을 블록 요소처럼 표시 */
 }
 
 .image {
@@ -183,6 +203,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: block; /* span을 블록 요소처럼 표시 */
 }
 
 .codeHeader {
@@ -194,6 +215,7 @@
   color: #e6e6e6;
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  display: flex; /* span을 flex 컨테이너로 표시 */
 }
 
 .codeLanguage {
@@ -230,6 +252,7 @@
   border-radius: 0 !important;
   font-family: var(--font-mono) !important;
   font-size: 0.9rem !important;
+  display: block !important; /* span을 블록 요소처럼 표시 */
 }
 
 .copyNotification {

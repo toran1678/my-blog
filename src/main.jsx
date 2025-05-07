@@ -2,6 +2,8 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "./styles/variables.css"
 import "./styles/global.css"
+import "./index.css"
+import "./styles/darkMode.css" // 다크 모드 전역 스타일 추가
 import App from "./App.jsx"
 
 // 콘솔에 디버깅 메시지 추가

@@ -1,0 +1,212 @@
+/* 다크 모드 전역 스타일 */
+html.dark-theme,
+[data-theme="dark"] {
+  /* 배경 색상 */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2c2c2c;
+  --bg-tertiary: #3a3a3a;
+
+  /* 텍스트 색상 */
+  --text-primary: #ecf0f1;
+  --text-secondary: #bdc3c7;
+  --text-muted: #95a5a6;
+
+  /* 강조 색상 */
+  --accent-primary: #4fc0ff;
+  --accent-secondary: #3498db;
+
+  /* 카드 및 컨테이너 */
+  --card-bg: #2c2c2c;
+  --card-border: #3a3a3a;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+
+  /* 입력 필드 */
+  --input-bg: #2c2c2c;
+  --input-border: #3a3a3a;
+  --input-text: #ecf0f1;
+  --input-placeholder: #95a5a6;
+
+  /* 버튼 */
+  --button-primary-bg: #60c9ff; /* 더 밝은 파란색으로 변경 */
+  --button-primary-text: #ffffff; /* 순수 흰색으로 변경 */
+  --button-secondary-bg: #3a3a3a;
+  --button-secondary-text: #ecf0f1;
+}
+
+/* 다크 모드 전역 오버라이드 */
+html.dark-theme,
+[data-theme="dark"] {
+  /* 카드 스타일 오버라이드 */
+  .postCard,
+  .projectCard,
+  .introCard,
+  .tableOfContents,
+  .markdownContent,
+  .postContent,
+  .projectContent {
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+    box-shadow: 0 5px 15px var(--card-shadow) !important;
+  }
+
+  /* 텍스트 스타일 오버라이드 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-primary) !important;
+  }
+
+  p,
+  span,
+  li,
+  td,
+  th {
+    color: var(--text-secondary) !important;
+  }
+
+  /* 링크 스타일 오버라이드 */
+  a:not(.primaryButton):not(.secondaryButton) {
+    color: var(--accent-primary) !important;
+  }
+
+  /* 모든 링크에 대해 hover 시 밑줄 제거 */
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: none !important;
+  }
+
+  /* 입력 필드 오버라이드 */
+  input,
+  textarea,
+  select {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+    color: var(--input-text) !important;
+  }
+
+  /* 버튼 오버라이드 */
+  .primaryButton {
+    background-color: var(--button-primary-bg) !important;
+    color: var(--button-primary-text) !important;
+    font-weight: 700 !important; /* 텍스트를 더 굵게 */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important; /* 텍스트에 더 강한 그림자 추가 */
+    letter-spacing: 0.5px !important; /* 글자 간격 넓게 */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important; /* 미세한 테두리 추가 */
+  }
+
+  /* 버튼 호버 효과 */
+  .primaryButton:hover {
+    background-color: #7ad5ff !important; /* 호버 시 더 밝은 색상 */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .secondaryButton {
+    background-color: var(--button-secondary-bg) !important;
+    color: var(--button-secondary-text) !important;
+    border-color: var(--accent-primary) !important;
+  }
+
+  /* 배경 오버라이드 */
+  body,
+  .appContainer,
+  .content {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* 헤더 오버라이드 */
+  .header {
+    background: linear-gradient(135deg, rgba(26, 32, 44, 0.95), rgba(45, 55, 72, 0.95)) !important;
+    border-color: rgba(74, 85, 104, 0.3) !important;
+  }
+
+  /* 푸터 오버라이드 */
+  .footer {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--card-border) !important;
+  }
+
+  /* 프로젝트 카드 이미지 플레이스홀더 텍스트 가독성 향상 */
+  .placeholderWrapper .title {
+    background-color: rgba(60, 60, 60, 0.9) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 모든 태그 스타일 전역 개선 */
+  .tag,
+  .tagPill,
+  .projectTag,
+  .featuredTag {
+    background-color: rgba(79, 192, 255, 0.3) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* 태그 호버 효과 */
+  .tag:hover,
+  .tagPill:hover,
+  .projectTag:hover {
+    background-color: rgba(79, 192, 255, 0.5) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    transform: translateY(-2px);
+  }
+
+  /* 특별 태그(featuredTag) 스타일 추가 강화 */
+  .featuredTag {
+    background-color: rgba(79, 192, 255, 0.8) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 버튼 스타일 개선 */
+  .projectLink.demoLink {
+    background-color: #60c9ff !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .projectLink.demoLink:hover {
+    background-color: #7ad5ff !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .projectLink.repoLink {
+    background-color: #2c3e50 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .projectLink.repoLink:hover {
+    background-color: #34495e !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* 관련 프로젝트 링크 스타일 개선 */
+  .viewRelatedProject {
+    color: #4fc0ff !important;
+    font-weight: 600 !important;
+  }
+
+  .viewRelatedProject:hover {
+    color: #7ad5ff !important;
+  }
+}
+
+/* 다크 모드 전환 애니메이션 */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}

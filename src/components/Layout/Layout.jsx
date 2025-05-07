@@ -2,12 +2,16 @@
 
 import { Outlet, Link, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { ThemeProvider, useTheme } from "../../contexts/ThemeContext"
+import ThemeToggle from "../ThemeToggle/ThemeToggle"
 import styles from "./Layout.module.css"
 
-export default function Layout() {
+// 레이아웃 내부 컴포넌트
+function LayoutContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const { theme } = useTheme()
 
   // 스크롤 이벤트 감지
   useEffect(() => {
@@ -48,6 +52,11 @@ export default function Layout() {
               <span className={styles.logoAccent}>Blog</span>
             </Link>
           </div>
+
+          <div className={styles.themeToggleContainer}>
+            <ThemeToggle />
+          </div>
+
           <button
             className={styles.mobileMenuButton}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -55,6 +64,7 @@ export default function Layout() {
           >
             <span className={`${styles.menuIcon} ${isMenuOpen ? styles.open : ""}`}></span>
           </button>
+
           <nav className={`${styles.navigation} ${isMenuOpen ? styles.open : ""}`}>
             <ul className={styles.navList}>
               <li className={styles.navItem}>
@@ -114,5 +124,14 @@ export default function Layout() {
         </div>
       </footer>
     </div>
+  )
+}
+
+// 테마 프로바이더로 감싼 레이아웃 컴포넌트
+export default function Layout() {
+  return (
+    <ThemeProvider>
+      <LayoutContent />
+    </ThemeProvider>
   )
 }

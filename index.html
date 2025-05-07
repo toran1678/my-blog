@@ -5,15 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>선빈's Blog</title>
+    <style>
+      /* 다크 모드에서 버튼 텍스트 가독성 향상을 위한 긴급 스타일 */
+      html.dark-theme .primaryButton,
+      [data-theme="dark"] .primaryButton {
+        color: #FFFFFF !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+        font-weight: 700 !important;
+        background-color: #60c9ff !important;
+      }
+    </style>
     <base href="/my-blog/" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>
-    <!-- 디버깅을 위한 스크립트 -->
-    <script>
-      console.log('index.html 로드됨');
-      console.log('root 요소 존재 여부:', !!document.getElementById('root'));
-    </script>
   </body>
 </html>

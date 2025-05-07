@@ -3,7 +3,7 @@ title: "할 일 관리 앱"
 date: "2023-03-10"
 tags: ["React", "localStorage", "CSS"]
 excerpt: "React와 localStorage를 사용한 할 일 관리 웹 애플리케이션입니다."
-coverImage: "/my-blog/images/todo-app.jpg"
+#coverImage: "coverImage: "/placeholder.svg?height=600&width=1200&query=TODO-APP"
 demoUrl: "https://example.com/todo-demo"
 repoUrl: "https://github.com/username/todo-app"
 ---
@@ -26,7 +26,7 @@ repoUrl: "https://github.com/username/todo-app"
 
 사용자는 새로운 할 일을 추가하고, 기존 할 일을 편집하거나 삭제할 수 있습니다.
 
-\`\`\`jsx
+```jsx
 function addTodo(text) {
   const newTodo = {
     id: Date.now(),
@@ -35,13 +35,13 @@ function addTodo(text) {
   };
   setTodos([...todos, newTodo]);
 }
-\`\`\`
+```
 
 ### 완료 상태 토글
 
 각 할 일 항목의 완료 상태를 토글할 수 있습니다.
 
-\`\`\`jsx
+```jsx
 function toggleTodo(id) {
   setTodos(
     todos.map(todo =>
@@ -49,17 +49,17 @@ function toggleTodo(id) {
     )
   );
 }
-\`\`\`
+```
 
 ### 로컬 스토리지 저장
 
 할 일 목록은 브라우저의 localStorage에 저장되어 페이지를 새로고침해도 유지됩니다.
 
-\`\`\`jsx
+```jsx
 useEffect(() => {
   localStorage.setItem('todos', JSON.stringify(todos));
 }, [todos]);
-\`\`\`
+```
 
 ### 필터링 기능
 

@@ -4,12 +4,38 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getPosts } from "../../utils/markdownLoader"
 import { getRecentProjects } from "../../utils/projectLoader"
+import { ThumbnailPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
+import { getImageUrl } from "../../utils/placeholderImage"
+import { useTheme } from "../../contexts/ThemeContext"
 import styles from "./Home.module.css"
 
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState([])
   const [featuredProjects, setFeaturedProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [imageError, setImageError] = useState(false)
+  const { theme } = useTheme()
+
+  // 다크 모드에서 버튼 스타일 조정
+  const primaryButtonStyle =
+    theme === "dark"
+      ? {
+          color: "#FFFFFF",
+          backgroundColor: "#60c9ff",
+          textShadow: "0 1px 2px rgba(0, 0, 0, 0.7)",
+          fontWeight: 700,
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+        }
+      : {}
+
+  const secondaryButtonStyle =
+    theme === "dark"
+      ? {
+          color: "#60c9ff",
+          borderColor: "#60c9ff",
+          fontWeight: 600,
+        }
+      : {}
 
   useEffect(() => {
     const loadContent = async () => {
@@ -36,14 +62,15 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            안녕하세요, <span className={styles.highlight}>선빈</span>의 포트폴리오입니다
+            안녕하세요, <span className={styles.highlight}>선빈</span>의<br />
+            포트폴리오입니다
           </h1>
           <p className={styles.heroSubtitle}>웹 개발자로서의 저의 여정과 프로젝트들을 소개합니다</p>
           <div className={styles.heroButtons}>
-            <Link to="/projects" className={styles.primaryButton}>
+            <Link to="/projects" className={styles.primaryButton} style={primaryButtonStyle}>
               프로젝트 보기
             </Link>
-            <Link to="/posts" className={styles.secondaryButton}>
+            <Link to="/posts" className={styles.secondaryButton} style={secondaryButtonStyle}>
               블로그 보기
             </Link>
           </div>
@@ -114,15 +141,22 @@ export default function Home() {
           ) : recentPosts.length > 0 ? (
             recentPosts.map((post) => (
               <article key={post.slug} className={styles.postCard}>
-                {post.coverImage && (
-                  <div className={styles.postImageContainer}>
+                <div className={styles.postImageContainer}>
+                  {post.coverImage ? (
                     <img
-                      src={post.coverImage || "/my-blog/placeholder.svg"}
+                      src={getImageUrl(post.coverImage) || "/my-blog/placeholder.svg"}
                       alt={`${post.title} 커버 이미지`}
                       className={styles.postImage}
+                      onError={(e) => {
+                        e.target.style.display = "none"
+                        e.target.nextElementSibling.style.display = "flex"
+                      }}
                     />
+                  ) : null}
+                  <div className={styles.placeholderWrapper} style={{ display: post.coverImage ? "none" : "flex" }}>
+                    <ThumbnailPlaceholder title={post.title} />
                   </div>
-                )}
+                </div>
                 <div className={styles.postContent}>
                   <h3 className={styles.postTitle}>{post.title}</h3>
                   <time className={styles.postDate} dateTime={post.date}>
@@ -167,11 +201,18 @@ export default function Home() {
             featuredProjects.map((project) => (
               <article key={project.slug} className={styles.projectCard}>
                 <div className={styles.projectImageContainer}>
-                  <img
-                    src={project.coverImage || "/my-blog/placeholder.svg?text=Project+Image"}
-                    alt={`${project.title} 썸네일`}
-                    className={styles.projectImage}
-                  />
+                  {project.coverImage ? (
+                    <img
+                      src={getImageUrl(project.coverImage) || "/my-blog/placeholder.svg?text=Project+Image"}
+                      alt={`${project.title} 썸네일`}
+                      className={styles.projectImage}
+                      onError={() => setImageError(true)}
+                    />
+                  ) : (
+                    <div className={styles.placeholderWrapper}>
+                      <ThumbnailPlaceholder title={project.title} />
+                    </div>
+                  )}
                   {project.tags && (
                     <div className={styles.projectTags}>
                       {project.tags.slice(0, 3).map((tag) => (

@@ -1,57 +1,125 @@
 .tagFilterContainer {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background-color: var(--light-gray);
-    border-radius: var(--border-radius);
-  }
-  
-  .tagFilterHeader {
-    margin-bottom: 1rem;
-  }
-  
-  .tagFilterHeader h3 {
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-    margin: 0;
-  }
-  
+  margin-bottom: 2rem;
+}
+
+.searchContainer {
+  position: relative;
+  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: var(--white);
+  color: var(--text-color);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+}
+
+.clearSearch {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.clearSearch:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tagButton {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tagButton:hover {
+  background-color: rgba(var(--primary-rgb), 0.2);
+  transform: translateY(-2px);
+}
+
+.activeTag {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.activeTag:hover {
+  background-color: var(--primary-dark);
+}
+
+.noTagsFound {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(var(--primary-rgb), 0.05);
+  border-radius: var(--border-radius);
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* 다크 모드에서 태그 버튼 스타일 개선 */
+html.dark-theme .tagButton,
+[data-theme="dark"] .tagButton {
+  background-color: rgba(var(--primary-rgb), 0.2);
+  color: #ffffff;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-theme .tagButton:hover,
+[data-theme="dark"] .tagButton:hover {
+  background-color: rgba(var(--primary-rgb), 0.3);
+}
+
+html.dark-theme .activeTag,
+[data-theme="dark"] .activeTag {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
   .tagList {
-    display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
   }
-  
+
   .tagButton {
-    background-color: var(--white);
-    color: var(--text-color);
-    border: 1px solid var(--medium-gray);
-    border-radius: 4px;
+    font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
   }
-  
-  .tagButton:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-    border-color: var(--primary-color);
-  }
-  
-  .tagButton.active {
-    background-color: var(--primary-color);
-    color: var(--white);
-    border-color: var(--primary-color);
-  }
-  
-  @media (max-width: 768px) {
-    .tagList {
-      gap: 0.4rem;
-    }
-  
-    .tagButton {
-      padding: 0.3rem 0.6rem;
-      font-size: 0.8rem;
-    }
-  }
-  
+}

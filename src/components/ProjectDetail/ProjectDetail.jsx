@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { getProjectById, getRelatedProjects } from "../../utils/projectLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
+import { CoverPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
 import styles from "./ProjectDetail.module.css"
 
 export default function ProjectDetail() {
@@ -12,6 +13,7 @@ export default function ProjectDetail() {
   const [relatedProjects, setRelatedProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [imageError, setImageError] = useState(false)
 
   useEffect(() => {
     const loadProject = async () => {
@@ -35,7 +37,12 @@ export default function ProjectDetail() {
   }, [id])
 
   if (loading) {
-    return <div className={styles.loading}>프로젝트를 불러오는 중...</div>
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
+        <p>프로젝트를 불러오는 중...</p>
+      </div>
+    )
   }
 
   if (error) {
@@ -50,7 +57,21 @@ export default function ProjectDetail() {
     <article className={styles.projectDetail}>
       <div className={styles.projectNavigation}>
         <Link to="/projects" className={styles.backLink}>
-          ← 모든 프로젝트
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={styles.backIcon}
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          모든 프로젝트
         </Link>
       </div>
 
@@ -68,13 +89,20 @@ export default function ProjectDetail() {
         )}
       </header>
 
-      {project.coverImage && (
-        <img
-          src={project.coverImage || "/placeholder.svg"}
-          alt={`${project.title} 이미지`}
-          className={styles.coverImage}
-        />
-      )}
+      <div className={styles.coverImageWrapper}>
+        {project.coverImage && !imageError ? (
+          <img
+            src={project.coverImage || "/placeholder.svg"}
+            alt={`${project.title} 이미지`}
+            className={styles.coverImage}
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className={styles.placeholderContainer}>
+            <CoverPlaceholder title={project.title} />
+          </div>
+        )}
+      </div>
 
       <div className={styles.projectLinks}>
         {project.demoUrl && (
@@ -84,6 +112,22 @@ export default function ProjectDetail() {
             rel="noopener noreferrer"
             className={`${styles.projectLink} ${styles.demoLink}`}
           >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={styles.linkIcon}
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
             데모 보기
           </a>
         )}
@@ -95,6 +139,20 @@ export default function ProjectDetail() {
             rel="noopener noreferrer"
             className={`${styles.projectLink} ${styles.repoLink}`}
           >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={styles.linkIcon}
+            >
+              <path d="M12 2a10 10 0 0 0-3.16 19.5c.5.08.66-.22.66-.48v-1.7c-2.67.6-3.23-1.13-3.23-1.13-.44-1.1-1.08-1.4-1.08-1.4-.88-.6.07-.6.07-.6.97.07 1.48 1 1.48 1 .86 1.47 2.26 1.05 2.8.8.09-.62.35-1.05.63-1.3-2.2-.25-4.5-1.1-4.5-4.9 0-1.08.38-1.97 1-2.65-.1-.25-.44-1.23.1-2.55 0 0 .83-.27 2.7 1a9.4 9.4 0 0 1 5 0c1.87-1.27 2.7-1 2.7-1 .54 1.32.2 2.3.1 2.55.62.68 1 1.57 1 2.65 0 3.8-2.3 4.65-4.5 4.9.35.3.67.9.67 1.8v2.67c0 .26.16.56.67.48A10 10 0 0 0 12 2z" />
+            </svg>
             GitHub 저장소
           </a>
         )}
@@ -106,23 +164,46 @@ export default function ProjectDetail() {
 
       {relatedProjects.length > 0 && (
         <div className={styles.relatedProjects}>
-          <h2>관련 프로젝트</h2>
+          <h2 className={styles.relatedTitle}>관련 프로젝트</h2>
           <div className={styles.relatedProjectsGrid}>
             {relatedProjects.map((relatedProject) => (
               <div key={relatedProject.slug} className={styles.relatedProjectCard}>
-                {relatedProject.coverImage && (
-                  <img
-                    src={relatedProject.coverImage || "/placeholder.svg"}
-                    alt={`${relatedProject.title} 썸네일`}
-                    className={styles.relatedProjectImage}
-                  />
-                )}
-                <div className={styles.relatedProjectInfo}>
-                  <h3>{relatedProject.title}</h3>
-                  <Link to={`/projects/${relatedProject.slug}`} className={styles.viewRelatedProject}>
-                    자세히 보기
-                  </Link>
-                </div>
+                <Link to={`/projects/${relatedProject.slug}`} className={styles.relatedProjectLink}>
+                  <div className={styles.relatedImageWrapper}>
+                    {relatedProject.coverImage ? (
+                      <img
+                        src={relatedProject.coverImage || "/placeholder.svg"}
+                        alt={`${relatedProject.title} 썸네일`}
+                        className={styles.relatedProjectImage}
+                      />
+                    ) : (
+                      <div className={styles.relatedPlaceholder}>
+                        <span>{relatedProject.title.charAt(0)}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.relatedProjectInfo}>
+                    <h3>{relatedProject.title}</h3>
+                    <span className={styles.viewRelatedProject}>
+                      자세히 보기
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={styles.relatedArrow}
+                      >
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
@@ -131,7 +212,21 @@ export default function ProjectDetail() {
 
       <div className={styles.projectFooter}>
         <Link to="/projects" className={styles.backLink}>
-          ← 프로젝트 목록으로 돌아가기
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={styles.backIcon}
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          프로젝트 목록으로 돌아가기
         </Link>
       </div>
     </article>
