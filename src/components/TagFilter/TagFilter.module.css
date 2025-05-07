@@ -1,0 +1,57 @@
+.tagFilterContainer {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+  }
+  
+  .tagFilterHeader {
+    margin-bottom: 1rem;
+  }
+  
+  .tagFilterHeader h3 {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin: 0;
+  }
+  
+  .tagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tagButton {
+    background-color: var(--white);
+    color: var(--text-color);
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .tagButton:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+  }
+  
+  .tagButton.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+  }
+  
+  @media (max-width: 768px) {
+    .tagList {
+      gap: 0.4rem;
+    }
+  
+    .tagButton {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
+  

@@ -43,35 +43,6 @@
     color: var(--secondary-color);
   }
   
-  h1 {
-    font-size: var(--font-size-4xl);
-  }
-  
-  h2 {
-    font-size: var(--font-size-3xl);
-  }
-  
-  h3 {
-    font-size: var(--font-size-2xl);
-  }
-  
-  h4 {
-    font-size: var(--font-size-xl);
-  }
-  
-  h5 {
-    font-size: var(--font-size-lg);
-  }
-  
-  h6 {
-    font-size: var(--font-size-md);
-  }
-  
-  p {
-    margin-bottom: 1rem;
-  }
-  
-  /* 링크 스타일 */
   a {
     color: var(--primary-color);
     text-decoration: none;
@@ -80,49 +51,6 @@
   
   a:hover {
     color: var(--primary-dark);
-  }
-  
-  /* 목록 스타일 */
-  ul,
-  ol {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-  
-  li {
-    margin-bottom: 0.5rem;
-  }
-  
-  /* 버튼 스타일 */
-  button {
-    cursor: pointer;
-    font-family: inherit;
-  }
-  
-  /* 이미지 스타일 */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  /* 폼 요소 스타일 */
-  input,
-  textarea,
-  select {
-    font-family: inherit;
-    font-size: inherit;
-  }
-  
-  /* 공통 유틸리티 클래스 */
-  .container {
-    width: 100%;
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--container-padding);
-  }
-  
-  .section {
-    margin-bottom: var(--section-spacing);
   }
   
   /* 로딩 및 에러 상태 - 공통으로 사용되는 스타일 */
@@ -137,58 +65,5 @@
   .error,
   .not-found {
     color: var(--accent-color);
-  }
-  
-  /* 접근성 유틸리티 */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-  
-  /* 반응형 미디어 쿼리 */
-  @media (max-width: 1200px) {
-    :root {
-      --container-padding: 1.5rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    :root {
-      --container-padding: 1rem;
-      --section-spacing: 2rem;
-    }
-  
-    h1 {
-      font-size: var(--font-size-3xl);
-    }
-  
-    h2 {
-      font-size: var(--font-size-2xl);
-    }
-  
-    h3 {
-      font-size: var(--font-size-xl);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    :root {
-      --container-padding: 0.75rem;
-    }
-  
-    h1 {
-      font-size: var(--font-size-2xl);
-    }
-  
-    h2 {
-      font-size: var(--font-size-xl);
-    }
   }
   

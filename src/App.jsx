@@ -4,6 +4,9 @@ import Home from "./components/Home/Home"
 import About from "./components/About/About"
 import ProjectList from "./components/ProjectList/ProjectList"
 import ProjectDetail from "./components/ProjectDetail/ProjectDetail"
+import PostList from "./components/PostList/PostList"
+import PostDetail from "./components/PostDetail/PostDetail"
+import TagProjects from "./components/TagProjects/TagProjects"
 import NotFound from "./components/NotFound/NotFound"
 
 // 디버깅 메시지 추가
@@ -19,6 +22,9 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="projects" element={<ProjectList />} />
           <Route path="projects/:id" element={<ProjectDetail />} />
+          <Route path="posts" element={<PostList />} />
+          <Route path="posts/:slug" element={<PostDetail />} />
+          <Route path="tags/:tag" element={<TagProjects />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

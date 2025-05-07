@@ -1,142 +1,599 @@
 .aboutContainer {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+/* 히어로 섹션 */
+.heroSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 0;
+  margin-bottom: 3rem;
+  gap: 2rem;
+}
+
+.heroContent {
+  flex: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.heroContent.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  line-height: 1.2;
+}
+
+.highlight {
+  color: var(--primary-color);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 0.1em;
+  left: 0;
+  width: 100%;
+  height: 0.2em;
+  background-color: rgba(52, 152, 219, 0.2);
+  z-index: -1;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  color: var(--secondary-color);
+  transition: all 0.3s ease;
+}
+
+.socialLink:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+  transform: translateY(-5px);
+}
+
+.heroImage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+}
+
+.heroImage.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.profileImageContainer {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 5px solid var(--white);
+}
+
+.profileImageContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.3));
+  z-index: 1;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 탭 섹션 */
+.tabSection {
+  margin-bottom: 4rem;
+}
+
+.tabContainer {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.tabContainer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tabButtons {
+  display: flex;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.tabButton {
+  flex: 1;
+  padding: 1.2rem 1.5rem;
+  background-color: transparent;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tabButton::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.tabButton:hover {
+  color: var(--primary-color);
+}
+
+.tabButton.active {
+  color: var(--primary-color);
+}
+
+.tabButton.active::after {
+  width: 100%;
+}
+
+.tabContent {
+  padding: 2rem;
+}
+
+/* 기술 스택 탭 */
+.skillsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.skillCategory {
+  margin-bottom: 1.5rem;
+}
+
+.skillCategory h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  position: relative;
+  display: inline-block;
+}
+
+.skillCategory h3::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.skillBars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.skillItem {
+  width: 100%;
+}
+
+.skillInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.skillBar {
+  height: 8px;
+  background-color: var(--light-gray);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.skillProgress {
+  height: 100%;
+  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.skillTag {
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.skillTag:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+/* 경력 탭 */
+.experienceTab {
+  padding: 1rem 0;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--medium-gray);
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineMarker {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+.timelineContent {
+  background-color: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.timelineContent:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.timelineDate {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.timelineTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--secondary-color);
+}
+
+.timelineCompany {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.timelineList {
+  padding-left: 1.5rem;
+}
+
+.timelineList li {
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+/* 교육 탭 */
+.educationTab {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.educationCard {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.educationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.educationHeader {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.educationLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-right: 1.5rem;
+}
+
+.educationInfo {
+  flex: 1;
+}
+
+.educationInfo h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  color: var(--secondary-color);
+}
+
+.educationSchool {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 0.3rem;
+}
+
+.educationPeriod {
+  font-size: 0.9rem;
+  color: var(--text-lighter);
+}
+
+.educationDetails {
+  padding: 1.5rem;
+}
+
+.educationDetails p {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.educationHighlights h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--secondary-color);
+}
+
+.educationHighlights ul {
+  padding-left: 1.5rem;
+}
+
+.educationHighlights li {
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+/* 연락처 섹션 */
+.contactSection {
+  margin-top: 4rem;
+}
+
+.contactContainer {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.contactContainer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contactTitle {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+}
+
+.contactSubtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contactCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.contactCard {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.contactCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contactIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--primary-color);
+  margin: 0 auto 1.5rem;
+}
+
+.contactCard h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+}
+
+.contactCard p {
+  color: var(--text-color);
+}
+
+.contactCard a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactCard a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .heroSection {
+    flex-direction: column;
+    text-align: center;
+    padding: 3rem 1rem;
   }
-  
-  .aboutContainer h1 {
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+  .contactCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
     font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: var(--secondary-color);
   }
-  
-  .aboutSection {
-    margin-bottom: 3rem;
+
+  .heroSubtitle {
+    font-size: 1.1rem;
   }
-  
-  .aboutSection h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color);
-    border-bottom: 2px solid var(--medium-gray);
-    padding-bottom: 0.5rem;
+
+  .tabButton {
+    padding: 1rem;
+    font-size: 1rem;
   }
-  
-  .skillsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+
+  .contactCards {
+    grid-template-columns: 1fr;
   }
-  
-  .skillCategory {
-    background-color: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2rem;
   }
-  
-  .skillCategory h3 {
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+
+  .profileImageContainer {
+    width: 250px;
+    height: 250px;
   }
-  
-  .skillCategory ul {
-    list-style-type: none;
+
+  .tabButtons {
+    flex-direction: column;
   }
-  
-  .skillCategory li {
-    padding: 0.5rem 0;
+
+  .tabButton {
     border-bottom: 1px solid var(--medium-gray);
   }
-  
-  .skillCategory li:last-child {
+
+  .tabButton:last-child {
     border-bottom: none;
   }
-  
-  .timeline {
-    position: relative;
-    padding-left: 2rem;
-  }
-  
-  .timeline::before {
-    content: "";
-    position: absolute;
-    left: 0;
+
+  .tabButton::after {
+    bottom: auto;
     top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: var(--medium-gray);
+    height: 100%;
+    width: 3px;
+    left: 0;
   }
-  
-  .timelineItem {
-    position: relative;
-    margin-bottom: 2rem;
+
+  .tabButton.active::after {
+    width: 3px;
+    height: 100%;
   }
-  
-  .timelineItem:last-child {
-    margin-bottom: 0;
-  }
-  
-  .timelineItem::before {
-    content: "";
-    position: absolute;
-    left: -2rem;
-    top: 0.5rem;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-  }
-  
-  .timelineDate {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-  }
-  
-  .timelineContent {
-    background-color: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  
-  .timelineContent h3 {
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-  }
-  
-  .timelineContent p {
-    margin-bottom: 1rem;
-    color: var(--dark-gray);
-  }
-  
-  .timelineContent ul {
-    padding-left: 1.5rem;
-  }
-  
-  .education {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-  }
-  
-  .educationItem {
-    background-color: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  
-  .educationItem h3 {
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-  }
-  
-  .contactInfo p {
-    margin-bottom: 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    .skillsContainer,
-    .education {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}

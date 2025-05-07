@@ -1,67 +1,36 @@
-.projectsContainer {
+.tagProjectsContainer {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
   }
   
-  .projectsHeader {
+  .tagProjectsHeader {
     margin-bottom: 2.5rem;
     text-align: center;
   }
   
-  .projectsContainer h1 {
+  .tagProjectsContainer h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: var(--secondary-color);
   }
   
-  .projectsDescription {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .filterInfo {
-    margin-bottom: 1.5rem;
-    padding: 0.8rem 1rem;
-    background-color: var(--light-gray);
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .filterInfo p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: var(--text-color);
-  }
-  
   .tagName {
-    font-weight: bold;
     color: var(--primary-color);
   }
   
-  .resultCount {
-    font-weight: bold;
-    margin: 0 0.3rem;
+  .tagProjectsDescription {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 1rem auto;
   }
   
-  .clearFilterButton {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.3rem 0.8rem;
-    margin-left: 1rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.3s;
-  }
-  
-  .clearFilterButton:hover {
-    background-color: var(--primary-dark);
+  .backLink {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-top: 0.5rem;
   }
   
   .projectGrid {
@@ -124,8 +93,7 @@
     padding: 0.3rem 0.6rem;
     border-radius: 4px;
     font-size: 0.8rem;
-    border: none;
-    cursor: pointer;
+    text-decoration: none;
     transition: all 0.3s ease;
   }
   
@@ -155,33 +123,17 @@
     grid-column: 1 / -1;
   }
   
-  .loading {
-    text-align: center;
-    padding: 3rem;
-    color: var(--dark-gray);
-  }
-  
   @media (max-width: 768px) {
     .projectGrid {
       grid-template-columns: 1fr;
     }
   
-    .projectsContainer h1 {
+    .tagProjectsContainer h1 {
       font-size: 2rem;
     }
   
-    .projectsDescription {
+    .tagProjectsDescription {
       font-size: 1rem;
-    }
-  
-    .filterInfo {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .clearFilterButton {
-      margin-left: 0;
-      margin-top: 0.5rem;
     }
   }
   

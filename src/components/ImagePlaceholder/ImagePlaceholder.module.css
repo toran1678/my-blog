@@ -1,0 +1,144 @@
+.placeholder {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--primary-rgb), 0.05);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+  }
+  
+  .placeholder:hover {
+    background-color: rgba(var(--primary-rgb), 0.08);
+  }
+  
+  .patternContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    overflow: hidden;
+  }
+  
+  .pattern {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: linear-gradient(
+      45deg,
+      rgba(var(--primary-rgb), 0.1) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(var(--primary-rgb), 0.1) 50%,
+      rgba(var(--primary-rgb), 0.1) 75%,
+      transparent 75%
+    );
+    background-size: 20px 20px;
+    animation: movePattern 30s linear infinite;
+  }
+  
+  @keyframes movePattern {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .icon {
+    width: 48px;
+    height: 48px;
+    color: rgba(var(--primary-rgb), 0.7);
+    margin-bottom: 1rem;
+    z-index: 1;
+  }
+  
+  .title {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    max-width: 80%;
+    text-align: center;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+  
+  /* 타입별 스타일 */
+  .cover {
+    aspect-ratio: 16 / 9;
+    min-height: 200px;
+  }
+  
+  .cover .pattern {
+    background-size: 40px 40px;
+  }
+  
+  .cover .icon {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .thumbnail {
+    aspect-ratio: 1 / 1;
+    min-height: 70px;
+  }
+  
+  .thumbnail .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .thumbnail .title {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .content {
+    aspect-ratio: 16 / 10;
+    min-height: 150px;
+  }
+  
+  /* 기본 타입 */
+  .default {
+    aspect-ratio: 16 / 9;
+    min-height: 150px;
+  }
+  
+  /* 애니메이션 효과 */
+  .placeholder::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(30deg);
+    animation: shimmer 3s infinite;
+    z-index: 1;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
+  }
+  

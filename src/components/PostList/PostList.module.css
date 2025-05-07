@@ -1,0 +1,115 @@
+.postsContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .postsHeader {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  
+  .postsContainer h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+  }
+  
+  .postsDescription {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .postList {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .postCard {
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .postCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .postImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .postInfo {
+    padding: 1.5rem;
+  }
+  
+  .postTitle {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .postMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+  
+  .postTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: var(--light-gray);
+    color: var(--text-light);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  
+  .postExcerpt {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .readMore {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 500;
+  }
+  
+  .emptyMessage {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-light);
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+  }
+  
+  @media (max-width: 768px) {
+    .postCard {
+      width: 100%;
+    }
+  
+    .postsContainer h1 {
+      font-size: 2rem;
+    }
+  
+    .postsDescription {
+      font-size: 1rem;
+    }
+  }
+  

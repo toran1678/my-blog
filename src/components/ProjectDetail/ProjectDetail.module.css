@@ -1,48 +1,68 @@
 .projectDetail {
     max-width: 800px;
     margin: 0 auto;
+    padding-bottom: 3rem;
+  }
+  
+  .projectNavigation {
+    margin-bottom: 2rem;
   }
   
   .backLink {
     display: inline-block;
-    margin-bottom: 2rem;
-    color: var(--dark-gray);
+    color: var(--text-light);
+    transition: color 0.3s;
   }
   
-  .projectDetail h1 {
+  .backLink:hover {
+    color: var(--primary-color);
+  }
+  
+  .projectHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .projectTitle {
     font-size: 2.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     color: var(--secondary-color);
-  }
-  
-  .projectDetailImage {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-  
-  .projectMeta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
   }
   
   .projectTags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-bottom: 1rem;
   }
   
   .tag {
     background-color: var(--light-gray);
-    color: var(--dark-gray);
+    color: var(--text-light);
     padding: 0.3rem 0.6rem;
     border-radius: 4px;
     font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .tag:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+  
+  .coverImage {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+  }
+  
+  .projectLinks {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
   }
   
   .projectLink {
@@ -51,6 +71,7 @@
     border-radius: 4px;
     font-weight: 500;
     transition: background-color 0.3s;
+    text-decoration: none;
   }
   
   .demoLink {
@@ -59,8 +80,7 @@
   }
   
   .demoLink:hover {
-    background-color: #2980b9;
-    text-decoration: none;
+    background-color: var(--primary-dark);
   }
   
   .repoLink {
@@ -69,12 +89,72 @@
   }
   
   .repoLink:hover {
-    background-color: #1a252f;
-    text-decoration: none;
+    background-color: var(--secondary-dark);
   }
   
   .projectContent {
+    font-size: 1.1rem;
     line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  
+  .relatedProjects {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--medium-gray);
+  }
+  
+  .relatedProjects h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .relatedProjectsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .relatedProjectCard {
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .relatedProjectCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .relatedProjectImage {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .relatedProjectInfo {
+    padding: 1rem;
+  }
+  
+  .relatedProjectInfo h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+  }
+  
+  .viewRelatedProject {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+  
+  .projectFooter {
+    padding-top: 2rem;
+    border-top: 1px solid var(--medium-gray);
+    margin-top: 3rem;
   }
   
   .loading,
@@ -88,5 +168,19 @@
   .error,
   .notFound {
     color: var(--accent-color);
+  }
+  
+  @media (max-width: 768px) {
+    .projectTitle {
+      font-size: 2rem;
+    }
+  
+    .projectContent {
+      font-size: 1rem;
+    }
+  
+    .relatedProjectsGrid {
+      grid-template-columns: 1fr;
+    }
   }
   
