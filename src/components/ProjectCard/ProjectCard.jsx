@@ -9,6 +9,16 @@ import PropTypes from "prop-types"
 export default function ProjectCard({ id, title, summary, image, tags = [] }) {
   const [imageError, setImageError] = useState(false)
 
+  // 태그 클릭 이벤트 핸들러 - 이벤트 버블링 방지
+  const handleTagClick = (e, tag) => {
+    e.preventDefault() // 링크 이벤트 방지
+    e.stopPropagation() // 버블링 방지
+
+    // 프로젝트 목록 페이지로 이동하고 해당 태그로 필터링
+    // URL 파라미터로 태그 정보 전달
+    window.location.href = `/my-blog/projects?tag=${encodeURIComponent(tag)}`
+  }
+
   return (
     <div className={styles.projectCard}>
       <Link to={`/projects/${id}`} className={styles.projectLink}>
@@ -39,7 +49,7 @@ export default function ProjectCard({ id, title, summary, image, tags = [] }) {
           {tags.length > 0 && (
             <div className={styles.projectTags}>
               {tags.map((tag) => (
-                <span key={tag} className={styles.tag}>
+                <span key={tag} className={styles.tag} onClick={(e) => handleTagClick(e, tag)}>
                   {tag}
                 </span>
               ))}

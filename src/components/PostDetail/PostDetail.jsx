@@ -6,7 +6,7 @@ import { getPostBySlug } from "../../utils/markdownLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import TableOfContents from "../TableOfContents/TableOfContents"
 import { CoverPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
-import { getImageUrl } from "../../utils/placeholderImage"
+import { getImageUrl, debugImagePath } from "../../utils/placeholderImage"
 import styles from "./PostDetail.module.css"
 
 export default function PostDetail() {
@@ -72,7 +72,14 @@ export default function PostDetail() {
   const readingTime = calculateReadingTime(post.content)
 
   // 커버 이미지 URL 처리
-  const coverImageUrl = post.coverImage ? getImageUrl(post.coverImage) : ""
+  let coverImageUrl = post.coverImage || ""
+
+  // 이미지 경로 처리
+  if (coverImageUrl) {
+    coverImageUrl = getImageUrl(coverImageUrl)
+    // 디버깅을 위한 로그 추가
+    debugImagePath(post.coverImage, coverImageUrl)
+  }
 
   return (
     <div className={styles.postDetailContainer}>
@@ -114,7 +121,10 @@ export default function PostDetail() {
                 src={coverImageUrl || "/placeholder.svg"}
                 alt={`${post.title} 커버 이미지`}
                 className={styles.coverImage}
-                onError={() => setImageError(true)}
+                onError={(e) => {
+                  console.error("이미지 로딩 실패:", coverImageUrl)
+                  setImageError(true)
+                }}
               />
             </div>
           ) : (

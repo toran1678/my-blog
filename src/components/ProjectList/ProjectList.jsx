@@ -1,24 +1,46 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import { getProjects } from "../../utils/markdownLoader"
 import TagFilter from "../TagFilter/TagFilter"
 import ProjectCard from "../ProjectCard/ProjectCard"
 import styles from "./ProjectList.module.css"
 
 export default function ProjectList() {
+  const location = useLocation()
   const [projects, setProjects] = useState([])
   const [filteredProjects, setFilteredProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedTag, setSelectedTag] = useState(null)
   const [allTags, setAllTags] = useState([])
 
+  // URL에서 태그 파라미터 가져오기
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const tagParam = params.get("tag")
+    if (tagParam) {
+      setSelectedTag(tagParam)
+    }
+  }, [location.search])
+
   useEffect(() => {
     const loadProjects = async () => {
       try {
         const projectData = await getProjects()
         setProjects(projectData)
-        setFilteredProjects(projectData)
+
+        // URL에서 태그 파라미터가 있으면 해당 태그로 필터링
+        const params = new URLSearchParams(location.search)
+        const tagParam = params.get("tag")
+
+        if (tagParam) {
+          setSelectedTag(tagParam)
+          const filtered = projectData.filter((project) => project.tags && project.tags.includes(tagParam))
+          setFilteredProjects(filtered)
+        } else {
+          setFilteredProjects(projectData)
+        }
 
         // 모든 프로젝트에서 고유한 태그 추출
         const tags = new Set()
@@ -36,7 +58,7 @@ export default function ProjectList() {
     }
 
     loadProjects()
-  }, [])
+  }, [location.search])
 
   // 태그 선택 시 프로젝트 필터링
   const handleTagSelect = (tag) => {
@@ -45,10 +67,14 @@ export default function ProjectList() {
     if (tag === null) {
       // 전체 선택 시 모든 프로젝트 표시
       setFilteredProjects(projects)
+      // URL에서 태그 파라미터 제거
+      window.history.pushState({}, "", "/my-blog/projects")
     } else {
       // 특정 태그 선택 시 해당 태그를 가진 프로젝트만 필터링
       const filtered = projects.filter((project) => project.tags && project.tags.includes(tag))
       setFilteredProjects(filtered)
+      // URL에 태그 파라미터 추가
+      window.history.pushState({}, "", `/my-blog/projects?tag=${encodeURIComponent(tag)}`)
     }
   }
 

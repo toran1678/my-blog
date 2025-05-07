@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import { getProjectById, getRelatedProjects } from "../../utils/projectLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import { CoverPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
@@ -9,11 +9,13 @@ import styles from "./ProjectDetail.module.css"
 
 export default function ProjectDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [project, setProject] = useState(null)
   const [relatedProjects, setRelatedProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [imageError, setImageError] = useState(false)
+  const [theme, setTheme] = useState("light") // Example theme state, replace with your actual theme implementation
 
   useEffect(() => {
     const loadProject = async () => {
@@ -35,6 +37,12 @@ export default function ProjectDetail() {
 
     loadProject()
   }, [id])
+
+  // 태그 클릭 핸들러
+  const handleTagClick = (e, tag) => {
+    e.preventDefault()
+    navigate(`/projects?tag=${encodeURIComponent(tag)}`)
+  }
 
   if (loading) {
     return (
@@ -81,9 +89,9 @@ export default function ProjectDetail() {
         {project.tags && (
           <div className={styles.projectTags}>
             {project.tags.map((tag) => (
-              <Link key={tag} to={`/tags/${tag}`} className={styles.tag}>
+              <span key={tag} className={styles.tag} onClick={(e) => handleTagClick(e, tag)}>
                 {tag}
-              </Link>
+              </span>
             ))}
           </div>
         )}
@@ -111,6 +119,7 @@ export default function ProjectDetail() {
             target="_blank"
             rel="noopener noreferrer"
             className={`${styles.projectLink} ${styles.demoLink}`}
+            style={{ color: theme === "dark" ? "#ffffff" : "" }} // 다크 모드에서 텍스트 색상 강제 지정
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

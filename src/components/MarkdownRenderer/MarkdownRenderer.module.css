@@ -6,6 +6,64 @@
   overflow-wrap: break-word;
 }
 
+/* 마크다운 이미지 컨테이너 스타일 */
+.markdownContent .markdown-image-container {
+  margin: 2rem 0;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.markdownContent .markdown-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.markdownContent :global(.markdown-image):hover {
+  transform: scale(1.01);
+}
+
+.markdownContent .markdown-image-caption {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.markdownContent .markdown-image-placeholder {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 200px;
+  background-color: rgba(var(--primary-rgb), 0.05);
+  border-radius: var(--border-radius);
+  border: 1px dashed rgba(var(--primary-rgb), 0.3);
+}
+
+.markdownContent .placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.markdownContent .placeholder-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.markdownContent .placeholder-text {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
 /* 타이포그래피 */
 .heading1,
 .heading2,
@@ -155,16 +213,15 @@
   margin: 2rem 0;
   text-align: center;
   width: 100%;
-  display: block; /* span을 블록 요소처럼 표시 */
+  display: block;
 }
 
 .placeholderWrapper {
-  display: flex;
+  display: none; /* 기본적으로 숨김 */
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 300px;
-  display: block; /* span을 블록 요소처럼 표시 */
 }
 
 .image {
@@ -203,7 +260,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: block; /* span을 블록 요소처럼 표시 */
+  display: block;
 }
 
 .codeHeader {
@@ -215,7 +272,6 @@
   color: #e6e6e6;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  display: flex; /* span을 flex 컨테이너로 표시 */
 }
 
 .codeLanguage {
@@ -252,7 +308,7 @@
   border-radius: 0 !important;
   font-family: var(--font-mono) !important;
   font-size: 0.9rem !important;
-  display: block !important; /* span을 블록 요소처럼 표시 */
+  display: block !important;
 }
 
 .copyNotification {
@@ -447,4 +503,12 @@
 .markdownContent pre span.linenumber {
   color: rgba(255, 255, 255, 0.4) !important;
   padding-right: 1rem !important;
+}
+
+/* 로딩 상태 */
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
 }

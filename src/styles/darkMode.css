@@ -168,17 +168,18 @@ html.dark-theme,
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* 버튼 스타일 개선 */
+  /* 다크 모드에서 데모 링크 버튼 스타일 개선 */
   .projectLink.demoLink {
-    background-color: #60c9ff !important;
-    color: #ffffff !important;
+    background-color: #00b4ff !important; /* 더 밝고 선명한 파란색 */
+    color: #ffffff !important; /* 순수 흰색으로 명확하게 설정 */
     font-weight: 700 !important;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* 테두리 추가로 가시성 향상 */
   }
 
   .projectLink.demoLink:hover {
-    background-color: #7ad5ff !important;
+    background-color: #33c9ff !important; /* 호버 시 더 밝은 색상 */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
   }
 

@@ -4,7 +4,7 @@ date: "2023-05-10"
 author: "선빈"
 tags: ["블로그", "React"]
 excerpt: "React로 블로그를 만들게 된 이야기를 공유합니다."
-coverImage: "/my-blog/src/assets/images/first-post.png"
+coverImage: "../images/1.png"
 ---
 
 # 첫 번째 블로그 포스트
@@ -26,3 +26,6 @@ coverImage: "/my-blog/src/assets/images/first-post.png"
 많은 관심 부탁드립니다!
 
 ![Github_Logo](/my-blog/src/assets/images/first-post.png)
+![Image](/images/1.png)
+
+\`\`\`
