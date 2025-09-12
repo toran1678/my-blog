@@ -110,7 +110,7 @@ export default function About() {
         <div className={`${styles.heroImage} ${isVisible["hero"] ? styles.visible : ""}`}>
           <div className={styles.profileImageContainer}>
             <img
-              src="/my-blog/src/assets/images/profile.png"
+              src="/my-blog/images/profile.png"
               alt="프로필 이미지"
               className={styles.profileImage}
               onError={(e) => {
