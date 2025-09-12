@@ -305,7 +305,7 @@ export default function About() {
                     <div className={styles.educationInfo}>
                       <h3>소프트웨어과 학사</h3>
                       <p className={styles.educationSchool}>안양대학교</p>
-                      <p className={styles.educationPeriod}>2021 - 2025</p>
+                      <p className={styles.educationPeriod}>2020 - 2025</p>
                     </div>
                   </div>
                   <div className={styles.educationDetails}>

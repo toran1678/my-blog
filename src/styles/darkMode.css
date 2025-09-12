@@ -60,7 +60,6 @@ html.dark-theme,
   }
 
   p,
-  span,
   li,
   td,
   th {
@@ -122,6 +121,29 @@ html.dark-theme,
   .header {
     background: linear-gradient(135deg, rgba(26, 32, 44, 0.95), rgba(45, 55, 72, 0.95)) !important;
     border-color: rgba(74, 85, 104, 0.3) !important;
+  }
+
+  /* 로고 컬러 튜닝 (선빈's | Blog) */
+  .logoText {
+    color: #e6f4ff !important;
+  }
+  .logoAccent {
+    color: var(--accent-primary) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* 헤더 내 네비 링크 컬러 차등 (활성/비활성/호버) */
+  .navLink {
+    color: #a8b2bd !important; /* 비활성은 살짝 흐리게 */
+  }
+  .navLink:hover {
+    color: var(--accent-primary) !important;
+  }
+  .navLink.active {
+    color: #ffffff !important; /* 활성은 확실히 대비 */
+  }
+  .navLink.active::after {
+    background-color: var(--accent-primary) !important;
   }
 
   /* 푸터 오버라이드 */

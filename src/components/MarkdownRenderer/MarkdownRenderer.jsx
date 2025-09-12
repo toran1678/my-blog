@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 "use client"
 import { useState, useEffect } from "react"
 import ReactMarkdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
 import { getImageUrl, debugImagePath } from "../../utils/placeholderImage"
@@ -57,7 +58,7 @@ export default function MarkdownRenderer({ content }) {
     )
   }
 
-  // 콘텐츠 전처리a
+  // 콘텐츠 전처리
   useEffect(() => {
     if (!content) {
       setProcessedContent("")
@@ -65,44 +66,8 @@ export default function MarkdownRenderer({ content }) {
     }
 
     console.log("원본 마크다운 콘텐츠:", content.substring(0, 200) + "...")
-
-    // 이미지 경로 처리를 위한 정규식
-    const processed = content
-      // 마크다운 이미지 구문 처리: ![alt](src)
-      .replace(/!\[(.*?)\]$$(.*?)$$/g, (match, alt, src) => {
-        const newSrc = getImageUrl(src)
-        console.log(`마크다운 이미지 변환: ${src} -> ${newSrc}`)
-        debugImagePath(src, newSrc)
-        // 이미지를 div로 감싸는 HTML 구문으로 변환
-        return `<div class="markdown-image-container">
-          <img src="${newSrc}" alt="${alt || "이미지"}" class="markdown-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="markdown-image-placeholder" style="display:none;">
-            <div class="placeholder-content">
-              <div class="placeholder-icon">🖼️</div>
-              <div class="placeholder-text">${alt || "이미지를 불러올 수 없습니다"}</div>
-            </div>
-          </div>
-          ${alt ? `<div class="markdown-image-caption">${alt}</div>` : ""}
-        </div>`
-      })
-      // HTML img 태그 처리: <img src="..." alt="...">
-      .replace(/<img\s+([^>]*?)src="([^"]*?)"([^>]*?)>/g, (match, before, src, after) => {
-        const newSrc = getImageUrl(src)
-        console.log(`HTML 이미지 변환: ${src} -> ${newSrc}`)
-        debugImagePath(src, newSrc)
-        return `<div class="markdown-image-container">
-          <img ${before}src="${newSrc}"${after} class="markdown-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="markdown-image-placeholder" style="display:none;">
-            <div class="placeholder-content">
-              <div class="placeholder-icon">🖼️</div>
-              <div class="placeholder-text">이미지를 불러올 수 없습니다</div>
-            </div>
-          </div>
-        </div>`
-      })
-
-    console.log("처리된 마크다운 콘텐츠:", processed.substring(0, 200) + "...")
-    setProcessedContent(processed)
+    // 사전 치환 없이 원본을 그대로 넘겨 렌더러에서 처리
+    setProcessedContent(content)
   }, [content])
 
   // 코드 복사 기능
@@ -122,8 +87,9 @@ export default function MarkdownRenderer({ content }) {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          img: ({node, ...props}) => {
+          img: (props) => {
             const imgSrc = getImageUrl(props.src)
+            try { debugImagePath(props.src, imgSrc) } catch { /* noop */ }
             return (
               <div className="markdown-image-container fancy">
                 <div className="image-wrapper">
@@ -139,7 +105,22 @@ export default function MarkdownRenderer({ content }) {
                   />
                   <div className="markdown-image-placeholder" style={{display: "none"}}>
                     <div className="placeholder-content">
-                      <div className="placeholder-icon">🖼️</div>
+                      <div className="placeholder-icon" aria-hidden="true">
+                        <svg
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="3" y="3" width="18" height="14" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L9 15l-2-2-4 4"></path>
+                        </svg>
+                      </div>
                       <div className="placeholder-text">
                         {props.alt || "이미지를 불러올 수 없습니다"}
                       </div>
@@ -153,11 +134,19 @@ export default function MarkdownRenderer({ content }) {
 
           // p 태그 커스텀 처리
           p: ({ node, children, ...props }) => {
-            // 자식 요소 중에 이미지가 있는지 확인
-            const hasImageChild = node.children.some((child) => child.type === "element" && child.tagName === "img")
+            const hasBlockElementChild = node?.children?.some?.((child) => {
+              if (child?.type !== "element") return false
+              const tag = child.tagName
+              if (tag === "img" || tag === "pre" || tag === "table") return true
+              if (tag === "code") {
+                const className = child.properties?.className
+                const classStr = Array.isArray(className) ? className.join(" ") : String(className || "")
+                return /language-/.test(classStr)
+              }
+              return false
+            })
 
-            // 이미지가 있는 경우 p 태그 대신 div 사용
-            if (hasImageChild) {
+            if (hasBlockElementChild) {
               return <div {...props}>{children}</div>
             }
 
@@ -169,7 +158,7 @@ export default function MarkdownRenderer({ content }) {
           },
 
           // 코드 블록
-          code: ({ node, inline, className, children, ...props }) => {
+          code: ({ inline, className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || "")
             const language = match ? match[1] : ""
 
@@ -200,11 +189,12 @@ export default function MarkdownRenderer({ content }) {
                   </button>
                 </div>
                 <SyntaxHighlighter
-                  style={atomDark}
+                  style={oneDark}
                   language={language}
                   className={styles.codeBlock}
                   showLineNumbers={true}
                   wrapLines={true}
+                  lineProps={() => ({ className: "codeLine" })}
                   {...props}
                 >
                   {String(children).replace(/\n$/, "")}
@@ -218,40 +208,40 @@ export default function MarkdownRenderer({ content }) {
           },
 
           // 기타 요소들은 기본 스타일 적용 + 헤딩에 id 부여
-          h1: ({ node, children, ...props }) => (
+          h1: ({ children, ...props }) => (
             <Heading level={1} {...props}>{children}</Heading>
           ),
-          h2: ({ node, children, ...props }) => (
+          h2: ({ children, ...props }) => (
             <Heading level={2} {...props}>{children}</Heading>
           ),
-          h3: ({ node, children, ...props }) => (
+          h3: ({ children, ...props }) => (
             <Heading level={3} {...props}>{children}</Heading>
           ),
-          h4: ({ node, children, ...props }) => (
+          h4: ({ children, ...props }) => (
             <Heading level={4} {...props}>{children}</Heading>
           ),
-          h5: ({ node, children, ...props }) => (
+          h5: ({ children, ...props }) => (
             <Heading level={5} {...props}>{children}</Heading>
           ),
-          h6: ({ node, children, ...props }) => (
+          h6: ({ children, ...props }) => (
             <Heading level={6} {...props}>{children}</Heading>
           ),
-          a: ({ node, ...props }) => <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />,
-          blockquote: ({ node, ...props }) => <blockquote className={styles.blockquote} {...props} />,
-          ul: ({ node, ...props }) => <ul className={styles.unorderedList} {...props} />,
-          ol: ({ node, ...props }) => <ol className={styles.orderedList} {...props} />,
-          li: ({ node, ...props }) => <li className={styles.listItem} {...props} />,
-          table: ({ node, ...props }) => (
+          a: (props) => <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />,
+          blockquote: (props) => <blockquote className={styles.blockquote} {...props} />,
+          ul: (props) => <ul className={styles.unorderedList} {...props} />,
+          ol: (props) => <ol className={styles.orderedList} {...props} />,
+          li: (props) => <li className={styles.listItem} {...props} />,
+          table: (props) => (
             <div className={styles.tableContainer}>
               <table className={styles.table} {...props} />
             </div>
           ),
-          thead: ({ node, ...props }) => <thead className={styles.tableHead} {...props} />,
-          tbody: ({ node, ...props }) => <tbody className={styles.tableBody} {...props} />,
-          tr: ({ node, ...props }) => <tr className={styles.tableRow} {...props} />,
-          th: ({ node, ...props }) => <th className={styles.tableHeader} {...props} />,
-          td: ({ node, ...props }) => <td className={styles.tableCell} {...props} />,
-          hr: ({ node, ...props }) => <hr className={styles.horizontalRule} {...props} />,
+          thead: (props) => <thead className={styles.tableHead} {...props} />,
+          tbody: (props) => <tbody className={styles.tableBody} {...props} />,
+          tr: (props) => <tr className={styles.tableRow} {...props} />,
+          th: (props) => <th className={styles.tableHeader} {...props} />,
+          td: (props) => <td className={styles.tableCell} {...props} />,
+          hr: (props) => <hr className={styles.horizontalRule} {...props} />,
         }}
       >
         {processedContent}

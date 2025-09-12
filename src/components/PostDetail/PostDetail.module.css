@@ -37,6 +37,11 @@
   padding: 0 1rem;
 }
 
+/* 커버 하단 감지용 센티넬 (높이 1px, 눈에 보이지 않음) */
+.heroEndSentinel {
+  height: 1px;
+}
+
 .postTitle {
   font-size: 3rem;
   font-weight: 800;
@@ -202,9 +207,35 @@ html.dark-theme .tagPill:hover,
   max-width: 800px;
 }
 
-.tocContainer {
-  display: block;
-  flex-shrink: 0;
+/* 기존 사이드 목차는 사용하지 않음 */
+.tocContainer { display: none; }
+
+/* 헤더 아래에 떠 있는 목차 영역 */
+.floatingToc {
+  position: fixed; /* 레이아웃 밀림 방지 */
+  top: calc(var(--header-height) + 8px);
+  right: max(16px, calc((100vw - var(--max-width)) / 2 - 2px)); /* 살짝 더 오른쪽 */
+  z-index: 30;
+  pointer-events: auto; /* 목차 클릭 가능 */
+}
+
+/* 플로팅 컨테이너 안의 목차 박스 스타일 보정 */
+.floatingToc :global(.tableOfContents) {
+  position: static; /* 내부 sticky 해제 */
+  top: auto;
+  margin: 0;
+  pointer-events: auto; /* 실제 인터랙션 허용 */
+}
+
+/* 모바일에서도 상단 우측에 고정되도록 보정 */
+@media (max-width: 1024px) {
+  .floatingToc {
+    top: calc(var(--header-height) + 6px);
+    right: 8px;
+  }
+  .floatingToc :global(.tableOfContents) {
+    width: min(88vw, 320px);
+  }
 }
 
 .footerTags {

@@ -13,6 +13,8 @@ export default function PostList() {
   const [filteredPosts, setFilteredPosts] = useState([])
   const [allTags, setAllTags] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 6
   const [selectedTag, setSelectedTag] = useState(null)
   const [loading, setLoading] = useState(true)
   const [imageErrors, setImageErrors] = useState({})
@@ -48,6 +50,8 @@ export default function PostList() {
     const params = new URLSearchParams(location.search)
     const tagParam = params.get("tag")
     setSelectedTag(tagParam)
+    const pageParam = parseInt(params.get("page") || "1", 10)
+    setCurrentPage(Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam)
   }, [location.search])
 
   // 선택된 태그, 검색어, 포스트 목록에 따라 필터링
@@ -61,6 +65,8 @@ export default function PostList() {
       filtered = filtered.filter((post) => (post.title || "").toLowerCase().includes(q))
     }
     setFilteredPosts(filtered)
+    // 필터 변경 시 페이지를 1페이지로 리셋
+    setCurrentPage(1)
   }, [posts, selectedTag, searchTerm])
 
   const handleImageError = (slug) => {
@@ -78,6 +84,56 @@ export default function PostList() {
     } else {
       window.history.pushState({}, "", `/my-blog/posts?tag=${encodeURIComponent(tag)}`)
     }
+  }
+
+  // 페이지네이션 관련 계산
+  const totalItems = filteredPosts.length
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages)
+  const startIndex = (safeCurrentPage - 1) * pageSize
+  const visiblePosts = filteredPosts.slice(startIndex, startIndex + pageSize)
+
+  const updateUrlWithPage = (page) => {
+    const params = new URLSearchParams(location.search)
+    if (page <= 1) {
+      params.delete("page")
+    } else {
+      params.set("page", String(page))
+    }
+    const query = params.toString()
+    const base = "/my-blog/posts"
+    window.history.pushState({}, "", query ? `${base}?${query}` : base)
+  }
+
+  const goToPage = (page) => {
+    const next = Math.min(Math.max(page, 1), totalPages)
+    setCurrentPage(next)
+    updateUrlWithPage(next)
+  }
+
+  // 페이지 번호 목록 (슬라이딩 윈도우 + 엘립시스)
+  const getPageNumbers = () => {
+    const pages = []
+    const windowSize = 5
+    let start = Math.max(1, safeCurrentPage - Math.floor(windowSize / 2))
+    let end = start + windowSize - 1
+    if (end > totalPages) {
+      end = totalPages
+      start = Math.max(1, end - windowSize + 1)
+    }
+
+    if (start > 1) {
+      pages.push(1)
+      if (start > 2) pages.push("...")
+    }
+
+    for (let p = start; p <= end; p++) pages.push(p)
+
+    if (end < totalPages) {
+      if (end < totalPages - 1) pages.push("...")
+      pages.push(totalPages)
+    }
+    return pages
   }
 
   // 읽는 시간 계산 (평균 분당 200단어 기준)
@@ -137,8 +193,8 @@ export default function PostList() {
       )}
 
       <div className={styles.postList}>
-        {filteredPosts.length > 0 ? (
-          filteredPosts.map((post) => {
+        {visiblePosts.length > 0 ? (
+          visiblePosts.map((post) => {
             const readingTime = calculateReadingTime(post.content || "")
             const formattedDate = new Date(post.date).toLocaleDateString("ko-KR", {
               year: "numeric",
@@ -240,6 +296,38 @@ export default function PostList() {
           </div>
         )}
       </div>
+      {totalItems > 0 && (
+        <div className={styles.pagination}>
+          <button className={styles.pageButton} onClick={() => goToPage(safeCurrentPage - 1)} disabled={safeCurrentPage === 1}>
+            이전
+          </button>
+          <div className={styles.pageList}>
+            {getPageNumbers().map((p, idx) =>
+              typeof p === "number" ? (
+                <button
+                  key={p}
+                  className={`${styles.pageNumber} ${p === safeCurrentPage ? styles.activePage : ""}`}
+                  onClick={() => goToPage(p)}
+                  aria-current={p === safeCurrentPage ? "page" : undefined}
+                >
+                  {p}
+                </button>
+              ) : (
+                <span key={`ellipsis-${idx}`} className={styles.ellipsis} aria-hidden="true">
+                  …
+                </span>
+              ),
+            )}
+          </div>
+          <button
+            className={styles.pageButton}
+            onClick={() => goToPage(safeCurrentPage + 1)}
+            disabled={safeCurrentPage === totalPages}
+          >
+            다음
+          </button>
+        </div>
+      )}
     </div>
   )
 }

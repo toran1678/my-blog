@@ -405,6 +405,88 @@ html.dark-theme .tag:hover,
   box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.3);
 }
 
+/* 페이지네이션 */
+.pagination {
+  margin: 2rem 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.pageList {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pageButton {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.pageButton:disabled {
+  background-color: var(--medium-gray);
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.pageCurrent {
+  color: var(--primary-color);
+}
+
+.pageDivider {
+  color: var(--text-light);
+}
+
+.pageNumber {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--medium-gray);
+  background-color: var(--white);
+  color: var(--text-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageNumber:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.activePage {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.ellipsis {
+  color: var(--text-light);
+  padding: 0 0.2rem;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .postsContainer h1 {

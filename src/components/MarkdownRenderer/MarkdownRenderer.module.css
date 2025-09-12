@@ -7,24 +7,27 @@
 }
 
 /* 마크다운 이미지 컨테이너 스타일 */
-.markdownContent .markdown-image-container {
+.markdownContent :global(.markdown-image-container) {
   margin: 2rem 0;
   text-align: center;
   width: 100%;
   display: block;
 }
 
-.markdownContent .markdown-image-container.fancy .image-wrapper {
+.markdownContent :global(.markdown-image-container.fancy .image-wrapper) {
   position: relative;
-  display: inline-block;
+  display: inline-block; /* 이미지 너비에 맞게 래퍼 축소 */
+  line-height: 0; /* 하단 여백 제거 */
   overflow: hidden;
   border-radius: var(--border-radius);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-.markdownContent .markdown-image {
+.markdownContent :global(.markdown-image) {
   max-width: 100%;
   height: auto;
+  display: block; /* 인라인 이미지의 베이스라인 공백 제거 */
+  vertical-align: top;
   border-radius: var(--border-radius);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -34,8 +37,8 @@
   transform: scale(1.01);
 }
 
-.markdownContent .markdown-image-caption {
-  display: block;
+.markdownContent :global(.markdown-image-caption) {
+  display: none; /* 레거시 캡션은 숨김 */
   margin-top: 0.8rem;
   font-size: 0.9rem;
   color: var(--text-light);
@@ -43,44 +46,47 @@
 }
 
 /* 이미지 호버 캡션 */
-.markdownContent .hover-caption {
+.markdownContent :global(.hover-caption) {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0.6rem 0.9rem;
+  padding: 0.9rem 1.1rem; /* 영역 살짝 확대 */
   background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
   color: #fff;
-  font-size: 0.9rem;
+  min-height: 3rem; /* 살짝 더 높은 캡션 영역 */
+  font-size: 1rem;
+  line-height: 1.4;
+  font-family: "Pretendard", "Noto Sans KR", var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.2px;
   transform: translateY(100%);
   opacity: 0;
   transition: transform 0.25s ease, opacity 0.25s ease;
   text-align: left;
 }
 
-.markdownContent .markdown-image-container.fancy .image-wrapper:hover .hover-caption {
+.markdownContent :global(.markdown-image-container.fancy .image-wrapper:hover .hover-caption) {
   transform: translateY(0%);
   opacity: 1;
 }
 
-.markdownContent .markdown-image-placeholder {
+.markdownContent :global(.markdown-image-placeholder) {
   display: none;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 220px;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(var(--primary-rgb), 0.06),
-    rgba(var(--primary-rgb), 0.06) 10px,
-    rgba(var(--primary-rgb), 0.03) 10px,
-    rgba(var(--primary-rgb), 0.03) 20px
-  );
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06), rgba(0,0,0,0.04));
+  background-size: 200% 100%;
+  animation: placeholderShimmer 1.2s linear infinite;
   border-radius: var(--border-radius);
-  border: 1px dashed rgba(var(--primary-rgb), 0.35);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
 }
 
-.markdownContent .placeholder-content {
+.markdownContent :global(.placeholder-content) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,19 +94,24 @@
   padding: 2rem;
 }
 
-.markdownContent .placeholder-icon {
-  font-size: 2.2rem;
+.markdownContent :global(.placeholder-icon) {
+  color: rgba(var(--primary-rgb), 0.55);
   margin-bottom: 0.6rem;
-  opacity: 0.75;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
 }
 
-.markdownContent .placeholder-text {
+.markdownContent :global(.placeholder-text) {
   font-size: 0.95rem;
   color: var(--text-light);
-  background: rgba(255,255,255,0.6);
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
+  background: rgba(255,255,255,0.75);
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  backdrop-filter: blur(2px);
+}
+
+@keyframes placeholderShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* 타이포그래피 */
@@ -348,6 +359,18 @@
   font-family: var(--font-mono) !important;
   font-size: 0.9rem !important;
   display: block !important;
+}
+
+/* 코드 라인 호버 하이라이트 */
+:global(.codeLine) {
+  display: block;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  transition: background-color 0.15s ease;
+}
+
+:global(.codeLine):hover {
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .copyNotification {

@@ -98,6 +98,7 @@ export default Greeting;
 
 아래는 이미지 예시입니다:
 
+![고양이](/images/1.png)
 ![아름다운 풍경](/placeholder.svg?height=400&width=600&query=beautiful landscape)
 
 ## 테이블

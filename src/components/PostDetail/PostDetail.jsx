@@ -16,6 +16,9 @@ export default function PostDetail() {
   const [error, setError] = useState(null)
   const [imageError, setImageError] = useState(false)
   const contentRef = useRef(null)
+  const heroRef = useRef(null)
+  const [showFloatingToc, setShowFloatingToc] = useState(false)
+  const heroEndRef = useRef(null)
 
   useEffect(() => {
     const loadPost = async () => {
@@ -42,6 +45,54 @@ export default function PostDetail() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [slug])
+
+  // 스크롤 감지로 커버 이미지 하단 통과 시 목차 표시 (Vue 예제 패턴 적용)
+  useEffect(() => {
+    if (!post || !heroRef.current) return
+    
+    let isScrolling = false
+    
+    const scrollProgress = () => {
+      if (!isScrolling) {
+        isScrolling = true
+        setTimeout(() => {
+          if (isScrolling && heroRef.current) {
+            isScrolling = false
+            hasScroll()
+          }
+        }, 50) // 스크롤 디바운싱
+      }
+    }
+    
+    const hasScroll = () => {
+      const scrollTop = document.documentElement.scrollTop || window.scrollY || window.pageYOffset
+      
+      // 커버 이미지 하단 위치 계산
+      const heroRect = heroRef.current.getBoundingClientRect()
+      const heroBottom = scrollTop + heroRect.bottom
+      
+      // 헤더 높이 고려한 현재 뷰포트 상단
+      const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-height").replace(/[^0-9]/g, "")) || 70
+      const viewportTop = scrollTop + headerHeight
+      
+      // 커버 하단을 지났는지 확인
+      const shouldShow = viewportTop >= heroBottom
+      
+      setShowFloatingToc(shouldShow)
+      console.log(`스크롤: ${scrollTop}, 커버하단: ${heroBottom}, 뷰포트상단: ${viewportTop}, 목차표시: ${shouldShow}`)
+      
+    }
+    
+    // 초기 상태 확인
+    setTimeout(hasScroll, 100)
+    
+    // 스크롤 이벤트 등록
+    window.addEventListener("scroll", scrollProgress, { passive: true })
+    
+    return () => {
+      window.removeEventListener("scroll", scrollProgress)
+    }
+  }, [post]) // post 데이터 로드 완료 후 실행
 
   if (loading) {
     return <div className="loading">포스트를 불러오는 중...</div>
@@ -89,7 +140,7 @@ export default function PostDetail() {
         </Link>
       </div>
 
-      <div className={styles.postHero}>
+      <div className={styles.postHero} ref={heroRef}>
         <div className={styles.postHeroContent}>
           <h1 className={styles.postTitle}>{post.title}</h1>
 
@@ -134,6 +185,14 @@ export default function PostDetail() {
           )}
         </div>
       </div>
+      {/* 커버 하단 센티넬: 이 지점을 지나면 목차 표시 */}
+      <div ref={heroEndRef} className={styles.heroEndSentinel} aria-hidden="true" />
+
+      {showFloatingToc && (
+        <div className={styles.floatingToc} role="navigation" aria-label="본문 목차">
+          <TableOfContents content={post.content} containerRef={contentRef} />
+        </div>
+      )}
 
       <div className={styles.postContentWrapper}>
         <article className={styles.postContent} ref={contentRef}>
@@ -161,10 +220,7 @@ export default function PostDetail() {
           </div>
         </article>
 
-        {/* 목차 컴포넌트 */}
-        <aside className={styles.tocContainer}>
-          <TableOfContents content={post.content} containerRef={contentRef} />
-        </aside>
+        {/* 기존 사이드 목차 제거 */}
       </div>
     </div>
   )

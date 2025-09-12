@@ -14,14 +14,18 @@ export default function ProjectList() {
   const [loading, setLoading] = useState(true)
   const [selectedTag, setSelectedTag] = useState(null)
   const [allTags, setAllTags] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 6
 
-  // URL에서 태그 파라미터 가져오기
+  // URL에서 태그/페이지 파라미터 가져오기
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const tagParam = params.get("tag")
     if (tagParam) {
       setSelectedTag(tagParam)
     }
+    const pageParam = parseInt(params.get("page") || "1", 10)
+    setCurrentPage(Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam)
   }, [location.search])
 
   useEffect(() => {
@@ -76,6 +80,54 @@ export default function ProjectList() {
       // URL에 태그 파라미터 추가
       window.history.pushState({}, "", `/my-blog/projects?tag=${encodeURIComponent(tag)}`)
     }
+    // 태그 변경 시 페이지 1로 이동
+    setCurrentPage(1)
+  }
+
+  // 페이지네이션 계산
+  const totalItems = filteredProjects.length
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages)
+  const startIndex = (safeCurrentPage - 1) * pageSize
+  const visibleProjects = filteredProjects.slice(startIndex, startIndex + pageSize)
+
+  const updateUrlWithPage = (page) => {
+    const params = new URLSearchParams(location.search)
+    if (page <= 1) {
+      params.delete("page")
+    } else {
+      params.set("page", String(page))
+    }
+    const query = params.toString()
+    const base = "/my-blog/projects"
+    window.history.pushState({}, "", query ? `${base}?${query}` : base)
+  }
+
+  const goToPage = (page) => {
+    const next = Math.min(Math.max(page, 1), totalPages)
+    setCurrentPage(next)
+    updateUrlWithPage(next)
+  }
+
+  const getPageNumbers = () => {
+    const pages = []
+    const windowSize = 5
+    let start = Math.max(1, safeCurrentPage - Math.floor(windowSize / 2))
+    let end = start + windowSize - 1
+    if (end > totalPages) {
+      end = totalPages
+      start = Math.max(1, end - windowSize + 1)
+    }
+    if (start > 1) {
+      pages.push(1)
+      if (start > 2) pages.push("...")
+    }
+    for (let p = start; p <= end; p++) pages.push(p)
+    if (end < totalPages) {
+      if (end < totalPages - 1) pages.push("...")
+      pages.push(totalPages)
+    }
+    return pages
   }
 
   if (loading) {
@@ -123,8 +175,8 @@ export default function ProjectList() {
       )}
 
       <div className={styles.projectGrid}>
-        {filteredProjects.length > 0 ? (
-          filteredProjects.map((project) => (
+        {visibleProjects.length > 0 ? (
+          visibleProjects.map((project) => (
             <ProjectCard
               key={project.slug}
               id={project.slug}
@@ -159,6 +211,40 @@ export default function ProjectList() {
           </div>
         )}
       </div>
+
+      {/* 페이지네이션 */}
+      {totalItems > 0 && (
+        <div className={styles.pagination}>
+          <button className={styles.pageButton} onClick={() => goToPage(safeCurrentPage - 1)} disabled={safeCurrentPage === 1}>
+            이전
+          </button>
+          <div className={styles.pageList}>
+            {getPageNumbers().map((p, idx) =>
+              typeof p === "number" ? (
+                <button
+                  key={p}
+                  className={`${styles.pageNumber} ${p === safeCurrentPage ? styles.activePage : ""}`}
+                  onClick={() => goToPage(p)}
+                  aria-current={p === safeCurrentPage ? "page" : undefined}
+                >
+                  {p}
+                </button>
+              ) : (
+                <span key={`ellipsis-${idx}`} className={styles.ellipsis} aria-hidden="true">
+                  …
+                </span>
+              ),
+            )}
+          </div>
+          <button
+            className={styles.pageButton}
+            onClick={() => goToPage(safeCurrentPage + 1)}
+            disabled={safeCurrentPage === totalPages}
+          >
+            다음
+          </button>
+        </div>
+      )}
     </div>
   )
 }
