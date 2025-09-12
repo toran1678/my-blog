@@ -9,6 +9,7 @@ export default function TableOfContents({ content, containerRef }) {
   const [activeId, setActiveId] = useState("")
   const [isOpen, setIsOpen] = useState(true)
   const tocRef = useRef(null)
+  const tocContentRef = useRef(null)
 
   // 한글 포함 유니코드 안전 슬러그 생성
   const slugify = (text) => {
@@ -111,6 +112,36 @@ export default function TableOfContents({ content, containerRef }) {
     return () => observer.disconnect()
   }, [headings, activeId])
 
+  // 활성화된 목차 항목으로 자동 스크롤
+  useEffect(() => {
+    if (!activeId || !tocContentRef.current) return
+
+    const activeElement = tocContentRef.current.querySelector(`[data-heading-id="${activeId}"]`)
+    if (!activeElement) return
+
+    const container = tocContentRef.current
+    const containerRect = container.getBoundingClientRect()
+    const elementRect = activeElement.getBoundingClientRect()
+
+    // 활성 항목이 보이는 영역 밖에 있는지 확인
+    const isOutOfView = 
+      elementRect.top < containerRect.top || 
+      elementRect.bottom > containerRect.bottom
+
+    if (isOutOfView) {
+      // 부드럽게 스크롤하여 활성 항목을 중앙에 위치
+      const elementOffsetTop = activeElement.offsetTop
+      const containerHeight = container.clientHeight
+      const elementHeight = activeElement.clientHeight
+      const scrollTop = elementOffsetTop - (containerHeight / 2) + (elementHeight / 2)
+
+      container.scrollTo({
+        top: Math.max(0, scrollTop),
+        behavior: 'smooth'
+      })
+    }
+  }, [activeId])
+
   // 목차 항목 클릭 시 해당 섹션으로 스크롤
   const scrollToHeading = (id) => {
     const element = document.getElementById(id)
@@ -142,7 +173,7 @@ export default function TableOfContents({ content, containerRef }) {
         </h2>
       </div>
 
-      <div className={styles.tocContent}>
+      <div className={styles.tocContent} ref={tocContentRef}>
         <ul className={styles.tocList}>
           {headings.map((heading) => (
             <li
@@ -150,6 +181,7 @@ export default function TableOfContents({ content, containerRef }) {
               className={`${styles.tocItem} ${styles[`level${heading.level}`]} ${
                 activeId === heading.id ? styles.active : ""
               }`}
+              data-heading-id={heading.id}
             >
               <button
                 onClick={() => scrollToHeading(heading.id)}

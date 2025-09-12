@@ -17,7 +17,7 @@ export default function PostDetail() {
   const [imageError, setImageError] = useState(false)
   const contentRef = useRef(null)
   const heroRef = useRef(null)
-  const [showFloatingToc, setShowFloatingToc] = useState(false)
+  const [tocOpacity, setTocOpacity] = useState(0)
   const heroEndRef = useRef(null)
 
   useEffect(() => {
@@ -46,53 +46,39 @@ export default function PostDetail() {
     window.scrollTo(0, 0)
   }, [slug])
 
-  // 스크롤 감지로 커버 이미지 하단 통과 시 목차 표시 (Vue 예제 패턴 적용)
+  // 커버 이미지 하단 통과 시 목차 표시/숨김 (최종 버전)
   useEffect(() => {
-    if (!post || !heroRef.current) return
+    if (!post) return
     
-    let isScrolling = false
-    
-    const scrollProgress = () => {
-      if (!isScrolling) {
-        isScrolling = true
-        setTimeout(() => {
-          if (isScrolling && heroRef.current) {
-            isScrolling = false
-            hasScroll()
-          }
-        }, 50) // 스크롤 디바운싱
-      }
-    }
-    
-    const hasScroll = () => {
-      const scrollTop = document.documentElement.scrollTop || window.scrollY || window.pageYOffset
+    const updateTocVisibility = () => {
+      if (!heroRef.current) return
       
-      // 커버 이미지 하단 위치 계산
+      const headerHeight = 70
       const heroRect = heroRef.current.getBoundingClientRect()
-      const heroBottom = scrollTop + heroRect.bottom
       
-      // 헤더 높이 고려한 현재 뷰포트 상단
-      const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-height").replace(/[^0-9]/g, "")) || 70
-      const viewportTop = scrollTop + headerHeight
+      // 커버 이미지 하단이 헤더 아래로 사라지면 목차 표시
+      const shouldShow = heroRect.bottom <= headerHeight
+      const targetOpacity = shouldShow ? 1 : 0
       
-      // 커버 하단을 지났는지 확인
-      const shouldShow = viewportTop >= heroBottom
-      
-      setShowFloatingToc(shouldShow)
-      console.log(`스크롤: ${scrollTop}, 커버하단: ${heroBottom}, 뷰포트상단: ${viewportTop}, 목차표시: ${shouldShow}`)
-      
+      setTocOpacity(targetOpacity)
     }
     
-    // 초기 상태 확인
-    setTimeout(hasScroll, 100)
+    // 초기 실행
+    updateTocVisibility()
     
-    // 스크롤 이벤트 등록
-    window.addEventListener("scroll", scrollProgress, { passive: true })
+    // 스크롤 및 리사이즈 이벤트 등록 (안정적인 방식)
+    window.addEventListener("scroll", updateTocVisibility, false)
+    document.addEventListener("scroll", updateTocVisibility, false)
+    document.body.addEventListener("scroll", updateTocVisibility, false)
+    window.addEventListener("resize", updateTocVisibility, false)
     
     return () => {
-      window.removeEventListener("scroll", scrollProgress)
+      window.removeEventListener("scroll", updateTocVisibility, false)
+      document.removeEventListener("scroll", updateTocVisibility, false)
+      document.body.removeEventListener("scroll", updateTocVisibility, false)
+      window.removeEventListener("resize", updateTocVisibility, false)
     }
-  }, [post]) // post 데이터 로드 완료 후 실행
+  }, [post])
 
   if (loading) {
     return <div className="loading">포스트를 불러오는 중...</div>
@@ -188,11 +174,19 @@ export default function PostDetail() {
       {/* 커버 하단 센티넬: 이 지점을 지나면 목차 표시 */}
       <div ref={heroEndRef} className={styles.heroEndSentinel} aria-hidden="true" />
 
-      {showFloatingToc && (
-        <div className={styles.floatingToc} role="navigation" aria-label="본문 목차">
-          <TableOfContents content={post.content} containerRef={contentRef} />
-        </div>
-      )}
+      {/* 플로팅 목차 - 스크롤에 따라 나타남/사라짐 */}
+      <div 
+        className={styles.floatingToc} 
+        role="navigation" 
+        aria-label="본문 목차"
+        style={{ 
+          opacity: tocOpacity,
+          pointerEvents: tocOpacity > 0 ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease'
+        }}
+      >
+        <TableOfContents content={post.content} containerRef={contentRef} />
+      </div>
 
       <div className={styles.postContentWrapper}>
         <article className={styles.postContent} ref={contentRef}>

@@ -134,19 +134,11 @@ export default function MarkdownRenderer({ content }) {
 
           // p 태그 커스텀 처리
           p: ({ node, children, ...props }) => {
-            const hasBlockElementChild = node?.children?.some?.((child) => {
-              if (child?.type !== "element") return false
-              const tag = child.tagName
-              if (tag === "img" || tag === "pre" || tag === "table") return true
-              if (tag === "code") {
-                const className = child.properties?.className
-                const classStr = Array.isArray(className) ? className.join(" ") : String(className || "")
-                return /language-/.test(classStr)
-              }
-              return false
-            })
+            // 자식 요소 중에 이미지가 있는지 확인
+            const hasImageChild = node?.children?.some?.((child) => child.type === "element" && child.tagName === "img")
 
-            if (hasBlockElementChild) {
+            // 이미지가 있는 경우 p 태그 대신 div 사용
+            if (hasImageChild) {
               return <div {...props}>{children}</div>
             }
 
@@ -227,7 +219,66 @@ export default function MarkdownRenderer({ content }) {
             <Heading level={6} {...props}>{children}</Heading>
           ),
           a: (props) => <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />,
-          blockquote: (props) => <blockquote className={styles.blockquote} {...props} />,
+          blockquote: ({ children, ...props }) => {
+            // 특별한 블록 타입 감지
+            const firstChild = children && children[0]
+            let blockType = 'default'
+            let processedChildren = children
+            
+            if (firstChild && firstChild.props && firstChild.props.children) {
+              const firstText = typeof firstChild.props.children === 'string' 
+                ? firstChild.props.children 
+                : (Array.isArray(firstChild.props.children) 
+                    ? firstChild.props.children[0] 
+                    : '')
+              
+              if (typeof firstText === 'string') {
+                const text = firstText.trim().toLowerCase()
+                if (text.startsWith('[!note]')) {
+                  blockType = 'note'
+                  // [!note] 텍스트 제거
+                  const newText = firstText.replace(/^\[!note\]\s*/i, '')
+                  processedChildren = [
+                    { ...firstChild, props: { ...firstChild.props, children: newText } },
+                    ...children.slice(1)
+                  ]
+                } else if (text.startsWith('[!warning]')) {
+                  blockType = 'warning'
+                  const newText = firstText.replace(/^\[!warning\]\s*/i, '')
+                  processedChildren = [
+                    { ...firstChild, props: { ...firstChild.props, children: newText } },
+                    ...children.slice(1)
+                  ]
+                } else if (text.startsWith('[!tip]')) {
+                  blockType = 'tip'
+                  const newText = firstText.replace(/^\[!tip\]\s*/i, '')
+                  processedChildren = [
+                    { ...firstChild, props: { ...firstChild.props, children: newText } },
+                    ...children.slice(1)
+                  ]
+                } else if (text.startsWith('[!info]')) {
+                  blockType = 'info'
+                  const newText = firstText.replace(/^\[!info\]\s*/i, '')
+                  processedChildren = [
+                    { ...firstChild, props: { ...firstChild.props, children: newText } },
+                    ...children.slice(1)
+                  ]
+                }
+              }
+            }
+
+            if (blockType === 'default') {
+              return <blockquote className={styles.blockquote} {...props}>{children}</blockquote>
+            }
+
+            return (
+              <div className={`${styles.specialBlock} ${styles[`block-${blockType}`]}`} {...props}>
+                <div className={styles.blockContent}>
+                  {processedChildren}
+                </div>
+              </div>
+            )
+          },
           ul: (props) => <ul className={styles.unorderedList} {...props} />,
           ol: (props) => <ol className={styles.orderedList} {...props} />,
           li: (props) => <li className={styles.listItem} {...props} />,

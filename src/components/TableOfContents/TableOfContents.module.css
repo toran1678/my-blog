@@ -142,9 +142,14 @@
       z-index: 100;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     }
+
+    .tocHeader {
+      padding-bottom: 1rem;
+      margin-bottom: 1.2rem;
+    }
   
     .tableOfContents.closed {
-      max-height: 3.5rem;
+      max-height: 4.5rem;
       overflow: hidden;
     }
   

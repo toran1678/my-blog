@@ -123,10 +123,11 @@ html.dark-theme .tagPill:hover,
 
 .coverImageWrapper {
   position: relative;
-  width: 100%;
+  width: 85%; /* 100%에서 85%로 줄임 */
   height: 0;
-  padding-bottom: 40%;
+  padding-bottom: 34%; /* 40%에서 34%로 줄임 (비율 유지) */
   overflow: hidden;
+  margin: 0 auto; /* 중앙 정렬 */
   border-radius: var(--border-radius);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
@@ -204,7 +205,7 @@ html.dark-theme .tagPill:hover,
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   flex: 1;
   min-width: 0; /* 중요: flex 아이템이 너무 작아지지 않도록 함 */
-  max-width: 800px;
+  max-width: 900px; /* 기존 800px에서 900px로 확장 */
 }
 
 /* 기존 사이드 목차는 사용하지 않음 */
@@ -214,9 +215,10 @@ html.dark-theme .tagPill:hover,
 .floatingToc {
   position: fixed; /* 레이아웃 밀림 방지 */
   top: calc(var(--header-height) + 8px);
-  right: max(16px, calc((100vw - var(--max-width)) / 2 - 2px)); /* 살짝 더 오른쪽 */
+  right: max(24px, calc((100vw - var(--max-width)) / 2 + -80px)); /* 더 오른쪽으로 이동 */
   z-index: 30;
   pointer-events: auto; /* 목차 클릭 가능 */
+  opacity: 0.9; /* 목차 전체에 90% 투명도 적용 */
 }
 
 /* 플로팅 컨테이너 안의 목차 박스 스타일 보정 */
