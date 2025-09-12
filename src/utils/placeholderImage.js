@@ -18,7 +18,7 @@ export function getImageUrl(imagePath) {
   // 개발 환경인지 확인
   const isDev = import.meta.env.DEV
   // 기본 URL 설정 (개발 환경에서는 빈 문자열, 프로덕션에서는 /my-blog)
-  const baseUrl = isDev ? "" : "/my-blog"
+  const baseUrl = isDev ? "/my-blog" : "/my-blog"
 
   // 파일 이름만 추출
   let fileName = ""

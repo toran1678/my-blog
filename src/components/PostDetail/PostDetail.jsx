@@ -104,7 +104,7 @@ export default function PostDetail() {
             {post.tags && post.tags.length > 0 && (
               <div className={styles.postTags}>
                 {post.tags.map((tag) => (
-                  <Link key={tag} to={`/tags/${tag}`} className={styles.tagPill}>
+                  <Link key={tag} to={`/posts?tag=${encodeURIComponent(tag)}`} className={styles.tagPill}>
                     {tag}
                   </Link>
                 ))}
@@ -121,7 +121,7 @@ export default function PostDetail() {
                 src={coverImageUrl || "/placeholder.svg"}
                 alt={`${post.title} 커버 이미지`}
                 className={styles.coverImage}
-                onError={(e) => {
+                onError={() => {
                   console.error("이미지 로딩 실패:", coverImageUrl)
                   setImageError(true)
                 }}
@@ -145,7 +145,7 @@ export default function PostDetail() {
                 <h3 className={styles.footerTagsTitle}>태그</h3>
                 <div className={styles.tagsList}>
                   {post.tags.map((tag) => (
-                    <Link key={tag} to={`/tags/${tag}`} className={styles.tag}>
+                    <Link key={tag} to={`/posts?tag=${encodeURIComponent(tag)}`} className={styles.tag}>
                       {tag}
                     </Link>
                   ))}
@@ -163,7 +163,7 @@ export default function PostDetail() {
 
         {/* 목차 컴포넌트 */}
         <aside className={styles.tocContainer}>
-          <TableOfContents content={post.content} />
+          <TableOfContents content={post.content} containerRef={contentRef} />
         </aside>
       </div>
     </div>

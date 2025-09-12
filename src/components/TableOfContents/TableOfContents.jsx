@@ -2,129 +2,125 @@
 
 import { useState, useEffect, useRef } from "react"
 import styles from "./TableOfContents.module.css"
+import PropTypes from "prop-types"
 
-export default function TableOfContents({ content }) {
+export default function TableOfContents({ content, containerRef }) {
   const [headings, setHeadings] = useState([])
   const [activeId, setActiveId] = useState("")
   const [isOpen, setIsOpen] = useState(true)
   const tocRef = useRef(null)
 
-  // 마크다운 콘텐츠에서 헤딩 추출
+  // 한글 포함 유니코드 안전 슬러그 생성
+  const slugify = (text) => {
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .normalize("NFKD")
+      // 결합 분음 기호 제거
+      .replace(/[\u0300-\u036f]/g, "")
+      // 글자/숫자/공백/하이픈만 허용 (유니코드 속성 사용)
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  }
+
+  // 실제 DOM에서 헤딩을 스캔해 목차 구성 (렌더 결과와 1:1 매칭)
   useEffect(() => {
-    if (!content) return
+    const root = containerRef?.current || document
+    if (!root) return
 
-    // 정규식으로 마크다운 헤딩 추출 (# 제목, ## 제목, ### 제목)
-    const headingRegex = /^(#{1,3})\s+(.+)$/gm
-    const extractedHeadings = []
-    const usedIds = new Set() // 이미 사용된 ID를 추적
-    let match
-
-    while ((match = headingRegex.exec(content)) !== null) {
-      const level = match[1].length // #의 개수로 레벨 결정
-      const text = match[2].trim()
-      const id = text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "") // 특수문자 제거
-        .replace(/\s+/g, "-") // 공백을 하이픈으로 변경
-
-      // 중복 ID 처리
-      let uniqueId = id
-      let counter = 1
-      while (usedIds.has(uniqueId)) {
-        uniqueId = `${id}-${counter}`
-        counter++
-      }
-
-      usedIds.add(uniqueId)
-
-      extractedHeadings.push({
-        id: uniqueId,
-        text,
-        level,
-      })
+    // 마크다운 본문 영역만 스캔
+    const markdownRoot = root.querySelector('[data-markdown-root]') || root
+    const headingEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+    if (headingEls.length === 0) {
+      setHeadings([])
+      return
     }
 
-    setHeadings(extractedHeadings)
-
-    // 페이지 로드 후 헤딩 요소에 ID 직접 추가
-    setTimeout(() => {
-      const headingElements = document.querySelectorAll("h1, h2, h3")
-      const usedDomIds = new Set()
-
-      headingElements.forEach((el) => {
-        const id = el.textContent
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, "")
-          .replace(/\s+/g, "-")
-
-        // 중복 ID 처리
-        let uniqueId = id
-        let counter = 1
-        while (usedDomIds.has(uniqueId)) {
-          uniqueId = `${id}-${counter}`
-          counter++
-        }
-
-        usedDomIds.add(uniqueId)
+    const usedIds = new Set()
+    const next = headingEls.map((el) => {
+      const level = Number(el.tagName.substring(1))
+      const baseId = slugify(el.textContent || "")
+      let uniqueId = baseId
+      let counter = 1
+      while (usedIds.has(uniqueId)) {
+        uniqueId = `${baseId}-${counter}`
+        counter++
+      }
+      usedIds.add(uniqueId)
+      if (!el.id || el.id !== uniqueId) {
         el.id = uniqueId
-      })
-    }, 100)
-  }, [content])
+      }
+      return { id: uniqueId, text: el.textContent || "", level }
+    })
+
+    setHeadings(next)
+    // DOM 변경 감지를 위한 옵저버 (이미지/코드 하이라이트 등으로 구조가 바뀔 때 보정)
+    const mutationObserver = new MutationObserver(() => {
+      const updatedEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+      if (updatedEls.length !== headingEls.length) {
+        const used = new Set()
+        const nextHeads = updatedEls.map((el) => {
+          const level = Number(el.tagName.substring(1))
+          const baseId = slugify(el.textContent || "")
+          let uniqueId = baseId
+          let counter = 1
+          while (used.has(uniqueId)) {
+            uniqueId = `${baseId}-${counter}`
+            counter++
+          }
+          used.add(uniqueId)
+          if (!el.id || el.id !== uniqueId) el.id = uniqueId
+          return { id: uniqueId, text: el.textContent || "", level }
+        })
+        setHeadings(nextHeads)
+      }
+    })
+    mutationObserver.observe(markdownRoot, { childList: true, subtree: true })
+
+    return () => mutationObserver.disconnect()
+  }, [containerRef, content])
 
   // 스크롤 이벤트 처리 및 현재 활성 헤딩 감지
   useEffect(() => {
     if (headings.length === 0) return
 
-    const handleScroll = () => {
-      const headingElements = headings.map(({ id }) => document.getElementById(id)).filter(Boolean)
-
-      if (headingElements.length === 0) return
-
-      // 현재 화면에 보이는 헤딩 중 가장 위에 있는 것을 찾음
-      const scrollPosition = window.scrollY + 150 // 헤더 높이 고려
-
-      // 모든 헤딩 요소를 순회하며 현재 스크롤 위치보다 위에 있는 마지막 헤딩을 찾음
-      let currentHeading = headingElements[0]
-
-      for (const heading of headingElements) {
-        if (heading.offsetTop <= scrollPosition) {
-          currentHeading = heading
-        } else {
-          break
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (a.target.offsetTop || 0) - (b.target.offsetTop || 0))
+        const top = visible[0]
+        if (top && top.target.id !== activeId) {
+          setActiveId(top.target.id)
         }
+      },
+      {
+        root: null,
+        rootMargin: "-120px 0px 0px 0px", // 헤더 높이 보정 (scroll-margin-top과 맞춤)
+        threshold: 0.1,
       }
+    )
 
-      if (currentHeading && currentHeading.id !== activeId) {
-        setActiveId(currentHeading.id)
-      }
-    }
+    const elements = headings
+      .map((h) => document.getElementById(h.id))
+      .filter(Boolean)
+    elements.forEach((el) => observer.observe(el))
 
-    window.addEventListener("scroll", handleScroll)
-    handleScroll() // 초기 로드 시 실행
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
+    return () => observer.disconnect()
   }, [headings, activeId])
 
   // 목차 항목 클릭 시 해당 섹션으로 스크롤
   const scrollToHeading = (id) => {
     const element = document.getElementById(id)
-    if (element) {
-      // 헤더 높이를 고려하여 스크롤 위치 조정
-      const headerHeight = 100 // 헤더 높이 예상값
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY
-      const offsetPosition = elementPosition - headerHeight
+    if (!element) return
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      })
+    // CSS의 scroll-margin-top을 활용해 자연스러운 스크롤
+    element.scrollIntoView({ behavior: "smooth", block: "start" })
 
-      // 모바일에서 목차 닫기
-      if (window.innerWidth <= 1024) {
-        setIsOpen(false)
-      }
+    if (window.innerWidth <= 1024) {
+      setIsOpen(false)
     }
   }
 
@@ -168,4 +164,9 @@ export default function TableOfContents({ content }) {
       </div>
     </nav>
   )
+}
+
+TableOfContents.propTypes = {
+  content: PropTypes.string,
+  containerRef: PropTypes.shape({ current: PropTypes.any }),
 }

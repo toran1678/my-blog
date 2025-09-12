@@ -2,7 +2,7 @@
 title: "첫 번째 블로그 포스트"
 date: "2023-05-10"
 author: "선빈"
-tags: ["블로그", "React"]
+tags: [블로그, React]
 excerpt: "React로 블로그를 만들게 된 이야기를 공유합니다."
 coverImage: "./images/1.png"
 ---

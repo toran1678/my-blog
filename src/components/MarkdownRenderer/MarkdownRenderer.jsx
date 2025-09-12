@@ -12,7 +12,52 @@ export default function MarkdownRenderer({ content }) {
   const [processedContent, setProcessedContent] = useState("")
   const [copyNotification, setCopyNotification] = useState(false)
 
-  // 콘텐츠 전처리
+  // 유니코드 안전 슬러그 (TOC와 동일 규칙)
+  const slugify = (text) => {
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+  }
+
+  // React children -> plain text 추출
+  const extractText = (node) => {
+    if (typeof node === "string") return node
+    if (typeof node === "number") return String(node)
+    if (!node) return ""
+    if (Array.isArray(node)) return node.map(extractText).join("")
+    if (typeof node === "object" && node.props && node.props.children) {
+      return extractText(node.props.children)
+    }
+    return ""
+  }
+
+  // 공통 헤딩 컴포넌트 (레벨별 클래스 및 id 부여)
+  const Heading = ({ level, children, ...props }) => {
+    const text = extractText(children)
+    const id = slugify(text)
+    const Tag = `h${level}`
+    const classMap = {
+      1: styles.heading1,
+      2: styles.heading2,
+      3: styles.heading3,
+      4: styles.heading4,
+      5: styles.heading5,
+      6: styles.heading6,
+    }
+    return (
+      <Tag id={id} className={classMap[level]} {...props}>
+        {children}
+      </Tag>
+    )
+  }
+
+  // 콘텐츠 전처리a
   useEffect(() => {
     if (!content) {
       setProcessedContent("")
@@ -72,23 +117,37 @@ export default function MarkdownRenderer({ content }) {
   }
 
   return (
-    <div className={styles.markdownContent}>
+    <div className={styles.markdownContent} data-markdown-root>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          // 이미지 컴포넌트 - 이제 HTML로 변환했으므로 여기서는 처리하지 않음
-          img: ({ node, ...props }) => {
-            // HTML로 변환된 이미지는 이 컴포넌트를 통과하지 않음
-            // 하지만 혹시 모를 경우를 대비해 기본 이미지 렌더링 제공
+          img: ({node, ...props}) => {
             const imgSrc = getImageUrl(props.src)
-
-            // 중요: p 태그 안에 div가 들어가지 않도록 Fragment 사용
             return (
-              <>
-                {/* 이미지 컨테이너는 p 태그 밖에서 렌더링되도록 함 */}
-                <span style={{ display: "none" }}>이미지</span>
-              </>
+              <div className="markdown-image-container fancy">
+                <div className="image-wrapper">
+                  <img
+                    src={imgSrc}
+                    alt={props.alt || "이미지"}
+                    className="markdown-image"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none"
+                      const placeholder = e.currentTarget.nextElementSibling
+                      if (placeholder) placeholder.style.display = "flex"
+                    }}
+                  />
+                  <div className="markdown-image-placeholder" style={{display: "none"}}>
+                    <div className="placeholder-content">
+                      <div className="placeholder-icon">🖼️</div>
+                      <div className="placeholder-text">
+                        {props.alt || "이미지를 불러올 수 없습니다"}
+                      </div>
+                    </div>
+                  </div>
+                  {props.alt ? <div className="hover-caption">{props.alt}</div> : null}
+                </div>
+              </div>
             )
           },
 
@@ -158,13 +217,25 @@ export default function MarkdownRenderer({ content }) {
             )
           },
 
-          // 기타 요소들은 기본 스타일 적용
-          h1: ({ node, ...props }) => <h1 className={styles.heading1} {...props} />,
-          h2: ({ node, ...props }) => <h2 className={styles.heading2} {...props} />,
-          h3: ({ node, ...props }) => <h3 className={styles.heading3} {...props} />,
-          h4: ({ node, ...props }) => <h4 className={styles.heading4} {...props} />,
-          h5: ({ node, ...props }) => <h5 className={styles.heading5} {...props} />,
-          h6: ({ node, ...props }) => <h6 className={styles.heading6} {...props} />,
+          // 기타 요소들은 기본 스타일 적용 + 헤딩에 id 부여
+          h1: ({ node, children, ...props }) => (
+            <Heading level={1} {...props}>{children}</Heading>
+          ),
+          h2: ({ node, children, ...props }) => (
+            <Heading level={2} {...props}>{children}</Heading>
+          ),
+          h3: ({ node, children, ...props }) => (
+            <Heading level={3} {...props}>{children}</Heading>
+          ),
+          h4: ({ node, children, ...props }) => (
+            <Heading level={4} {...props}>{children}</Heading>
+          ),
+          h5: ({ node, children, ...props }) => (
+            <Heading level={5} {...props}>{children}</Heading>
+          ),
+          h6: ({ node, children, ...props }) => (
+            <Heading level={6} {...props}>{children}</Heading>
+          ),
           a: ({ node, ...props }) => <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />,
           blockquote: ({ node, ...props }) => <blockquote className={styles.blockquote} {...props} />,
           ul: ({ node, ...props }) => <ul className={styles.unorderedList} {...props} />,

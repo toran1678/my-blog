@@ -2,7 +2,8 @@
 title: "마크다운 스타일 쇼케이스"
 date: "2025-05-07"
 author: "개발자"
-tags: ["마크다운", "스타일", "가이드"]
+tags: [마크다운, 스타일, 가이드]
+coverImage: "/my-blog/images/1.png"
 #coverImage: "/placeholder.svg?height=600&width=1200&query=colorful abstract design"
 ---
 

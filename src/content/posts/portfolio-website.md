@@ -1,7 +1,7 @@
 ---
 title: "포트폴리오 웹사이트"
 date: "2023-05-15"
-tags: ["React", "Vite", "CSS"]
+tags: [React, Vite, CSS]
 excerpt: "React와 Vite를 사용하여 만든 개인 포트폴리오 웹사이트입니다."
 coverImage: "/my-blog/src/assets/images/first-post.png"
 demoUrl: "https://example.com/demo"
@@ -82,5 +82,4 @@ GitHub Pages에서 SPA 라우팅 문제가 발생했습니다.
 - 댓글 시스템 구현
 - 성능 최적화
 
-!
-<img src="../../assets/images/first-post.png">
+!<img src="../../assets/images/first-post.png">
