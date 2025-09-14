@@ -68,6 +68,7 @@
   .tocItem {
     margin-bottom: 0.8rem;
     transition: all 0.2s ease;
+    border-radius: 6px;
   }
   
   .tocLink {
@@ -98,6 +99,9 @@
   
   .tocLink:hover {
     color: var(--primary-color);
+    background-color: rgba(var(--primary-rgb), 0.08);
+    border-left-color: var(--primary-color);
+    border-radius: 4px;
   }
   
   /* 헤딩 레벨에 따른 들여쓰기 */

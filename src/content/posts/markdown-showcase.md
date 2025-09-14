@@ -117,6 +117,18 @@ export default Greeting;
 
 ## 특별한 콘텐츠 블록
 
+> [!note]
+> hi
+
+> [!TIP] 내용
+> 내용
+
+> [!WARNING]
+> 내용
+
+> [!IMPORTANT]
+> 내용
+
 <div data-type="note">
 이것은 노트 블록입니다. 중요한 정보나 참고 사항을 표시할 때 사용합니다.
 </div>
@@ -128,6 +140,19 @@ export default Greeting;
 <div data-type="tip">
 이것은 팁 블록입니다. 유용한 팁이나 트릭을 공유할 때 사용합니다.
 </div>
+
+<div data-type="important">
+중요한 정보
+</div>
+
+<div data-type="caution">
+위험하거나 조심해야 할 내용
+</div>
+
+## BlockQuote
+> This is first blockqute.
+> > This is a second blockqute.
+
 
 ## 결론
 

@@ -219,62 +219,70 @@ export default function MarkdownRenderer({ content }) {
             <Heading level={6} {...props}>{children}</Heading>
           ),
           a: (props) => <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />,
-          blockquote: ({ children, ...props }) => {
-            // 특별한 블록 타입 감지
-            const firstChild = children && children[0]
-            let blockType = 'default'
-            let processedChildren = children
+          blockquote: ({ children, ...props }) => <blockquote className={styles.blockquote} {...props}>{children}</blockquote>,
+          
+          // 어드모니션 블록 - data-type 속성으로 타입 결정
+          div: ({ children, ...props }) => {
+            const dataType = props['data-type']
             
-            if (firstChild && firstChild.props && firstChild.props.children) {
-              const firstText = typeof firstChild.props.children === 'string' 
-                ? firstChild.props.children 
-                : (Array.isArray(firstChild.props.children) 
-                    ? firstChild.props.children[0] 
-                    : '')
-              
-              if (typeof firstText === 'string') {
-                const text = firstText.trim().toLowerCase()
-                if (text.startsWith('[!note]')) {
-                  blockType = 'note'
-                  // [!note] 텍스트 제거
-                  const newText = firstText.replace(/^\[!note\]\s*/i, '')
-                  processedChildren = [
-                    { ...firstChild, props: { ...firstChild.props, children: newText } },
-                    ...children.slice(1)
-                  ]
-                } else if (text.startsWith('[!warning]')) {
-                  blockType = 'warning'
-                  const newText = firstText.replace(/^\[!warning\]\s*/i, '')
-                  processedChildren = [
-                    { ...firstChild, props: { ...firstChild.props, children: newText } },
-                    ...children.slice(1)
-                  ]
-                } else if (text.startsWith('[!tip]')) {
-                  blockType = 'tip'
-                  const newText = firstText.replace(/^\[!tip\]\s*/i, '')
-                  processedChildren = [
-                    { ...firstChild, props: { ...firstChild.props, children: newText } },
-                    ...children.slice(1)
-                  ]
-                } else if (text.startsWith('[!info]')) {
-                  blockType = 'info'
-                  const newText = firstText.replace(/^\[!info\]\s*/i, '')
-                  processedChildren = [
-                    { ...firstChild, props: { ...firstChild.props, children: newText } },
-                    ...children.slice(1)
-                  ]
-                }
-              }
+            // 일반 div는 그대로 처리
+            if (!dataType || !['note', 'tip', 'important', 'warning', 'caution'].includes(dataType)) {
+              return <div {...props}>{children}</div>
             }
 
-            if (blockType === 'default') {
-              return <blockquote className={styles.blockquote} {...props}>{children}</blockquote>
+            const titleMap = {
+              note: 'Note',
+              tip: 'Tip', 
+              important: 'Important',
+              warning: 'Warning',
+              caution: 'Caution',
+            }
+            
+            const iconMap = {
+              note: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+              ),
+              tip: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1z"/>
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/>
+                </svg>
+              ),
+              important: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              ),
+              warning: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              ),
+              caution: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/>
+                  <line x1="15" y1="9" x2="9" y2="15"/>
+                  <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+              ),
             }
 
             return (
-              <div className={`${styles.specialBlock} ${styles[`block-${blockType}`]}`} {...props}>
+              <div className={`${styles.specialBlock} ${styles[`block-${dataType}`]}`}>
+                <div className={styles.blockHeader}>
+                  <span className={styles.blockIcon} aria-hidden="true">{iconMap[dataType]}</span>
+                  <span className={styles.blockTitle}>{titleMap[dataType]}</span>
+                </div>
                 <div className={styles.blockContent}>
-                  {processedChildren}
+                  {children}
                 </div>
               </div>
             )
