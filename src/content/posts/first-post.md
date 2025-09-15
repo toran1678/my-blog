@@ -25,7 +25,4 @@ coverImage: "./images/1.png"
 
 많은 관심 부탁드립니다!
 
-![Github_Logo](/my-blog/src/assets/images/first-post.png)
 ![Image](/images/1.png)
-
-\`\`\`

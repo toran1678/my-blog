@@ -20,13 +20,17 @@ export default function Home() {
   const primaryButtonStyle =
     theme === "dark"
       ? {
-          color: "#FFFFFF",
-          backgroundColor: "#60c9ff",
-          textShadow: "0 1px 2px rgba(0, 0, 0, 0.7)",
+          color: "#FFFFFF !important",
+          backgroundColor: "#0088cc",
           fontWeight: 700,
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+          border: "2px solid rgba(255, 255, 255, 0.6)",
+          letterSpacing: "0.5px",
+          boxSizing: "border-box",
         }
-      : {}
+      : {
+          border: "2px solid transparent", // 라이트 모드에서도 동일한 크기 유지
+          boxSizing: "border-box",
+        }
 
   const secondaryButtonStyle =
     theme === "dark"
@@ -103,21 +107,33 @@ export default function Home() {
       <section className={styles.introSection}>
         <div className={styles.introCard}>
           <div className={styles.introIcon}>
-            <span className={styles.codeIcon}>{"</>"}</span>
+            <span className={styles.codeIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+              <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0"/>
+            </svg>
+            </span>
           </div>
           <h3>웹 개발</h3>
           <p>React, Vite 등 최신 기술을 활용한 웹 애플리케이션 개발</p>
         </div>
         <div className={styles.introCard}>
           <div className={styles.introIcon}>
-            <span className={styles.designIcon}>✦</span>
+            <span className={styles.designIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+            </span>
           </div>
           <h3>UI/UX 디자인</h3>
           <p>사용자 중심의 직관적이고 아름다운 인터페이스 디자인</p>
         </div>
         <div className={styles.introCard}>
           <div className={styles.introIcon}>
-            <span className={styles.mobileIcon}>📱</span>
+            <span className={styles.mobileIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+            </svg>
+            </span>
           </div>
           <h3>반응형 웹</h3>
           <p>모든 디바이스에서 최적의 경험을 제공하는 반응형 웹사이트</p>

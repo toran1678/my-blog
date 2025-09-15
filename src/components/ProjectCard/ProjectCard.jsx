@@ -6,8 +6,19 @@ import { ThumbnailPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
 import styles from "./ProjectCard.module.css"
 import PropTypes from "prop-types"
 
-export default function ProjectCard({ id, title, summary, image, tags = [] }) {
+export default function ProjectCard({ id, title, summary, image, tags = [], date }) {
   const [imageError, setImageError] = useState(false)
+
+  // 날짜 포맷팅 함수
+  const formatDate = (dateString) => {
+    if (!dateString) return ""
+    const date = new Date(dateString)
+    return date.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+  }
 
   // 태그 클릭 이벤트 핸들러 - 이벤트 버블링 방지
   const handleTagClick = (e, tag) => {
@@ -43,7 +54,10 @@ export default function ProjectCard({ id, title, summary, image, tags = [] }) {
         </div>
 
         <div className={styles.projectInfo}>
-          <h3 className={styles.projectTitle}>{title}</h3>
+          <div className={styles.projectHeader}>
+            <h3 className={styles.projectTitle}>{title}</h3>
+            {date && <span className={styles.projectDate}>{formatDate(date)}</span>}
+          </div>
           <p className={styles.projectSummary}>{summary}</p>
 
           {tags.length > 0 && (
@@ -88,4 +102,5 @@ ProjectCard.propTypes = {
   summary: PropTypes.string.isRequired,
   image: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
+  date: PropTypes.string,
 }

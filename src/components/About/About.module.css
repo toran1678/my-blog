@@ -106,7 +106,8 @@
   border: 5px solid var(--white);
 }
 
-.profileImageContainer::before {
+/* 프로필 이미지 오버레이 제거 - 투명도 문제 해결 */
+/* .profileImageContainer::before {
   content: "";
   position: absolute;
   top: 0;
@@ -114,9 +115,9 @@
   right: 0;
   bottom: 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.3));
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
   z-index: 1;
-}
+} */
 
 .profileImage {
   width: 100%;

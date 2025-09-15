@@ -142,7 +142,7 @@ html.dark-theme .tag:hover,
   gap: 0.5rem;
   padding: 0.8rem 1.5rem;
   border-radius: 30px;
-  font-weight: 600;
+  font-weight: 700; /* 다크 모드와 동일한 폰트 굵기로 통일 */
   transition: all 0.3s ease;
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -155,27 +155,47 @@ html.dark-theme .tag:hover,
 
 .demoLink:hover {
   background-color: var(--primary-dark);
+  color: white !important; /* 호버 시에도 텍스트 색상 유지 */
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(var(--primary-rgb), 0.3);
   text-decoration: none;
 }
 
-/* 다크 모드에서 데모 링크 버튼 스타일 개선 */
-html.dark-theme .demoLink,
-[data-theme="dark"] .demoLink {
-  background-color: #00b4ff !important; /* 더 밝고 선명한 파란색 */
+/* 다크 모드에서 데모 링크 버튼 스타일 개선 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.demoLink,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.demoLink,
+html.dark-theme a.projectLink.demoLink,
+[data-theme="dark"] a.projectLink.demoLink {
+  background-color: #0088cc !important; /* 더 진한 파란색으로 대비 향상 */
   color: #ffffff !important; /* 순수 흰색으로 명확하게 설정 */
-  font-weight: 700 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important; /* 테두리 추가로 가시성 향상 */
 }
 
-html.dark-theme .demoLink:hover,
-[data-theme="dark"] .demoLink:hover {
-  background-color: #33c9ff !important; /* 호버 시 더 밝은 색상 */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+/* 다크 모드에서 데모 링크 버튼의 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.demoLink .linkIcon,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.demoLink .linkIcon,
+html.dark-theme a.projectLink.demoLink .linkIcon,
+[data-theme="dark"] a.projectLink.demoLink .linkIcon {
+  color: #ffffff !important; /* 아이콘을 흰색으로 강제 설정 */
+  stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
+}
+
+/* 다크 모드에서 데모 링크 버튼 호버 스타일 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.demoLink:hover,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.demoLink:hover,
+html.dark-theme a.projectLink.demoLink:hover,
+[data-theme="dark"] a.projectLink.demoLink:hover {
+  background-color: #0099dd !important; /* 호버 시 밝은 파란색 */
+  color: #ffffff !important; /* 호버 시에도 텍스트 색상 유지 */
   text-decoration: none !important;
+}
+
+/* 다크 모드에서 데모 링크 버튼 호버 시 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.demoLink:hover .linkIcon,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.demoLink:hover .linkIcon,
+html.dark-theme a.projectLink.demoLink:hover .linkIcon,
+[data-theme="dark"] a.projectLink.demoLink:hover .linkIcon {
+  color: #ffffff !important; /* 호버 시에도 아이콘을 흰색으로 강제 설정 */
+  stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
 }
 
 .repoLink {
@@ -185,34 +205,57 @@ html.dark-theme .demoLink:hover,
 
 .repoLink:hover {
   background-color: var(--secondary-dark);
+  color: white !important; /* 호버 시에도 텍스트 색상 유지 */
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   text-decoration: none;
 }
 
-/* 다크 모드에서 저장소 링크 버튼 스타일 개선 */
-html.dark-theme .repoLink,
-[data-theme="dark"] .repoLink {
+/* 다크 모드에서 저장소 링크 버튼 스타일 개선 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.repoLink,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.repoLink,
+html.dark-theme a.projectLink.repoLink,
+[data-theme="dark"] a.projectLink.repoLink {
   background-color: #2c3e50 !important;
   color: #ffffff !important;
-  font-weight: 700 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-html.dark-theme .repoLink:hover,
-[data-theme="dark"] .repoLink:hover {
+/* 다크 모드에서 저장소 링크 버튼의 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.repoLink .linkIcon,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.repoLink .linkIcon,
+html.dark-theme a.projectLink.repoLink .linkIcon,
+[data-theme="dark"] a.projectLink.repoLink .linkIcon {
+  color: #ffffff !important; /* 아이콘을 흰색으로 강제 설정 */
+  stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
+}
+
+/* 다크 모드에서 저장소 링크 버튼 호버 스타일 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.repoLink:hover,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.repoLink:hover,
+html.dark-theme a.projectLink.repoLink:hover,
+[data-theme="dark"] a.projectLink.repoLink:hover {
   background-color: #34495e !important;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4) !important;
+  color: #ffffff !important; /* 호버 시에도 텍스트 색상 유지 */
   text-decoration: none !important;
+}
+
+/* 다크 모드에서 저장소 링크 버튼 호버 시 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
+html.dark-theme .projectDetail .projectLinks .projectLink.repoLink:hover .linkIcon,
+[data-theme="dark"] .projectDetail .projectLinks .projectLink.repoLink:hover .linkIcon,
+html.dark-theme a.projectLink.repoLink:hover .linkIcon,
+[data-theme="dark"] a.projectLink.repoLink:hover .linkIcon {
+  color: #ffffff !important; /* 호버 시에도 아이콘을 흰색으로 강제 설정 */
+  stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
 }
 
 .linkIcon {
   transition: transform 0.3s ease;
+  color: inherit; /* 부모 요소의 색상을 상속 */
 }
 
 .projectLink:hover .linkIcon {
   transform: translateY(-2px);
+  color: inherit; /* 호버 시에도 부모 요소의 색상을 상속 */
 }
 
 .projectContent {

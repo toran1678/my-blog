@@ -244,6 +244,8 @@ export default function About() {
                 <div className={styles.skillCategory}>
                   <h3>기타</h3>
                   <div className={styles.skillTags}>
+                    <span className={styles.skillTag}>정보처리기사</span>
+                    <span className={styles.skillTag}>컴퓨터활용능력2급</span>
                     <span className={styles.skillTag}>Git & GitHub</span>
                     <span className={styles.skillTag}>Responsive Design</span>
                     <span className={styles.skillTag}>RESTful API</span>
@@ -263,11 +265,11 @@ export default function About() {
                   <div className={styles.timelineItem}>
                     <div className={styles.timelineMarker}></div>
                     <div className={styles.timelineContent}>
-                      <div className={styles.timelineDate}>2022 - 현재</div>
-                      <h3 className={styles.timelineTitle}>프론트엔드 개발자</h3>
-                      <div className={styles.timelineCompany}>더미 데이터</div>
+                      <div className={styles.timelineDate}>2020 - 현재</div>
+                      <h3 className={styles.timelineTitle}>안양대학교 재학</h3>
+                      <div className={styles.timelineCompany}>소프트웨어학과 학사</div>
                       <ul className={styles.timelineList}>
-                        <li>React를 사용한 웹 애플리케이션 개발</li>
+                        <li>정보처리기사 취득</li>
                         <li>사용자 인터페이스 개선 및 성능 최적화</li>
                         <li>팀 내 코드 리뷰 및 기술 멘토링</li>
                         <li>RESTful API 통합 및 상태 관리 구현</li>
@@ -291,6 +293,23 @@ export default function About() {
                       </ul>
                     </div>
                   </div>
+
+                  <div className={styles.timelineItem}>
+                    <div className={styles.timelineMarker}></div>
+                    <div className={styles.timelineContent}>
+                      <div className={styles.timelineDate}>2023.09 - 2023.12</div>
+                      <h3 className={styles.timelineTitle}>서버 프로그래밍 프로젝트 {'( '}안양대학교{' )'}</h3>
+                      <div className={styles.timelineCompany}>MLB팀 DB에 저장 및 선수별 능력치 시각화 프로젝트</div>
+                      <ul className={styles.timelineList}>
+                        <li>반응형 웹사이트 개발</li>
+                        <li>선수 비교 화면 디자인 {'( '}Chart.js 사용{' )'}</li>
+                        <li>GitHub 협업 능력 향상</li>
+                        <li></li>
+                        <li></li>
+                      </ul>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}

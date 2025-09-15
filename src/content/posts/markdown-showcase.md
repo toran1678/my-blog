@@ -117,18 +117,6 @@ export default Greeting;
 
 ## 특별한 콘텐츠 블록
 
-> [!note]
-> hi
-
-> [!TIP] 내용
-> 내용
-
-> [!WARNING]
-> 내용
-
-> [!IMPORTANT]
-> 내용
-
 <div data-type="note">
 이것은 노트 블록입니다. 중요한 정보나 참고 사항을 표시할 때 사용합니다.
 </div>

@@ -122,7 +122,21 @@ export default function PostDetail() {
     <div className={styles.postDetailContainer}>
       <div className={styles.postNavigation}>
         <Link to="/posts" className={styles.backLink}>
-          ← 모든 게시글
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={styles.backIcon}
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          모든 게시글
         </Link>
       </div>
 
@@ -208,7 +222,21 @@ export default function PostDetail() {
 
             <div className={styles.postNavLinks}>
               <Link to="/posts" className={styles.backLink}>
-                ← 게시글 목록으로 돌아가기
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={styles.backIcon}
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              게시글 목록으로 돌아가기
               </Link>
             </div>
           </div>

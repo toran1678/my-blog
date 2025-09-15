@@ -90,13 +90,35 @@ html.dark-theme .featuredTag,
   flex-grow: 1;
 }
 
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+  gap: 1rem;
+}
+
 .projectTitle {
   font-size: 1.4rem;
-  margin-bottom: 0.8rem;
   color: var(--secondary-color);
   font-weight: 700;
   line-height: 1.3;
   transition: color 0.3s ease;
+  flex: 1;
+}
+
+.projectDate {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+/* 다크 모드에서 날짜 스타일 */
+html.dark-theme .projectDate,
+[data-theme="dark"] .projectDate {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .projectSummary {
@@ -223,5 +245,15 @@ html.dark-theme .fallbackCover span,
 
   .projectTitle {
     font-size: 1.3rem;
+  }
+
+  .projectHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .projectDate {
+    font-size: 0.75rem;
   }
 }

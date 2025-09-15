@@ -24,13 +24,13 @@ excerpt: "React와 마크다운을 사용하여 블로그를 만들게 된 이�
 
 마크다운에서는 코드 블록도 쉽게 작성할 수 있습니다:
 
-\`\`\`javascript
+```javascript
 function greeting(name) {
   return `안녕하세요, ${name}님!`;
 }
 
 console.log(greeting('방문자'));
-\`\`\`
+```
 
 ## 이미지 삽입
 
@@ -48,4 +48,3 @@ console.log(greeting('방문자'));
 - 개발자로서의 성장 이야기
 
 많은 관심 부탁드립니다!
-\`\`\`

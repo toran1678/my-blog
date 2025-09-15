@@ -184,6 +184,7 @@ export default function ProjectList() {
               summary={project.excerpt}
               image={project.coverImage}
               tags={project.tags}
+              date={project.date}
             />
           ))
         ) : (
