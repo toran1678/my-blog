@@ -20,25 +20,21 @@ export function getImageUrl(imagePath) {
   // 기본 URL 설정 (개발 환경에서는 빈 문자열, 프로덕션에서는 /my-blog)
   const baseUrl = isDev ? "/my-blog" : "/my-blog"
 
-  // 파일 이름만 추출
-  let fileName = ""
+  // 경로 처리
+  let processedPath = imagePath
 
-  // 다양한 경로 패턴에서 파일 이름 추출
-  if (imagePath.includes("/")) {
-    // 경로에 슬래시가 있는 경우 마지막 슬래시 이후의 문자열을 파일 이름으로 사용
-    fileName = imagePath.substring(imagePath.lastIndexOf("/") + 1)
-  } else {
-    // 경로에 슬래시가 없는 경우 전체 문자열을 파일 이름으로 사용
-    fileName = imagePath
+  // /my-blog로 시작하는 경우 /my-blog 제거
+  if (imagePath.startsWith("/my-blog")) {
+    processedPath = imagePath.substring(8) // "/my-blog" (8글자) 제거
   }
 
-  // 파일 이름이 비어있으면 기본값 반환
-  if (!fileName) {
-    return `${baseUrl}/images/placeholder.png`
+  // /로 시작하지 않는 경우 / 추가
+  if (!processedPath.startsWith("/")) {
+    processedPath = "/" + processedPath
   }
 
-  // 모든 이미지는 /images/ 디렉토리에 있다고 가정
-  return `${baseUrl}/images/${fileName}`
+  // 최종 URL 생성
+  return `${baseUrl}${processedPath}`
 }
 
 /**
@@ -70,7 +66,7 @@ export function debugImagePath(originalPath, transformedPath) {
     original: originalPath,
     transformed: transformedPath,
     isDev: import.meta.env.DEV,
-    baseUrl: import.meta.env.DEV ? "" : "/my-blog",
-    fileName: originalPath ? originalPath.substring(originalPath.lastIndexOf("/") + 1) : "",
+    baseUrl: import.meta.env.DEV ? "/my-blog" : "/my-blog",
+    processedPath: originalPath ? (originalPath.startsWith("/my-blog") ? originalPath.substring(8) : originalPath) : "",
   })
 }

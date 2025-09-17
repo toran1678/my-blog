@@ -15,6 +15,13 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const { theme } = useTheme()
 
+  // excerpt 길이 제한 함수
+  const truncateExcerpt = (excerpt, maxLength = 60) => {
+    if (!excerpt) return ''
+    if (excerpt.length <= maxLength) return excerpt
+    return excerpt.substring(0, maxLength) + '...'
+  }
+
   // 다크 모드에서 버튼 스타일 조정
   const primaryButtonStyle =
     theme === "dark"
@@ -184,7 +191,7 @@ export default function Home() {
                       day: "numeric",
                     })}
                   </time>
-                  <p className={styles.postExcerpt}>{post.excerpt}</p>
+                  <p className={styles.postExcerpt}>{truncateExcerpt(post.excerpt)}</p>
                   <Link to={`/posts/${post.slug}`} className={styles.readMoreLink}>
                     더 읽기 
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>

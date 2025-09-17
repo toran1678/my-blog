@@ -1,6 +1,6 @@
 // 마크다운 파일을 불러오는 유틸리티 함수
 
-// 간단한 마크다운 파서 (frontmatter 파싱)
+  // 간단한 마크다운 파서 (frontmatter 파싱)
 function parseFrontMatter(markdown) {
     const frontMatterRegex = /^---\s*([\s\S]*?)\s*---/
     const match = markdown.match(frontMatterRegex)
@@ -42,6 +42,46 @@ function parseFrontMatter(markdown) {
   
     return { frontMatter, content }
   }
+
+  // excerpt 자동 생성 함수
+  function generateExcerpt(content) {
+    // 마크다운 문법 제거
+    let text = content
+      .replace(/#{1,6}\s+/g, '') // 헤딩 제거
+      .replace(/\*\*(.*?)\*\*/g, '$1') // 굵은 글씨 제거
+      .replace(/\*(.*?)\*/g, '$1') // 기울임체 제거
+      .replace(/`(.*?)`/g, '$1') // 인라인 코드 제거
+      .replace(/```[\s\S]*?```/g, '') // 코드 블록 제거
+      .replace(/!\[.*?\]\(.*?\)/g, '') // 이미지 제거
+      .replace(/\[.*?\]\(.*?\)/g, '') // 링크 제거
+      .replace(/>\s*/g, '') // 인용구 제거
+      .replace(/^\s*[-*+]\s*/gm, '') // 리스트 마커 제거
+      .replace(/^\s*\d+\.\s*/gm, '') // 번호 리스트 제거
+      .replace(/\n+/g, ' ') // 여러 줄바꿈을 공백으로
+      .trim()
+    
+    // 문장 단위로 분리
+    const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0)
+    
+    if (sentences.length === 0) {
+      return text.substring(0, 80) + '...'
+    }
+    
+    // 첫 번째 문장만 사용 (카드에서 두 줄을 넘지 않도록)
+    let excerpt = sentences[0].trim()
+    
+    // 80자 이상이면 80자로 자르고 ... 추가
+    if (excerpt.length > 80) {
+      excerpt = excerpt.substring(0, 80) + '...'
+    }
+    
+    // 마지막에 마침표 추가 (없는 경우에만)
+    if (!excerpt.endsWith('.') && !excerpt.endsWith('...')) {
+      excerpt += '.'
+    }
+    
+    return excerpt
+  }
   
   // 모든 포스트 가져오기
   export async function getPosts() {
@@ -56,11 +96,15 @@ function parseFrontMatter(markdown) {
   
       // frontmatter와 content 추출
       const { frontMatter, content: markdownContent } = parseFrontMatter(content)
-  
+
+      // excerpt가 없으면 자동 생성
+      const excerpt = frontMatter.excerpt || generateExcerpt(markdownContent)
+
       posts.push({
         slug,
         ...frontMatter,
         content: markdownContent,
+        excerpt,
       })
     }
   

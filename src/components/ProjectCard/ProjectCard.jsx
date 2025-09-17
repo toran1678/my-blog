@@ -56,8 +56,8 @@ export default function ProjectCard({ id, title, summary, image, tags = [], date
         <div className={styles.projectInfo}>
           <div className={styles.projectHeader}>
             <h3 className={styles.projectTitle}>{title}</h3>
-            {date && <span className={styles.projectDate}>{formatDate(date)}</span>}
           </div>
+          {date && <div className={styles.projectDate}>{formatDate(date)}</div>}
           <p className={styles.projectSummary}>{summary}</p>
 
           {tags.length > 0 && (

@@ -4,6 +4,7 @@ date: "2025-05-07"
 author: "개발자"
 tags: [테스트, 이미지]
 coverImage: "/my-blog/images/1.png"
+excerpt: "다양한 방식의 이미지 삽입을 테스트합니다."
 # coverImage: "/placeholder.svg?height=600&width=1200&query=이미지+테스트"
 ---
 
