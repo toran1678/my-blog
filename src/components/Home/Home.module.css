@@ -86,7 +86,7 @@ html.dark-theme a.primaryButton,
   color: #ffffff !important; /* 흰색으로 강제 지정 */
   background-color: #0088cc !important; /* 더 진한 파란색으로 대비 향상 */
   letter-spacing: 0.5px !important; /* 글자 간격 넓게 */
-  border: 2px solid rgba(255, 255, 255, 0.6) !important; /* 투명 테두리에서 흰색 테두리로 변경 */
+  border: 2px solid transparent !important; /* 투명 테두리로 크기 일관성 유지 */
   box-sizing: border-box !important; /* 테두리를 포함한 크기 계산 */
 }
 
@@ -105,7 +105,7 @@ html.dark-theme a.primaryButton:hover,
 [data-theme="dark"] a.primaryButton:hover {
   background-color: #0099dd !important; /* 호버 시 밝은 파란색 */
   color: #ffffff !important; /* 호버 시에도 텍스트 색상 유지 */
-  border: 2px solid rgba(255, 255, 255, 0.8) !important; /* 호버 시 테두리 더 굵고 강화 */
+  border: 2px solid transparent !important; /* 호버 시에도 투명 테두리로 크기 일관성 유지 */
 }
 
 .secondaryButton {
@@ -219,11 +219,24 @@ html.dark-theme .secondaryButton:hover,
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .introCard:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 소개 카드 그림자 강화 */
+html.dark-theme .introCard,
+[data-theme="dark"] .introCard {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .introCard:hover,
+[data-theme="dark"] .introCard:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .introIcon {
@@ -356,11 +369,24 @@ html.dark-theme .secondaryButton:hover,
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .postCard:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 카드 그림자 강화 */
+html.dark-theme .postCard,
+[data-theme="dark"] .postCard {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .postCard:hover,
+[data-theme="dark"] .postCard:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .postImageContainer {
@@ -486,11 +512,24 @@ html.dark-theme .secondaryButton:hover,
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .projectCard:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 프로젝트 카드 그림자 강화 */
+html.dark-theme .projectCard,
+[data-theme="dark"] .projectCard {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .projectCard:hover,
+[data-theme="dark"] .projectCard:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .projectImageContainer {
@@ -593,6 +632,20 @@ html.dark-theme .projectTag:hover,
 
 .viewProjectLink:hover .arrow {
   transform: translateX(5px);
+}
+
+/* 다크 모드에서 프로젝트 보기 버튼 테두리 제거 */
+html.dark-theme .homeContainer .projectCard .viewProjectLink,
+[data-theme="dark"] .homeContainer .projectCard .viewProjectLink,
+html.dark-theme .featuredProjects .viewProjectLink,
+[data-theme="dark"] .featuredProjects .viewProjectLink,
+html.dark-theme .viewProjectLink,
+[data-theme="dark"] .viewProjectLink {
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* CTA 섹션 */

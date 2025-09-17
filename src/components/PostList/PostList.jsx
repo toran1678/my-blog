@@ -250,8 +250,8 @@ export default function PostList() {
                         더 읽기
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
+                          width="24"
+                          height="24"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -260,8 +260,7 @@ export default function PostList() {
                           strokeLinejoin="round"
                           className={styles.readMoreIcon}
                         >
-                          <path d="M5 12h14"></path>
-                          <path d="m12 5 7 7-7 7"></path>
+                          <path d="m9 18 6-6-6-6"/>
                         </svg>
                       </Link>
                     </div>

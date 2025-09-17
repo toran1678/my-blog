@@ -138,6 +138,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .postCard:hover {
@@ -154,6 +155,18 @@
 
 .postCard:hover .readMoreIcon {
   transform: translateX(5px);
+}
+
+/* 다크 모드에서 게시글 카드 그림자 강화 */
+html.dark-theme .postCard,
+[data-theme="dark"] .postCard {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .postCard:hover,
+[data-theme="dark"] .postCard:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .postContent {

@@ -28,59 +28,65 @@ export default function TableOfContents({ content, containerRef }) {
 
   // 실제 DOM에서 헤딩을 스캔해 목차 구성 (렌더 결과와 1:1 매칭)
   useEffect(() => {
-    const root = containerRef?.current || document
-    if (!root) return
+    // DOM이 완전히 렌더링될 때까지 기다리기 위해 setTimeout 사용
+    const timeoutId = setTimeout(() => {
+      const root = containerRef?.current || document
+      if (!root) return
 
-    // 마크다운 본문 영역만 스캔
-    const markdownRoot = root.querySelector('[data-markdown-root]') || root
-    const headingEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
-    if (headingEls.length === 0) {
-      setHeadings([])
-      return
-    }
-
-    const usedIds = new Set()
-    const next = headingEls.map((el) => {
-      const level = Number(el.tagName.substring(1))
-      const baseId = slugify(el.textContent || "")
-      let uniqueId = baseId
-      let counter = 1
-      while (usedIds.has(uniqueId)) {
-        uniqueId = `${baseId}-${counter}`
-        counter++
+      // 마크다운 본문 영역만 스캔
+      const markdownRoot = root.querySelector('[data-markdown-root]') || root
+      const headingEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+      
+      if (headingEls.length === 0) {
+        setHeadings([])
+        return
       }
-      usedIds.add(uniqueId)
-      if (!el.id || el.id !== uniqueId) {
-        el.id = uniqueId
-      }
-      return { id: uniqueId, text: el.textContent || "", level }
-    })
 
-    setHeadings(next)
-    // DOM 변경 감지를 위한 옵저버 (이미지/코드 하이라이트 등으로 구조가 바뀔 때 보정)
-    const mutationObserver = new MutationObserver(() => {
-      const updatedEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
-      if (updatedEls.length !== headingEls.length) {
-        const used = new Set()
-        const nextHeads = updatedEls.map((el) => {
-          const level = Number(el.tagName.substring(1))
-          const baseId = slugify(el.textContent || "")
-          let uniqueId = baseId
-          let counter = 1
-          while (used.has(uniqueId)) {
-            uniqueId = `${baseId}-${counter}`
-            counter++
-          }
-          used.add(uniqueId)
-          if (!el.id || el.id !== uniqueId) el.id = uniqueId
-          return { id: uniqueId, text: el.textContent || "", level }
-        })
-        setHeadings(nextHeads)
-      }
-    })
-    mutationObserver.observe(markdownRoot, { childList: true, subtree: true })
+      const usedIds = new Set()
+      const next = headingEls.map((el) => {
+        const level = Number(el.tagName.substring(1))
+        const baseId = slugify(el.textContent || "")
+        let uniqueId = baseId
+        let counter = 1
+        while (usedIds.has(uniqueId)) {
+          uniqueId = `${baseId}-${counter}`
+          counter++
+        }
+        usedIds.add(uniqueId)
+        if (!el.id || el.id !== uniqueId) {
+          el.id = uniqueId
+        }
+        return { id: uniqueId, text: el.textContent || "", level }
+      })
 
-    return () => mutationObserver.disconnect()
+      setHeadings(next)
+      // DOM 변경 감지를 위한 옵저버 (이미지/코드 하이라이트 등으로 구조가 바뀔 때 보정)
+      const mutationObserver = new MutationObserver(() => {
+        const updatedEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+        if (updatedEls.length !== headingEls.length) {
+          const used = new Set()
+          const nextHeads = updatedEls.map((el) => {
+            const level = Number(el.tagName.substring(1))
+            const baseId = slugify(el.textContent || "")
+            let uniqueId = baseId
+            let counter = 1
+            while (used.has(uniqueId)) {
+              uniqueId = `${baseId}-${counter}`
+              counter++
+            }
+            used.add(uniqueId)
+            if (!el.id || el.id !== uniqueId) el.id = uniqueId
+            return { id: uniqueId, text: el.textContent || "", level }
+          })
+          setHeadings(nextHeads)
+        }
+      })
+      mutationObserver.observe(markdownRoot, { childList: true, subtree: true })
+
+      return () => mutationObserver.disconnect()
+    }, 100) // 100ms 지연
+
+    return () => clearTimeout(timeoutId)
   }, [containerRef, content])
 
   // 스크롤 이벤트 처리 및 현재 활성 헤딩 감지

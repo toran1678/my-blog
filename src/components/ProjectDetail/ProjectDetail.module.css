@@ -2,6 +2,7 @@
   max-width: 900px;
   margin: 0 auto;
   padding-bottom: 3rem;
+  position: relative;
 }
 
 .projectNavigation {
@@ -30,6 +31,10 @@
 
 .backLink:hover .backIcon {
   transform: translateX(-3px);
+}
+
+.projectHero {
+  margin-bottom: 2rem;
 }
 
 .projectHeader {
@@ -258,6 +263,10 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
   color: inherit; /* 호버 시에도 부모 요소의 색상을 상속 */
 }
 
+.projectContentWrapper {
+  position: relative;
+}
+
 .projectContent {
   font-size: 1.1rem;
   line-height: 1.8;
@@ -266,6 +275,56 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
   padding: 2.5rem;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 목차 관련 스타일 */
+.heroEndSentinel {
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.floatingToc {
+  position: fixed;
+  top: 6rem;
+  right: 14rem;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+/* 반응형 목차 스타일 */
+@media (max-width: 1200px) {
+  .floatingToc {
+    right: 3rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .floatingToc {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    top: auto;
+    z-index: 100;
+  }
+}
+
+@media (max-width: 768px) {
+  .floatingToc {
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floatingToc {
+    right: 1rem;
+    left: 1rem;
+    bottom: 1rem;
+  }
 }
 
 .relatedProjects {

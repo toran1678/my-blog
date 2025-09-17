@@ -1,6 +1,6 @@
 .postItem {
   padding: 0;
-  border: 1px solid var(--medium-gray);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   transition: transform 0.3s, box-shadow 0.3s;
   overflow: hidden;
@@ -14,6 +14,18 @@
 .postItem:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 게시글 아이템 카드 그림자 강화 */
+html.dark-theme .postItem,
+[data-theme="dark"] .postItem {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .postItem:hover,
+[data-theme="dark"] .postItem:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4) !important;
 }
 
 .cardLink {
@@ -102,6 +114,7 @@
 .arrow {
   margin-left: 0.25rem;
   transition: transform 0.2s ease;
+  display: inline-block;
 }
 
 .cardLink:hover .arrow {

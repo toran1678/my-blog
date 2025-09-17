@@ -403,7 +403,7 @@ export default function About() {
                             <div className={styles.projectDate}>2024년 상반기</div>
                             <p className={styles.projectDescription}>
                               OpenAI API를 활용한 뉴스 자동 요약 및 검색 기능을 제공하는 
-                              웹 서비스 개발
+                              파이썬 프로그램 개발
                             </p>
                           </div>
                         </div>
@@ -415,7 +415,7 @@ export default function About() {
                             <div className={styles.projectDate}>2024년 상반기</div>
                             <p className={styles.projectDescription}>
                               Java Socket Programming을 활용한 멀티플레이어 오목 게임 개발. 
-                              실시간 통신과 게임 로직 구현
+                              실시간 통신과 게임 로직 구현, Java Swing을 활용한 게임 개발
                             </p>
                           </div>
                         </div>
@@ -508,7 +508,7 @@ export default function About() {
                     </div>
                     <div className={styles.educationInfo}>
                       <h3>웹 개발 부트캠프</h3>
-                      <p className={styles.educationSchool}>코딩 아카데미</p>
+                      <p className={styles.educationSchool}>더미 데이터</p>
                       <p className={styles.educationPeriod}>2020</p>
                     </div>
                   </div>

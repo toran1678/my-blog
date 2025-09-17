@@ -265,29 +265,77 @@
   }
 
   .navList {
-    flex-direction: column;
-    padding: 1.5rem;
-    gap: 0;
+    flex-direction: column !important;
+    padding: 2rem 1.5rem !important;
+    gap: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
   }
 
   .navItem {
-    width: 100%;
-    text-align: center;
+    width: 100% !important;
+    max-width: 300px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
   }
 
   .navLink {
-    display: block;
-    padding: 1rem 0;
-    width: 100%;
-    border-bottom: 1px solid var(--medium-gray);
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 1.2rem 2rem !important;
+    width: 100% !important;
+    border-bottom: none !important;
+    text-align: center !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    position: relative !important;
+    margin: 0 auto !important;
   }
 
   .navLink::after {
-    display: none;
+    content: "" !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60% !important;
+    height: 3px !important;
+    background-color: var(--primary-color) !important;
+    transition: width 0.3s ease !important;
+  }
+
+  .navLink.active::after {
+    width: 80% !important;
+  }
+
+  .navLink:hover::after {
+    width: 100% !important;
   }
 
   .navItem:last-child .navLink {
-    border-bottom: none;
+    border-bottom: none !important;
+  }
+
+  /* 모바일 네비게이션 강제 가운데 정렬 */
+  @media (max-width: 768px) {
+    .navigation .navList .navItem .navLink {
+      text-align: center !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 auto !important;
+    }
+    
+    .navigation .navList .navItem {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 auto !important;
+    }
   }
 
   .content {

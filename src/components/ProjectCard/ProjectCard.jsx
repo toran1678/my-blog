@@ -85,8 +85,7 @@ export default function ProjectCard({ id, title, summary, image, tags = [], date
                 strokeLinejoin="round"
                 className={styles.viewProjectIcon}
               >
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
+                <path d="m9 18 6-6-6-6"/>
               </svg>
             </span>
           </div>

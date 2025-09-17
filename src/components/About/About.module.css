@@ -138,6 +138,14 @@
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* 다크 모드에서 탭 컨테이너 그림자 강화 */
+html.dark-theme .tabContainer,
+[data-theme="dark"] .tabContainer {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .tabContainer.visible {
@@ -161,6 +169,17 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+}
+
+/* 다크 모드에서 탭 버튼 배경 강화 */
+html.dark-theme .tabButton,
+[data-theme="dark"] .tabButton {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+html.dark-theme .tabButton:hover,
+[data-theme="dark"] .tabButton:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 .tabButton::after {
@@ -488,7 +507,7 @@ html.dark-theme .categoryIcon,
 
 .personalCard {
   background: var(--card-background);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -496,6 +515,13 @@ html.dark-theme .categoryIcon,
   gap: 1rem;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 개인정보 카드 그림자 강화 */
+html.dark-theme .personalCard,
+[data-theme="dark"] .personalCard {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .personalCard:hover {
@@ -514,6 +540,13 @@ html.dark-theme .categoryIcon,
   justify-content: center;
   color: white;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 개인정보 아이콘 그림자 강화 */
+html.dark-theme .personalIcon,
+[data-theme="dark"] .personalIcon {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 .personalIcon svg {
@@ -777,6 +810,14 @@ html.dark-theme .certificationName,
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* 다크 모드에서 교육 카드 그림자 강화 */
+html.dark-theme .educationCard,
+[data-theme="dark"] .educationCard {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .educationCard:hover {
@@ -803,6 +844,13 @@ html.dark-theme .certificationName,
   font-size: 1.5rem;
   font-weight: 700;
   margin-right: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크 모드에서 교육 아이콘 그림자 강화 */
+html.dark-theme .educationLogo,
+[data-theme="dark"] .educationLogo {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 .educationInfo {
