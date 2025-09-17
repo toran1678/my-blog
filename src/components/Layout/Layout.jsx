@@ -69,22 +69,22 @@ function LayoutContent() {
             <ul className={styles.navList}>
               <li className={styles.navItem}>
                 <Link to="/" className={`${styles.navLink} ${isActive("/") ? styles.active : ""}`}>
-                  홈
+                  Home
                 </Link>
               </li>
               <li className={styles.navItem}>
                 <Link to="/posts" className={`${styles.navLink} ${isActive("/posts") ? styles.active : ""}`}>
-                  블로그
+                  Posts
                 </Link>
               </li>
               <li className={styles.navItem}>
                 <Link to="/projects" className={`${styles.navLink} ${isActive("/projects") ? styles.active : ""}`}>
-                  프로젝트
+                  Projects
                 </Link>
               </li>
               <li className={styles.navItem}>
                 <Link to="/about" className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}>
-                  소개
+                  About
                 </Link>
               </li>
             </ul>

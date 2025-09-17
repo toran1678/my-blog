@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import styles from "./About.module.css"
 
 export default function About() {
-  const [activeTab, setActiveTab] = useState("skills")
+  const [activeTab, setActiveTab] = useState("personal")
   const [isVisible, setIsVisible] = useState({})
 
   useEffect(() => {
@@ -126,6 +126,12 @@ export default function About() {
         <div className={`${styles.tabContainer} ${isVisible["tabs"] ? styles.visible : ""}`}>
           <div className={styles.tabButtons}>
             <button
+              className={`${styles.tabButton} ${activeTab === "personal" ? styles.active : ""}`}
+              onClick={() => setActiveTab("personal")}
+            >
+              개인정보
+            </button>
+            <button
               className={`${styles.tabButton} ${activeTab === "skills" ? styles.active : ""}`}
               onClick={() => setActiveTab("skills")}
             >
@@ -146,114 +152,204 @@ export default function About() {
           </div>
 
           <div className={styles.tabContent}>
+            {activeTab === "personal" && (
+              <div className={styles.personalTab}>
+                <div className={styles.personalInfo}>
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>이름</h3>
+                      <p>김선빈</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>생년월일</h3>
+                      <p>2001년 4월 19일</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>위치</h3>
+                      <p>경기도 안양시</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>연락처</h3>
+                      <p>010-7178-5852</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>이메일</h3>
+                      <p>toran16784@gmail.com</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.personalCard}>
+                    <div className={styles.personalIcon}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                      </svg>
+                    </div>
+                    <div className={styles.personalContent}>
+                      <h3>학력</h3>
+                      <p>안양대학교 {'( '}소프트웨어학과{' )'}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === "skills" && (
               <div className={styles.skillsTab}>
                 <div className={styles.skillCategory}>
-                  <h3>프론트엔드</h3>
-                  <div className={styles.skillBars}>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>HTML5 & CSS3</span>
-                        <span>90%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "90%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>JavaScript (ES6+)</span>
-                        <span>85%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "85%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>React</span>
-                        <span>80%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "80%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>Vite</span>
-                        <span>75%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "75%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>Tailwind CSS</span>
-                        <span>85%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "85%" }}></div>
-                      </div>
-                    </div>
+                  <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.categoryIcon}>
+                      <rect width="18" height="18" x="3" y="3" rx="2"/>
+                      <path d="m10 15-3-3 3-3"/>
+                      <path d="m14 9 3 3-3 3"/>
+                    </svg>
+                    Language
+                  </h3>
+                  <div className={styles.skillBlocks}>
+                    <span className={styles.skillBlock} data-skill="typescript">TypeScript</span>
+                    <span className={styles.skillBlock} data-skill="javascript">JavaScript</span>
+                    <span className={styles.skillBlock} data-skill="python">Python</span>
+                    <span className={styles.skillBlock} data-skill="java">Java</span>
+                    <span className={styles.skillBlock} data-skill="c++">C</span>
                   </div>
                 </div>
 
                 <div className={styles.skillCategory}>
-                  <h3>백엔드</h3>
-                  <div className={styles.skillBars}>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>Node.js</span>
-                        <span>75%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "75%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>Express</span>
-                        <span>70%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "70%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>MongoDB</span>
-                        <span>65%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "65%" }}></div>
-                      </div>
-                    </div>
-                    <div className={styles.skillItem}>
-                      <div className={styles.skillInfo}>
-                        <span>Firebase</span>
-                        <span>80%</span>
-                      </div>
-                      <div className={styles.skillBar}>
-                        <div className={styles.skillProgress} style={{ width: "80%" }}></div>
-                      </div>
-                    </div>
+                  <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={styles.categoryIcon} viewBox="0 0 16 16">
+                      <path d="M3 3.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                      <path d="M.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5zM1 5V2h14v3zm0 1h14v8H1z"/>
+                    </svg>
+                    Frontend
+                  </h3>
+                  <div className={styles.skillBlocks}>
+                    <span className={styles.skillBlock} data-skill="react">React</span>
+                    <span className={styles.skillBlock} data-skill="next.js">Next.js</span>
+                    <span className={styles.skillBlock} data-skill="vite">Vite</span>
+                    <span className={styles.skillBlock} data-skill="html5">HTML</span>
+                    <span className={styles.skillBlock} data-skill="css3">CSS</span>
+                    <span className={styles.skillBlock} data-skill="sass">Sass</span>
+                    <span className={styles.skillBlock} data-skill="tailwind">Tailwind CSS</span>
+                    <span className={styles.skillBlock} data-skill="responsive">Responsive Design</span>
                   </div>
                 </div>
 
                 <div className={styles.skillCategory}>
-                  <h3>기타</h3>
-                  <div className={styles.skillTags}>
-                    <span className={styles.skillTag}>정보처리기사</span>
-                    <span className={styles.skillTag}>컴퓨터활용능력2급</span>
-                    <span className={styles.skillTag}>Git & GitHub</span>
-                    <span className={styles.skillTag}>Responsive Design</span>
-                    <span className={styles.skillTag}>RESTful API</span>
-                    <span className={styles.skillTag}>Figma</span>
-                    <span className={styles.skillTag}>UI/UX</span>
-                    <span className={styles.skillTag}>Agile/Scrum</span>
-                    <span className={styles.skillTag}>Jest</span>
-                    <span className={styles.skillTag}>Webpack</span>
+                  <h3>
+                    <svg width="24px" height="24px" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.categoryIcon}>
+                      <path d="M4 6V12C4 12 4 15 11 15C18 15 18 12 18 12V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M11 3C18 3 18 6 18 6C18 6 18 9 11 9C4 9 4 6 4 6C4 6 4 3 11 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M11 21C4 21 4 18 4 18V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18 22H19.5H21M19.5 19.4286H21.8333V16H17.1666V19.4286H19.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Backend
+                  </h3>
+                  <div className={styles.skillBlocks}>
+                    <span className={styles.skillBlock} data-skill="node.js">Node.js</span>
+                    <span className={styles.skillBlock} data-skill="express">Express</span>
+                    <span className={styles.skillBlock} data-skill="fastapi">FastAPI</span>
+                    {/* <span className={styles.skillBlock} data-skill="mongodb">MongoDB</span> */}
+                    {/* <span className={styles.skillBlock} data-skill="firebase">Firebase</span> */}
+                    <span className={styles.skillBlock} data-skill="restful">RESTful API</span>
+                    <span className={styles.skillBlock} data-skill="graphql">GraphQL</span>
+                  </div>
+                </div>
+
+                <div className={styles.skillCategory}>
+                  <h3>
+                    <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className={styles.categoryIcon}>
+                      <title>dev-ops-solid</title>
+                      <g id="Layer_2" data-name="Layer 2">
+                        <g id="invisible_box" data-name="invisible box">
+                          <rect width="48" height="48" fill="none"/>
+                        </g>
+                        <g id="icons_Q2" data-name="icons Q2">
+                          <path d="M46,24A12,12,0,0,0,34,12c-5.2,0-9.5,4.1-11.9,11.4C20.3,28.9,17.3,32,14,32a8,8,0,0,1,0-16h1.2l-1.6,1.6a1.9,1.9,0,0,0,.2,3,2.1,2.1,0,0,0,2.7-.2l4.9-5a1.9,1.9,0,0,0,0-2.8l-4.9-5a2.1,2.1,0,0,0-2.7-.2,1.9,1.9,0,0,0-.2,3L15.2,12H14a12,12,0,0,0,0,24c5.2,0,9.5-4.1,11.9-11.4C27.7,19.1,30.7,16,34,16a8,8,0,0,1,0,16H32.8l1.6-1.6a1.9,1.9,0,0,0-.2-3,2.1,2.1,0,0,0-2.7.2l-4.9,5a1.9,1.9,0,0,0,0,2.8l4.9,5a2.1,2.1,0,0,0,2.7.2,1.9,1.9,0,0,0,.2-3L32.8,36H34A12,12,0,0,0,46,24Z" fill="currentColor"/>
+                        </g>
+                      </g>
+                    </svg>
+                    DevOps
+                  </h3>
+                  <div className={styles.skillBlocks}>
+                    <span className={styles.skillBlock} data-skill="docker">Docker</span>
+                    <span className={styles.skillBlock} data-skill="redis">Redis</span>
+                    {/* <span className={styles.skillBlock} data-skill="aws">AWS</span> */}
+                    {/* <span className={styles.skillBlock} data-skill="vercel">Vercel</span> */}
+                    <span className={styles.skillBlock} data-skill="git">Git & GitHub</span>
+                    <span className={styles.skillBlock} data-skill="ci/cd">CI/CD</span>
+                  </div>
+                </div>
+
+                <div className={styles.skillCategory}>
+                  <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={styles.categoryIcon}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
+                    </svg>
+                    Tools
+                  </h3>
+                  <div className={styles.skillBlocks}>
+                    <span className={styles.skillBlock} data-skill="figma">Figma</span>
+                    <span className={styles.skillBlock} data-skill="blender">Blender</span>
+                    <span className={styles.skillBlock} data-skill="vscode">VS Code</span>
+                    <span className={styles.skillBlock} data-skill="webpack">Webpack</span>
+                    <span className={styles.skillBlock} data-skill="ui/ux">UI/UX</span>
+                  </div>
+                </div>
+
+                <div className={styles.skillCategory}>
+                  <h3>자격증</h3>
+                  <div className={styles.certificationBlocks}>
+                    <div className={styles.certificationItem}>
+                      <span className={styles.certificationName}>정보처리기사</span>
+                      <span className={styles.certificationDate}>2025</span>
+                    </div>
+                    <div className={styles.certificationItem}>
+                      <span className={styles.certificationName}>컴퓨터활용능력 2급</span>
+                      <span className={styles.certificationDate}>2018</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -265,16 +361,76 @@ export default function About() {
                   <div className={styles.timelineItem}>
                     <div className={styles.timelineMarker}></div>
                     <div className={styles.timelineContent}>
-                      <div className={styles.timelineDate}>2020 - 현재</div>
-                      <h3 className={styles.timelineTitle}>안양대학교 재학</h3>
+                      <div className={styles.timelineDate}>2020 - 2025</div>
+                      <h3 className={styles.timelineTitle}>안양대학교</h3>
                       <div className={styles.timelineCompany}>소프트웨어학과 학사</div>
-                      <ul className={styles.timelineList}>
-                        <li>정보처리기사 취득</li>
-                        <li>사용자 인터페이스 개선 및 성능 최적화</li>
-                        <li>팀 내 코드 리뷰 및 기술 멘토링</li>
-                        <li>RESTful API 통합 및 상태 관리 구현</li>
-                        <li>반응형 디자인 및 크로스 브라우저 호환성 보장</li>
-                      </ul>
+                      <div className={styles.timelineQuote}>"다양한 기술을 활용한 창의적 프로젝트 개발"</div>
+                      <div className={styles.timelineTags}>
+                        <span className={styles.timelineTag}>Frontend 개발</span>
+                        <span className={styles.timelineTag}>Backend 개발</span>
+                        <span className={styles.timelineTag}>AI/ML 개발</span>
+                      </div>
+                      <div className={styles.timelineProjects}>
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>딥러닝 가상 피팅 서비스 & 웹 커뮤니티 플랫폼 - 캡스톤 디자인</h4>
+                            <div className={styles.projectDate}>2025년 하반기 - 2025년 상반기</div>
+                            <p className={styles.projectDescription}>
+                              딥러닝 모델을 활용한 가상 의류 피팅 서비스와 웹 커뮤니티를 결합한 
+                              풀스택 웹 애플리케이션 개발. 사용자가 온라인으로 의류를 가상으로 착용해보고 
+                              커뮤니티에서 소통할 수 있는 통합 플랫폼으로 4학년 캡스톤 디자인 프로젝트
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>OpenCV를 활용한 이미지 처리 포토샵 프로그램 개발</h4>
+                            <div className={styles.projectDate}>2024년 상반기</div>
+                            <p className={styles.projectDescription}>
+                              Python과 OpenCV 라이브러리를 활용하여 이미지 필터링, 색상 조정, 
+                              객체 인식 기능을 포함한 포토샵 프로그램 개발
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>뉴스 검색 & 요약 서비스 개발</h4>
+                            <div className={styles.projectDate}>2024년 상반기</div>
+                            <p className={styles.projectDescription}>
+                              OpenAI API를 활용한 뉴스 자동 요약 및 검색 기능을 제공하는 
+                              웹 서비스 개발
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>자바 소켓 통신 오목 게임 개발</h4>
+                            <div className={styles.projectDate}>2024년 상반기</div>
+                            <p className={styles.projectDescription}>
+                              Java Socket Programming을 활용한 멀티플레이어 오목 게임 개발. 
+                              실시간 통신과 게임 로직 구현
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>Blender 3D 기초 모델링</h4>
+                            <div className={styles.projectDate}>2024년 하반기</div>
+                            <p className={styles.projectDescription}>
+                              Blender를 활용한 3D 기초 캐릭터 모델링
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -294,7 +450,7 @@ export default function About() {
                     </div>
                   </div>
 
-                  <div className={styles.timelineItem}>
+                  {/* <div className={styles.timelineItem}>
                     <div className={styles.timelineMarker}></div>
                     <div className={styles.timelineContent}>
                       <div className={styles.timelineDate}>2023.09 - 2023.12</div>
@@ -308,7 +464,7 @@ export default function About() {
                         <li></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
 
                 </div>
               </div>
@@ -319,7 +475,7 @@ export default function About() {
                 <div className={styles.educationCard}>
                   <div className={styles.educationHeader}>
                     <div className={styles.educationLogo}>
-                      <span>KU</span>
+                      <span>AU</span>
                     </div>
                     <div className={styles.educationInfo}>
                       <h3>소프트웨어과 학사</h3>
@@ -339,7 +495,7 @@ export default function About() {
                         <li>데이터베이스 시스템</li>
                         <li>웹 프로그래밍</li>
                         <li>소프트웨어 공학</li>
-                        <li>인공지능 개론</li>
+                        <li>인공지능과 머신러닝 기술</li>
                       </ul>
                     </div>
                   </div>

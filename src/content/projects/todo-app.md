@@ -5,7 +5,7 @@ tags: [React, localStorage, CSS]
 excerpt: "React와 localStorage를 사용한 할 일 관리 웹 애플리케이션입니다."
 #coverImage: "coverImage: "/placeholder.svg?height=600&width=1200&query=TODO-APP"
 demoUrl: "https://example.com/todo-demo"
-repoUrl: "https://github.com/username/todo-app"
+repoUrl: "https://github.com/username/test"
 ---
 
 # 할 일 관리 앱

@@ -2,6 +2,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "./styles/variables.css"
 import "./styles/global.css"
+import "./styles/skillColors.css" // 기술 스택 색상 변수
 import "./index.css"
 import "./styles/darkMode.css" // 다크 모드 전역 스타일 추가
 import App from "./App.jsx"

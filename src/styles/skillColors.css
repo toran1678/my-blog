@@ -1,0 +1,60 @@
+/* 기술 스택 색상표 - 수정 가능한 색상 변수들 */
+
+:root {
+  /* Language 색상 */
+  --skill-typescript: #3178c6;
+  --skill-javascript: #f7df1e;
+  --skill-python: #3776ab;
+  --skill-java: #f89820;
+  --skill-cpp: #00599c;
+  
+  /* Frontend 색상 */
+  --skill-react: #61dafb;
+  --skill-nextjs: #000000;
+  --skill-vite: #646cff;
+  --skill-html5: #e34f26;
+  --skill-css3: #1572b6;
+  --skill-tailwind: #06b6d4;
+  --skill-sass: #cf649a;
+  --skill-responsive: #ff6b6b;
+  
+  /* Backend 색상 */
+  --skill-nodejs: #339933;
+  --skill-express: #000000;
+  --skill-fastapi: #009688;
+  --skill-mongodb: #47a248;
+  --skill-firebase: #ffca28;
+  --skill-restful: #ff5722;
+  --skill-graphql: #e10098;
+  
+  /* DevOps 색상 */
+  --skill-docker: #2496ed;
+  --skill-redis: #dc382d;
+  --skill-aws: #ff9900;
+  --skill-vercel: #000000;
+  --skill-git: #f05032;
+  --skill-cicd: #2088ff;
+  
+  /* Tools 색상 */
+  --skill-figma: #f24e1e;
+  --skill-blender: #f5792a;
+  --skill-vscode: #007acc;
+  --skill-jest: #c21325;
+  --skill-webpack: #8dd6f9;
+  --skill-agile: #ff6b35;
+  --skill-uiux: #9c27b0;
+}
+
+/* 
+색상 변경 방법:
+1. 위의 색상 변수 값을 원하는 색상으로 변경하세요
+2. 예: --skill-react: #ff0000; (React를 빨간색으로 변경)
+3. 색상은 hex 코드(#ffffff), rgb(rgb(255,255,255)), 또는 hsl(hsl(0,0%,100%)) 형식을 사용할 수 있습니다
+
+현재 사용 중인 기술들:
+- Language: TypeScript, JavaScript, Python, Java, C++
+- Frontend: React, Next.js, Vite, HTML5, CSS3, Tailwind CSS, Sass, Responsive Design
+- Backend: Node.js, Express, MongoDB, Firebase, RESTful API, GraphQL
+- DevOps: Docker, AWS, Vercel, Git & GitHub, CI/CD
+- Tools: Figma, VS Code, Jest, Webpack, Agile/Scrum, UI/UX
+*/
