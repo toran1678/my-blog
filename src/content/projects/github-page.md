@@ -1,9 +1,9 @@
 ---
 title: "개인 포트폴리오 블로그"
-date: "2024-12-19"
+date: "2025-01-01"
 tags: [React, Vite, JavaScript, CSS, Markdown, Portfolio, Blog]
 excerpt: "React와 Vite를 활용하여 개발한 개인 포트폴리오 블로그입니다. 마크다운 기반 콘텐츠 관리, 다크모드 지원, 반응형 디자인 등의 웹 개발 기술을 적용했습니다."
-coverImage: "/my-blog/images/profile.png"
+coverImage: "/my-blog/images/project_img/github-page/blog.png"
 ---
 
 # React 기반 개인 포트폴리오 블로그
