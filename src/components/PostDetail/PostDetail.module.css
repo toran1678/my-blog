@@ -32,7 +32,7 @@
 
 .postHeroContent {
   text-align: center;
-  max-width: 800px;
+  max-width: 900px; /* 800px에서 900px로 변경하여 본문과 동일하게 */
   margin: 0 auto 2rem;
   padding: 0 1rem;
 }
@@ -123,9 +123,10 @@ html.dark-theme .tagPill:hover,
 
 .coverImageWrapper {
   position: relative;
-  width: 85%; /* 100%에서 85%로 줄임 */
+  width: 100%; /* 85%에서 100%로 변경하여 본문과 동일한 너비 */
+  max-width: 900px; /* 본문과 동일한 최대 너비 설정 */
   height: 0;
-  padding-bottom: 34%; /* 40%에서 34%로 줄임 (비율 유지) */
+  padding-bottom: 50%; /* 34%에서 50%로 변경 (프로젝트와 동일한 비율) */
   overflow: hidden;
   margin: 0 auto; /* 중앙 정렬 */
   border-radius: var(--border-radius);
@@ -307,7 +308,7 @@ html.dark-theme .tag:hover,
   }
 
   .coverImageWrapper {
-    padding-bottom: 50%;
+    padding-bottom: 50%; /* 프로젝트와 동일한 비율 유지 */
   }
 
   .postContentWrapper {
@@ -336,11 +337,12 @@ html.dark-theme .tag:hover,
   }
 
   .postHeroContent {
-    padding: 0;
+    padding: 0 1rem; /* 모바일에서도 좌우 패딩 유지 */
+    max-width: 900px; /* 모바일에서도 동일한 최대 너비 유지 */
   }
 
   .coverImageWrapper {
-    padding-bottom: 60%;
+    padding-bottom: 60%; /* 모바일에서 약간 더 높은 비율 */
   }
 }
 
@@ -364,6 +366,6 @@ html.dark-theme .tag:hover,
   }
 
   .coverImageWrapper {
-    padding-bottom: 75%;
+    padding-bottom: 75%; /* 작은 모바일에서 더 높은 비율 */
   }
 }

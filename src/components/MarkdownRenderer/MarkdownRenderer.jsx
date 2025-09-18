@@ -88,16 +88,52 @@ export default function MarkdownRenderer({ content }) {
         rehypePlugins={[rehypeRaw]}
         components={{
           img: (props) => {
-            const imgSrc = getImageUrl(props.src)
-            try { debugImagePath(props.src, imgSrc) } catch { /* noop */ }
+            // 이미지 크기 파싱 (|숫자 문법 지원)
+            const parseImageSize = (src) => {
+              // URL 디코딩 먼저 수행
+              const decodedSrc = decodeURIComponent(src)
+              
+              // | 또는 %7C로 끝나는 패턴 매치
+              const sizeMatch = decodedSrc.match(/^(.+?)(?:\||%7C)(\d+)$/)
+              if (sizeMatch) {
+                return {
+                  src: sizeMatch[1], // | 앞의 부분
+                  width: parseInt(sizeMatch[2])
+                }
+              }
+              return { src: decodedSrc, width: null }
+            }
+
+            const { src: originalSrc, width: imageWidth } = parseImageSize(props.src)
+            const imgSrc = getImageUrl(originalSrc)
+            
+            // 디버깅을 위한 로그 추가
+            console.log('이미지 파싱 결과:', {
+              originalSrc: props.src,
+              parsedSrc: originalSrc,
+              imageWidth: imageWidth,
+              finalUrl: imgSrc
+            })
+            
+            try { debugImagePath(originalSrc, imgSrc) } catch { /* noop */ }
+            
+            // 이미지 크기 스타일 적용
+            const imageStyle = imageWidth ? { 
+              maxWidth: `${imageWidth}px`,
+              width: `${imageWidth}px`,
+              height: 'auto'
+            } : {}
+            
             return (
               <div className="markdown-image-container fancy">
-                <div className="image-wrapper">
+                <div className="image-wrapper" style={imageStyle}>
                   <img
                     src={imgSrc}
                     alt={props.alt || "이미지"}
                     className="markdown-image"
+                    style={imageStyle}
                     onError={(e) => {
+                      console.error('이미지 로드 실패:', imgSrc)
                       e.currentTarget.style.display = "none"
                       const placeholder = e.currentTarget.nextElementSibling
                       if (placeholder) placeholder.style.display = "flex"
@@ -116,7 +152,7 @@ export default function MarkdownRenderer({ content }) {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        class="lucide-image-icon">
+                        className="lucide-image-icon">
                           <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/>
                           <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                         </svg>

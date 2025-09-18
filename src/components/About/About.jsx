@@ -399,11 +399,11 @@ export default function About() {
                         <div className={styles.timelineProject}>
                           <div className={styles.projectBar}>|</div>
                           <div className={styles.projectContent}>
-                            <h4 className={styles.projectTitle}>뉴스 검색 & 요약 서비스 개발</h4>
+                            <h4 className={styles.projectTitle}>뉴스 감성 분석 & 요약 및 주가 예측 서비스 개발</h4>
                             <div className={styles.projectDate}>2024년 상반기</div>
                             <p className={styles.projectDescription}>
                               OpenAI API를 활용한 뉴스 자동 요약 및 검색 기능을 제공하는 
-                              파이썬 프로그램 개발
+                              파이썬 프로그램 개발(LSTM 모델을 사용한 주가 예측, NewsAPI와 OpenAI를 사용한 뉴스 검색 및 요약, 카카오 API를 통해 예측 결과를 카카오톡으로 전송)
                             </p>
                           </div>
                         </div>
