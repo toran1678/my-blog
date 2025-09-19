@@ -117,12 +117,36 @@ export default function MarkdownRenderer({ content }) {
             
             try { debugImagePath(originalSrc, imgSrc) } catch { /* noop */ }
             
-            // 이미지 크기 스타일 적용
-            const imageStyle = imageWidth ? { 
-              maxWidth: `${imageWidth}px`,
-              width: `${imageWidth}px`,
-              height: 'auto'
-            } : {}
+            // 이미지 크기 스타일 적용 (모바일 반응형 고려)
+            const getResponsiveImageStyle = (width) => {
+              if (!width) return {}
+              
+              // 화면 너비에 따른 최대 크기 계산
+              const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 1200
+              
+              // 모바일/태블릿/데스크톱에 따른 최대 크기 설정
+              let maxWidth
+              if (screenWidth <= 480) {
+                maxWidth = screenWidth - 32 // 작은 모바일: 16px 패딩씩
+              } else if (screenWidth <= 768) {
+                maxWidth = Math.min(screenWidth - 32, 400) // 모바일: 32px 패딩
+              } else if (screenWidth <= 1024) {
+                maxWidth = Math.min(screenWidth - 64, 600) // 태블릿: 64px 패딩
+              } else {
+                maxWidth = width // 데스크톱: 설정된 크기 그대로
+              }
+              
+              // 설정된 크기와 화면 크기 중 작은 값 선택
+              const finalWidth = Math.min(width, maxWidth)
+              
+              return {
+                maxWidth: `${finalWidth}px`,
+                width: `${finalWidth}px`,
+                height: 'auto'
+              }
+            }
+            
+            const imageStyle = getResponsiveImageStyle(imageWidth)
             
             return (
               <div className="markdown-image-container fancy">

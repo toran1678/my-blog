@@ -93,30 +93,96 @@ export default function TableOfContents({ content, containerRef }) {
   useEffect(() => {
     if (headings.length === 0) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (a.target.offsetTop || 0) - (b.target.offsetTop || 0))
-        const top = visible[0]
-        if (top && top.target.id !== activeId) {
-          setActiveId(top.target.id)
+    let scrollTimeout
+    let isScrolling = false
+
+    const findActiveHeading = () => {
+      const scrollY = window.scrollY
+      const headerHeight = 80
+      const currentPosition = scrollY + headerHeight + 20 // 헤더 아래 20px 지점
+      
+      const elements = headings
+        .map((h) => document.getElementById(h.id))
+        .filter(Boolean)
+      
+      if (elements.length === 0) return
+      
+      let activeHeading = null
+      let minDistance = Infinity
+      
+      // 모든 헤딩을 확인하여 현재 위치에 가장 가까운 헤딩 찾기
+      elements.forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        const elementTop = rect.top + window.scrollY
+        const elementBottom = elementTop + rect.height
+        
+        // 헤딩이 현재 뷰포트에 보이는지 확인
+        const isVisible = elementTop <= currentPosition && elementBottom > scrollY
+        
+        if (isVisible) {
+          // 보이는 헤딩 중에서 현재 위치에 가장 가까운 것 선택
+          const distance = Math.abs(elementTop - currentPosition)
+          if (distance < minDistance) {
+            minDistance = distance
+            activeHeading = el
+          }
+        } else if (elementTop > currentPosition) {
+          // 현재 위치보다 아래에 있는 헤딩이면, 이전 헤딩이 활성화되어야 함
+          const distance = elementTop - currentPosition
+          if (distance < minDistance) {
+            minDistance = distance
+            // 이전 헤딩을 찾기 위해 현재 인덱스에서 -1
+            const currentIndex = elements.indexOf(el)
+            if (currentIndex > 0) {
+              activeHeading = elements[currentIndex - 1]
+            }
+          }
         }
-      },
-      {
-        root: null,
-        rootMargin: "-120px 0px 0px 0px", // 헤더 높이 보정 (scroll-margin-top과 맞춤)
-        threshold: 0.1,
+      })
+      
+      // 활성 헤딩이 없으면 첫 번째 헤딩을 활성화
+      if (!activeHeading && elements.length > 0) {
+        activeHeading = elements[0]
       }
-    )
+      
+      if (activeHeading && activeHeading.id !== activeId) {
+        console.log('목차 활성화:', {
+          newActiveId: activeHeading.id,
+          oldActiveId: activeId,
+          scrollY: scrollY,
+          currentPosition: currentPosition,
+          headingText: activeHeading.textContent
+        })
+        setActiveId(activeHeading.id)
+      }
+    }
 
-    const elements = headings
-      .map((h) => document.getElementById(h.id))
-      .filter(Boolean)
-    elements.forEach((el) => observer.observe(el))
+    // 스크롤 이벤트 핸들러 (throttle 적용)
+    const handleScroll = () => {
+      if (isScrolling) return
+      
+      isScrolling = true
+      if (scrollTimeout) clearTimeout(scrollTimeout)
+      
+      scrollTimeout = setTimeout(() => {
+        findActiveHeading()
+        isScrolling = false
+      }, 50) // 50ms throttle
+    }
 
-    return () => observer.disconnect()
-  }, [headings, activeId])
+    // 초기 실행
+    findActiveHeading()
+
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+      if (scrollTimeout) clearTimeout(scrollTimeout)
+    }
+  }, [headings]) // activeId 의존성 제거로 무한 루프 방지
 
   // 활성화된 목차 항목으로 자동 스크롤
   useEffect(() => {

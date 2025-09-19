@@ -681,6 +681,24 @@
   .specialBlock .blockContent {
     padding: 1.2rem;
   }
+
+  /* 모바일에서 이미지 크기 제한 */
+  .markdownContent :global(.markdown-image-container) {
+    margin: 1.5rem 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .markdownContent :global(.markdown-image-container .image-wrapper) {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .markdownContent :global(.markdown-image) {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -704,6 +722,24 @@
 
   .copyButton {
     align-self: flex-end;
+  }
+
+  /* 작은 모바일에서 이미지 크기 강제 제한 */
+  .markdownContent :global(.markdown-image-container) {
+    margin: 1rem 0;
+    padding: 0 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .markdownContent :global(.markdown-image-container .image-wrapper) {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .markdownContent :global(.markdown-image) {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
   }
 }
 

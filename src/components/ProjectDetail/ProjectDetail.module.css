@@ -289,33 +289,35 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
 
 .floatingToc {
   position: fixed;
-  top: 6rem;
-  right: 14rem;
-  z-index: 100;
+  top: calc(var(--header-height) + 8px);
+  right: max(24px, calc((100vw - var(--max-width)) / 2 + -80px));
+  z-index: 30;
+  pointer-events: auto;
+  opacity: 0.9;
   transition: opacity 0.3s ease;
 }
 
 /* 반응형 목차 스타일 */
 @media (max-width: 1200px) {
   .floatingToc {
-    right: 3rem;
+    right: max(24px, calc((100vw - var(--max-width)) / 2 + -80px));
   }
 }
 
 @media (max-width: 1024px) {
   .floatingToc {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    top: auto;
-    z-index: 100;
+    top: calc(var(--header-height) + 6px);
+    right: 8px;
+  }
+  .floatingToc :global(.tableOfContents) {
+    width: min(88vw, 320px);
   }
 }
 
 @media (max-width: 768px) {
   .floatingToc {
     right: 0.5rem;
-    bottom: 0.5rem;
+    top: calc(var(--header-height) + 4px);
   }
 }
 
@@ -323,7 +325,7 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
   .floatingToc {
     right: 1rem;
     left: 1rem;
-    bottom: 1rem;
+    top: calc(var(--header-height) + 4px);
   }
 }
 

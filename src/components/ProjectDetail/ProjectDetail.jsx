@@ -55,7 +55,7 @@ export default function ProjectDetail() {
     const updateTocVisibility = () => {
       if (!heroRef.current) return
       
-      const headerHeight = 100
+      const headerHeight = 80 // 일반 포스트와 동일하게 조정
       const heroRect = heroRef.current.getBoundingClientRect()
       
       // 커버 이미지 하단이 헤더 아래로 사라지면 목차 표시
@@ -223,7 +223,7 @@ export default function ProjectDetail() {
         aria-label="본문 목차"
         style={{ 
           opacity: tocOpacity,
-          pointerEvents: tocOpacity > 0 ? 'auto' : 'none',
+          pointerEvents: 'auto', // 항상 활성화하여 목차 기능 정상 작동
           transition: 'opacity 0.3s ease'
         }}
       >

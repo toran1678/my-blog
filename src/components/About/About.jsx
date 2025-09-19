@@ -383,6 +383,19 @@ export default function About() {
                             </p>
                           </div>
                         </div>
+
+                        <div className={styles.timelineProject}>
+                          <div className={styles.projectBar}>|</div>
+                          <div className={styles.projectContent}>
+                            <h4 className={styles.projectTitle}>맛집 추천 커뮤니티 ( 맛스팟 MatSpot )</h4>
+                            <div className={styles.projectDate}>2025년 하반기</div>
+                            <p className={styles.projectDescription}>
+                              사용자들이 쉽고 재미있게 주변 맛집 정보를 공유하고,
+                              다른 사용자들의 추천을 받아 새로운 맛집을 발견할 수 있도록 하는 커뮤니티 기반 웹 서비스.
+                              Kakao 지도를 통해 직관적으로 맛집 위치를 확인하고, 다양한 필터와 검색 기능 지원
+                            </p>
+                          </div>
+                        </div>
                         
                         <div className={styles.timelineProject}>
                           <div className={styles.projectBar}>|</div>
@@ -402,7 +415,7 @@ export default function About() {
                             <h4 className={styles.projectTitle}>뉴스 감성 분석 & 요약 및 주가 예측 서비스 개발</h4>
                             <div className={styles.projectDate}>2024년 상반기</div>
                             <p className={styles.projectDescription}>
-                              OpenAI API를 활용한 뉴스 자동 요약 및 검색 기능을 제공하는 
+                              OpenAI를 활용한 뉴스 자동 요약 및 검색 기능을 제공하는 
                               파이썬 프로그램 개발(LSTM 모델을 사용한 주가 예측, NewsAPI와 OpenAI를 사용한 뉴스 검색 및 요약, 카카오 API를 통해 예측 결과를 카카오톡으로 전송)
                             </p>
                           </div>

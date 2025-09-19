@@ -92,9 +92,13 @@
   }
   
   .tocItem.active .tocLink {
-    color: var(--primary-color);
-    border-left-color: var(--primary-color);
-    font-weight: 600;
+    color: var(--primary-color) !important;
+    border-left-color: var(--primary-color) !important;
+    font-weight: 700 !important;
+    background-color: rgba(var(--primary-rgb), 0.15) !important;
+    border-radius: 6px !important;
+    transform: translateX(3px) !important;
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2) !important;
   }
   
   .tocLink:hover {
