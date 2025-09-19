@@ -157,8 +157,22 @@ excerpt: "포스트 요약"
 - 관련 프로젝트 추천
 - 페이지네이션 지원
 
+## 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
 ## 연락처
 
 - **이메일**: toran16784@gmail.com
 - **GitHub**: [@toran1678](https://github.com/toran1678)
 - **포트폴리오**: [https://toran1678.github.io/my-blog](https://toran1678.github.io/my-blog)
+
+---
+
+<div align="center">
+
+⭐ 이 프로젝트가 도움이 되었다면 Star를 눌러주세요!
+
+Made with ❤️ by [toran1678](https://github.com/toran1678)
+
+</div>
