@@ -7,9 +7,26 @@ import PropTypes from "prop-types"
 export default function TableOfContents({ content, containerRef }) {
   const [headings, setHeadings] = useState([])
   const [activeId, setActiveId] = useState("")
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(() => {
+    // 모바일에서는 접힌 상태로 시작, 데스크톱에서는 열린 상태로 시작
+    return typeof window !== 'undefined' ? window.innerWidth > 1024 : true
+  })
   const tocRef = useRef(null)
   const tocContentRef = useRef(null)
+
+  // 창 크기 변경 시 목차 상태 조정
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth <= 1024
+      if (isMobile && isOpen) {
+        // 모바일로 변경될 때 자동으로 접기
+        setIsOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [isOpen])
 
   // 한글 포함 유니코드 안전 슬러그 생성
   const slugify = (text) => {
@@ -182,7 +199,7 @@ export default function TableOfContents({ content, containerRef }) {
       window.removeEventListener('resize', handleScroll)
       if (scrollTimeout) clearTimeout(scrollTimeout)
     }
-  }, [headings]) // activeId 의존성 제거로 무한 루프 방지
+  }, [headings]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 활성화된 목차 항목으로 자동 스크롤
   useEffect(() => {

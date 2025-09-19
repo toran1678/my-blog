@@ -41,6 +41,7 @@
   
   .tocContent {
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: calc(100vh - 15rem);
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) transparent;
@@ -86,19 +87,34 @@
     border: none;
     cursor: pointer;
     width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
   }
   
   .tocItem.active .tocLink {
     color: var(--primary-color) !important;
     border-left-color: var(--primary-color) !important;
-    font-weight: 700 !important;
     background-color: rgba(var(--primary-rgb), 0.15) !important;
     border-radius: 6px !important;
     transform: translateX(3px) !important;
     box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2) !important;
+  }
+  
+  /* 레벨별 활성 상태 강조 */
+  .level1.active .tocLink {
+    font-weight: 700 !important;
+    border-left-width: 4px !important;
+  }
+  
+  .level2.active .tocLink {
+    font-weight: 600 !important;
+    border-left-width: 3px !important;
+  }
+  
+  .level3.active .tocLink {
+    font-weight: 500 !important;
+    border-left-width: 2px !important;
   }
   
   .tocLink:hover {
@@ -106,22 +122,61 @@
     background-color: rgba(var(--primary-rgb), 0.08);
     border-left-color: var(--primary-color);
     border-radius: 4px;
+    transform: translateX(2px);
   }
   
-  /* 헤딩 레벨에 따른 들여쓰기 */
+  /* 레벨별 호버 효과 */
+  .level1 .tocLink:hover {
+    border-left-width: 4px;
+  }
+  
+  .level2 .tocLink:hover {
+    border-left-width: 3px;
+  }
+  
+  .level3 .tocLink:hover {
+    border-left-width: 2px;
+  }
+  
+  /* 헤딩 레벨에 따른 구분 */
   .level1 .tocLink {
     padding-left: 0.8rem;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    border-left-width: 3px;
+  }
+  
+  .level1 .tocItem {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    padding-bottom: 0.5rem;
   }
   
   .level2 .tocLink {
-    padding-left: 1.5rem;
+    padding-left: 1.6rem;
     font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    border-left-color: var(--primary-color);
+    border-left-width: 2px;
+  }
+  
+  .level2 .tocItem {
+    margin-bottom: 0.6rem;
   }
   
   .level3 .tocLink {
-    padding-left: 2.2rem;
+    padding-left: 2.4rem;
     font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-light);
+    border-left-color: var(--medium-gray);
+    border-left-width: 1px;
+  }
+  
+  .level3 .tocItem {
+    margin-bottom: 0.4rem;
   }
   
   /* 닫힌 상태 */

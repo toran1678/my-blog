@@ -194,11 +194,14 @@ export default function MarkdownRenderer({ content }) {
 
           // p 태그 커스텀 처리
           p: ({ node, children, ...props }) => {
-            // 자식 요소 중에 이미지가 있는지 확인
-            const hasImageChild = node?.children?.some?.((child) => child.type === "element" && child.tagName === "img")
+            // 자식 요소 중에 이미지나 코드 블록이 있는지 확인
+            const hasInvalidChild = node?.children?.some?.((child) => 
+              (child.type === "element" && child.tagName === "img") ||
+              (child.type === "element" && child.tagName === "pre")
+            )
 
-            // 이미지가 있는 경우 p 태그 대신 div 사용
-            if (hasImageChild) {
+            // 이미지나 코드 블록이 있는 경우 p 태그 대신 div 사용
+            if (hasInvalidChild) {
               return <div {...props}>{children}</div>
             }
 
