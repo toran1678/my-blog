@@ -3,9 +3,7 @@ title: "포트폴리오 웹사이트"
 date: "2023-05-15"
 tags: [React, Vite, CSS]
 excerpt: "React와 Vite를 사용하여 만든 개인 포트폴리오 웹사이트입니다."
-coverImage: "/my-blog/images/1.png"
-demoUrl: "https://example.com/demo"
-repoUrl: "https://github.com/username/portfolio"
+# coverImage: "/my-blog/images/1.png"
 ---
 
 # 포트폴리오 웹사이트
