@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://toran1678.github.io/my-blog/sitemap.xml
