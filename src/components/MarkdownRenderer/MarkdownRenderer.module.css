@@ -79,11 +79,9 @@
   min-height: 220px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06), rgba(0,0,0,0.04));
-  background-size: 200% 100%;
-  animation: placeholderShimmer 1.2s linear infinite;
+  background-color: #f5f5f7;
   border-radius: var(--border-radius);
-  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
 }
 
 .markdownContent :global(.placeholder-content) {
@@ -91,27 +89,45 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1.25rem;
   padding: 2rem;
 }
 
 .markdownContent :global(.placeholder-icon) {
-  color: rgba(var(--primary-rgb), 0.55);
-  margin-bottom: 0.6rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.markdownContent :global(.placeholder-icon svg) {
+  width: 48px;
+  height: 48px;
 }
 
 .markdownContent :global(.placeholder-text) {
   font-size: 0.95rem;
-  color: var(--text-light);
-  background: rgba(255,255,255,0.75);
-  padding: 0.35rem 0.7rem;
-  border-radius: 6px;
-  backdrop-filter: blur(2px);
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  letter-spacing: 0.01em;
 }
 
-@keyframes placeholderShimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+/* 다크 모드 스타일 */
+html.dark-theme .markdownContent :global(.markdown-image-placeholder),
+[data-theme="dark"] .markdownContent :global(.markdown-image-placeholder) {
+  background-color: #1e1e24;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark-theme .markdownContent :global(.placeholder-icon),
+[data-theme="dark"] .markdownContent :global(.placeholder-icon) {
+  color: #888;
+}
+
+html.dark-theme .markdownContent :global(.placeholder-text),
+[data-theme="dark"] .markdownContent :global(.placeholder-text) {
+  color: #aaa;
 }
 
 /* 타이포그래피 */

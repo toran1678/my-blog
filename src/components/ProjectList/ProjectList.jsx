@@ -14,6 +14,7 @@ export default function ProjectList() {
   const [loading, setLoading] = useState(true)
   const [selectedTag, setSelectedTag] = useState(null)
   const [allTags, setAllTags] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 6
 
@@ -34,18 +35,6 @@ export default function ProjectList() {
         const projectData = await getProjects()
         setProjects(projectData)
 
-        // URL에서 태그 파라미터가 있으면 해당 태그로 필터링
-        const params = new URLSearchParams(location.search)
-        const tagParam = params.get("tag")
-
-        if (tagParam) {
-          setSelectedTag(tagParam)
-          const filtered = projectData.filter((project) => project.tags && project.tags.includes(tagParam))
-          setFilteredProjects(filtered)
-        } else {
-          setFilteredProjects(projectData)
-        }
-
         // 모든 프로젝트에서 고유한 태그 추출
         const tags = new Set()
         projectData.forEach((project) => {
@@ -62,7 +51,7 @@ export default function ProjectList() {
     }
 
     loadProjects()
-  }, [location.search])
+  }, [])
 
   // 태그 선택 시 프로젝트 필터링
   const handleTagSelect = (tag) => {
@@ -83,6 +72,26 @@ export default function ProjectList() {
     // 태그 변경 시 페이지 1로 이동
     setCurrentPage(1)
   }
+
+  // 검색어와 태그에 따른 프로젝트 필터링
+  useEffect(() => {
+    let filtered = projects
+
+    // 태그 필터링
+    if (selectedTag) {
+      filtered = filtered.filter((project) => project.tags && project.tags.includes(selectedTag))
+    }
+
+    // 검색어 필터링 (제목 검색)
+    if (searchTerm.trim()) {
+      const q = searchTerm.trim().toLowerCase()
+      filtered = filtered.filter((project) => (project.title || "").toLowerCase().includes(q))
+    }
+
+    setFilteredProjects(filtered)
+    // 필터 변경 시 페이지를 1페이지로 리셋
+    setCurrentPage(1)
+  }, [projects, selectedTag, searchTerm])
 
   // 페이지네이션 계산
   const totalItems = filteredProjects.length
@@ -149,8 +158,18 @@ export default function ProjectList() {
       {/* 태그 필터 컴포넌트 */}
       {allTags.length > 0 && (
         <div className={styles.filterSection}>
-          <h2 className={styles.filterTitle}>기술 스택으로 필터링</h2>
-          <TagFilter tags={allTags} selectedTag={selectedTag} onTagSelect={handleTagSelect} />
+          <h2 className={styles.filterTitle}>제목 + 기술 스택으로 필터링</h2>
+          <TagFilter
+            tags={allTags}
+            selectedTag={selectedTag}
+            onTagSelect={handleTagSelect}
+            onSearchChange={setSearchTerm}
+            filterTagsBySearch={false}
+            searchPlaceholder="프로젝트 제목 검색..."
+            posts={projects}
+            showAutocomplete={true}
+            itemType="project"
+          />
         </div>
       )}
 

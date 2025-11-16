@@ -169,6 +169,8 @@ export default function PostList() {
             onSearchChange={setSearchTerm}
             filterTagsBySearch={false}
             searchPlaceholder="게시글 제목 검색..."
+            posts={posts}
+            showAutocomplete={true}
           />
         </div>
       )}

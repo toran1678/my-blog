@@ -6,6 +6,7 @@
   position: relative;
   margin-bottom: 1rem;
   max-width: 400px;
+  z-index: 100;
 }
 
 .searchInput {
@@ -118,6 +119,91 @@ html.dark-theme .activeTag,
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
+/* 자동완성 드롭다운 스타일 */
+.autocompleteDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.25rem;
+  background-color: var(--white);
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: var(--text-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover,
+.suggestionItem.highlighted {
+  background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.suggestionIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+.suggestionText {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 다크 모드 자동완성 스타일 */
+html.dark-theme .autocompleteDropdown,
+[data-theme="dark"] .autocompleteDropdown {
+  background-color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-theme .suggestionItem,
+[data-theme="dark"] .suggestionItem {
+  color: #f0f0f0;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark-theme .suggestionItem:hover,
+html.dark-theme .suggestionItem.highlighted,
+[data-theme="dark"] .suggestionItem:hover,
+[data-theme="dark"] .suggestionItem.highlighted {
+  background-color: rgba(var(--primary-rgb), 0.2);
+}
+
+html.dark-theme .suggestionIcon,
+[data-theme="dark"] .suggestionIcon {
+  color: #aaa;
+  opacity: 0.8;
+}
+
 @media (max-width: 768px) {
   .tagList {
     gap: 0.5rem;
@@ -127,5 +213,17 @@ html.dark-theme .activeTag,
     font-size: 0.85rem;
     padding: 0.5rem 1rem;
     font-weight: 600;
+  }
+
+  .autocompleteDropdown {
+    max-height: 250px;
+  }
+
+  .suggestionItem {
+    padding: 0.65rem 0.85rem;
+  }
+
+  .suggestionText {
+    font-size: 0.85rem;
   }
 }

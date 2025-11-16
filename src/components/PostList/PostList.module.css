@@ -172,7 +172,8 @@ html.dark-theme .postCard:hover,
 .postContent {
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 100%;
+  flex-grow: 1;
 }
 
 .imageLink {
@@ -232,6 +233,7 @@ html.dark-theme .featuredTag,
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-height: 0;
   background-color: var(--white);
 }
 
@@ -271,7 +273,7 @@ html.dark-theme .featuredTag,
 }
 
 .postExcerpt {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--text-color);
   line-height: 1.6;
   font-size: 0.95rem;
@@ -287,6 +289,8 @@ html.dark-theme .featuredTag,
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .postTags {
@@ -328,6 +332,11 @@ html.dark-theme .tag,
 html.dark-theme .tag:hover,
 [data-theme="dark"] .tag:hover {
   background-color: rgba(79, 192, 255, 0.5) !important;
+}
+
+html.dark-theme .postFooter,
+[data-theme="dark"] .postFooter {
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .readMore {
