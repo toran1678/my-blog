@@ -158,14 +158,14 @@ export default function ProjectList() {
       {/* 태그 필터 컴포넌트 */}
       {allTags.length > 0 && (
         <div className={styles.filterSection}>
-          <h2 className={styles.filterTitle}>제목 + 기술 스택으로 필터링</h2>
+          <h2 className={styles.filterTitle}>제목 + 태그로 필터링</h2>
           <TagFilter
             tags={allTags}
             selectedTag={selectedTag}
             onTagSelect={handleTagSelect}
             onSearchChange={setSearchTerm}
             filterTagsBySearch={false}
-            searchPlaceholder="프로젝트 제목 검색..."
+            searchPlaceholder="프로젝트 제목 검색"
             posts={projects}
             showAutocomplete={true}
             itemType="project"

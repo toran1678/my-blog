@@ -5,7 +5,6 @@ import { useParams, Link } from "react-router-dom"
 import { getPostBySlug } from "../../utils/markdownLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import TableOfContents from "../TableOfContents/TableOfContents"
-import { CoverPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
 import { getImageUrl, debugImagePath } from "../../utils/placeholderImage"
 import styles from "./PostDetail.module.css"
 
@@ -164,9 +163,9 @@ export default function PostDetail() {
           </div>
         </div>
 
-        {/* 커버 이미지 - 이미지가 없거나 로딩 실패 시 플레이스홀더 표시 */}
-        <div className={styles.coverImageWrapper}>
-          {coverImageUrl && !imageError ? (
+        {/* 커버 이미지 - 존재할 때만 표시 */}
+        {coverImageUrl && !imageError ? (
+          <div className={styles.coverImageWrapper}>
             <div className={styles.coverImageContainer}>
               <img
                 src={coverImageUrl || "/placeholder.svg"}
@@ -178,12 +177,8 @@ export default function PostDetail() {
                 }}
               />
             </div>
-          ) : (
-            <div className={styles.placeholderContainer}>
-              <CoverPlaceholder title={post.title} />
-            </div>
-          )}
-        </div>
+          </div>
+        ) : null}
       </div>
       {/* 커버 하단 센티넬: 이 지점을 지나면 목차 표시 */}
       <div ref={heroEndRef} className={styles.heroEndSentinel} aria-hidden="true" />

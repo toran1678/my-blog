@@ -510,13 +510,31 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 
 /* 코드 */
 .inlineCode {
-  background-color: rgba(var(--primary-rgb), 0.1);
-  color: var(--primary-color);
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
+  background-color: rgba(27, 31, 35, 0.06);
+  color: #24292e;
+  padding: 0.18rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.92em;
+  line-height: 1.2;
   white-space: nowrap;
+}
+
+/* 단일 줄 코드블록을 인라인 형태로 축소 표시 */
+.inlineCodeBlock {
+  display: inline-block;
+  margin: 0.25rem 0;
+}
+
+/* 다크 모드 인라인 코드 */
+html.dark-theme .inlineCode,
+[data-theme="dark"] .inlineCode {
+  background-color: #2a2f3a;
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .codeBlockContainer {
@@ -809,10 +827,16 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 
 /* 첫 번째 단락 스타일 */
 .markdownContent > p:first-of-type {
-  font-size: 1.2rem;
+  /* 과도한 크기 증가를 제거하여 헤딩처럼 보이는 문제 방지 */
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 1.7;
   margin-bottom: 2rem;
+}
+
+/* 첫 문장이 인라인 코드로 시작해도 기본 크기를 유지 */
+.markdownContent > p:first-of-type code:first-child.inlineCode {
+  font-size: 0.92em;
 }
 
 /* 코드 블록 내 줄 번호 스타일 */

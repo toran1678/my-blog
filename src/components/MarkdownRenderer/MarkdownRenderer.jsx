@@ -212,6 +212,20 @@ export default function MarkdownRenderer({ content }) {
             const match = /language-(\w+)/.exec(className || "")
             const language = match ? match[1] : ""
 
+            // 단일 줄 코드 블록을 인라인 스타일로 축소 표시
+            if (!inline) {
+              const raw = String(children).replace(/\n$/, "")
+              const isSingleLine = !raw.includes("\n")
+
+              if (!language && isSingleLine) {
+                return (
+                  <code className={`${styles.inlineCode} ${styles.inlineCodeBlock}`} {...props}>
+                    {raw}
+                  </code>
+                )
+              }
+            }
+
             return !inline ? (
               <div className={styles.codeBlockContainer}>
                 <div className={styles.codeHeader}>

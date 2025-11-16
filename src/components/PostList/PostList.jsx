@@ -161,14 +161,14 @@ export default function PostList() {
 
       {allTags.length > 0 && (
         <div className={styles.filterSection}>
-          <h2 className={styles.filterTitle}>태그 + 제목으로 필터링</h2>
+          <h2 className={styles.filterTitle}>제목 + 태그로 필터링</h2>
           <TagFilter
             tags={allTags}
             selectedTag={selectedTag}
             onTagSelect={handleTagSelect}
             onSearchChange={setSearchTerm}
             filterTagsBySearch={false}
-            searchPlaceholder="게시글 제목 검색..."
+            searchPlaceholder="게시글 제목 검색"
             posts={posts}
             showAutocomplete={true}
           />
