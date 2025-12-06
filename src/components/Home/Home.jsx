@@ -72,7 +72,7 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            안녕하세요, <span className={styles.highlight}>선빈</span>의<br />
+            안녕하세요, <span className={styles.highlight}>TORAN</span>의<br />
             포트폴리오입니다
           </h1>
           <p className={styles.heroSubtitle}>웹 개발자로서의 저의 여정과 프로젝트들을 소개합니다</p>

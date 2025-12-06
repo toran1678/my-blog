@@ -48,7 +48,7 @@ function LayoutContent() {
         <div className={styles.headerContent}>
           <div className={styles.logo}>
             <Link to="/" className={styles.logoLink}>
-              <span className={styles.logoText}>선빈's</span>
+              <span className={styles.logoText}>TORAN's</span>
               <span className={styles.logoAccent}>Blog</span>
             </Link>
           </div>
@@ -97,7 +97,7 @@ function LayoutContent() {
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerInfo}>
-            <p className={styles.copyright}>© {new Date().getFullYear()} 선빈's Blog. All rights reserved.</p>
+            <p className={styles.copyright}>© {new Date().getFullYear()} TORAN's Blog. All rights reserved.</p>
             <p className={styles.footerText}>React와 Vite로 제작된 포트폴리오 블로그입니다.</p>
           </div>
           <div className={styles.footerLinks}>
