@@ -34,9 +34,21 @@
       }
     </style>
     <base href="/my-blog/" />
+    <script>
+      // GitHub Pages에서 SPA 라우팅을 위한 처리
+      // 404.html이 표시될 때, 현재 경로를 유지하면서 React Router가 처리하도록 함
+      // GitHub Pages는 404 에러 시 404.html을 표시하지만, 브라우저 URL은 원래 경로를 유지함
+      // 따라서 React Router가 현재 URL을 읽어서 올바른 라우트를 렌더링할 수 있음
+      
+      // 단, /my-blog/404.html로 직접 접근한 경우에만 index.html로 리다이렉트
+      if (window.location.pathname.endsWith('/404.html')) {
+        window.location.replace('/my-blog/index.html');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>
   </body>
 </html>
+
