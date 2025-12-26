@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import PropTypes from "prop-types"
 import styles from "./About.module.css"
 
 export default function About() {
@@ -34,12 +35,204 @@ export default function About() {
     }
   }, [])
 
+  const skillGroups = [
+    {
+      title: "Language",
+      variant: "language",
+      items: ["TypeScript", "JavaScript", "Python", "Java", "C/C++"],
+    },
+    {
+      title: "Frontend",
+      variant: "frontend",
+      items: ["React", "Next.js", "Vite", "HTML", "CSS", "Sass", "Tailwind CSS", "Responsive Design"],
+    },
+    {
+      title: "Backend",
+      variant: "backend",
+      items: ["Node.js", "Express", "FastAPI", "RESTful API", "GraphQL"],
+    },
+    {
+      title: "DevOps",
+      variant: "devops",
+      items: ["Docker", "Redis", "Git & GitHub", "CI/CD"],
+    },
+    {
+      title: "Tools",
+      variant: "tools",
+      items: ["Figma", "Blender", "VS Code", "Webpack", "UI/UX"],
+    },
+  ]
+
+  const skillPillVariants = {
+    TypeScript: "typescript",
+    JavaScript: "javascript",
+    Python: "python",
+    Java: "java",
+    "C/C++": "ccpp",
+    React: "react",
+    "Next.js": "nextjs",
+    Vite: "vite",
+    HTML: "html",
+    CSS: "css",
+    Sass: "sass",
+    "Tailwind CSS": "tailwind",
+    "Responsive Design": "responsive",
+    "Node.js": "nodejs",
+    Express: "express",
+    FastAPI: "fastapi",
+    "RESTful API": "restful",
+    GraphQL: "graphql",
+    Docker: "docker",
+    Redis: "redis",
+    "Git & GitHub": "git",
+    "CI/CD": "cicd",
+    Figma: "figma",
+    Blender: "blender",
+    "VS Code": "vscode",
+    Webpack: "webpack",
+    "UI/UX": "uiux",
+  }
+
+  const certifications = [
+    { name: "정보처리기사", date: "2025.09", issuer: "한국산업인력공단", status: "최종합격" },
+    { name: "1종보통운전면허 (오토)", date: "2025.02", issuer: "경찰청(운전면허시험관리단)", status: "최종합격" },
+    { name: "컴퓨터활용능력2급", date: "2018.10", issuer: "대한상공회의소", status: "최종합격" },
+  ]
+
+  const SkillGroupIcon = ({ variant }) => {
+    switch (variant) {
+      case "language":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={styles.categoryIcon}
+            aria-hidden="true"
+          >
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="m10 15-3-3 3-3" />
+            <path d="m14 9 3 3-3 3" />
+          </svg>
+        )
+      case "frontend":
+        return (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={styles.categoryIcon}
+            aria-hidden="true"
+          >
+            <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+            <path d="M7 20h10"></path>
+            <path d="M12 18v2"></path>
+          </svg>
+        )
+      case "backend":
+        return (
+          <svg
+            width="24px"
+            height="24px"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.categoryIcon}
+            aria-hidden="true"
+          >
+            <path
+              d="M4 6V12C4 12 4 15 11 15C18 15 18 12 18 12V6"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M11 3C18 3 18 6 18 6C18 6 18 9 11 9C4 9 4 6 4 6C4 6 4 3 11 3Z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M11 21C4 21 4 18 4 18V12"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M18 22H19.5H21M19.5 19.4286H21.8333V16H17.1666V19.4286H19.5Z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )
+      case "devops":
+        return (
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.categoryIcon}
+            aria-hidden="true"
+          >
+            <g>
+              <path
+                d="M46,24A12,12,0,0,0,34,12c-5.2,0-9.5,4.1-11.9,11.4C20.3,28.9,17.3,32,14,32a8,8,0,0,1,0-16h1.2l-1.6,1.6a1.9,1.9,0,0,0,.2,3,2.1,2.1,0,0,0,2.7-.2l4.9-5a1.9,1.9,0,0,0,0-2.8l-4.9-5a2.1,2.1,0,0,0-2.7-.2,1.9,1.9,0,0,0-.2,3L15.2,12H14a12,12,0,0,0,0,24c5.2,0,9.5-4.1,11.9-11.4C27.7,19.1,30.7,16,34,16a8,8,0,0,1,0,16H32.8l1.6-1.6a1.9,1.9,0,0,0-.2-3,2.1,2.1,0,0,0-2.7.2l-4.9,5a1.9,1.9,0,0,0,0,2.8l4.9,5a2.1,2.1,0,0,0,2.7.2,1.9,1.9,0,0,0,.2-3L32.8,36H34A12,12,0,0,0,46,24Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        )
+      case "tools":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className={styles.categoryIcon}
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
+            />
+          </svg>
+        )
+      default:
+        return null
+    }
+  }
+
+  SkillGroupIcon.propTypes = {
+    variant: PropTypes.string.isRequired,
+  }
+
   return (
     <div className={styles.aboutContainer}>
       <section className={styles.heroSection} id="hero" data-animate>
         <div className={`${styles.heroContent} ${isVisible["hero"] ? styles.visible : ""}`}>
           <h1 className={styles.heroTitle}>
-            안녕하세요, <span className={styles.highlight}>TORAN</span>입니다
+            안녕하세요, <span className={styles.highlight}>toran</span>입니다
           </h1>
           <p className={styles.heroSubtitle}>
             웹 개발에 열정을 가진 개발자입니다. 사용자 경험을 개선하고 효율적인 코드를 작성하는 것에 관심이 많습니다.
@@ -148,117 +341,44 @@ export default function About() {
           <div className={styles.tabContent}>
             {activeTab === "skills" && (
               <div className={styles.skillsTab}>
-                <div className={styles.skillCategory}>
-                  <h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.categoryIcon}>
-                      <rect width="18" height="18" x="3" y="3" rx="2"/>
-                      <path d="m10 15-3-3 3-3"/>
-                      <path d="m14 9 3 3-3 3"/>
-                    </svg>
-                    Language
-                  </h3>
-                  <div className={styles.skillBlocks}>
-                    <span className={styles.skillBlock} data-skill="typescript">TypeScript</span>
-                    <span className={styles.skillBlock} data-skill="javascript">JavaScript</span>
-                    <span className={styles.skillBlock} data-skill="python">Python</span>
-                    <span className={styles.skillBlock} data-skill="java">Java</span>
-                    <span className={styles.skillBlock} data-skill="c++">C</span>
-                  </div>
-                </div>
-
-                <div className={styles.skillCategory}>
-                  <h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={styles.categoryIcon} viewBox="0 0 16 16">
-                      <path d="M3 3.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
-                      <path d="M.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5zM1 5V2h14v3zm0 1h14v8H1z"/>
-                    </svg>
-                    Frontend
-                  </h3>
-                  <div className={styles.skillBlocks}>
-                    <span className={styles.skillBlock} data-skill="react">React</span>
-                    <span className={styles.skillBlock} data-skill="next.js">Next.js</span>
-                    <span className={styles.skillBlock} data-skill="vite">Vite</span>
-                    <span className={styles.skillBlock} data-skill="html5">HTML</span>
-                    <span className={styles.skillBlock} data-skill="css3">CSS</span>
-                    <span className={styles.skillBlock} data-skill="sass">Sass</span>
-                    <span className={styles.skillBlock} data-skill="tailwind">Tailwind CSS</span>
-                    <span className={styles.skillBlock} data-skill="responsive">Responsive Design</span>
-                  </div>
-                </div>
-
-                <div className={styles.skillCategory}>
-                  <h3>
-                    <svg width="24px" height="24px" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.categoryIcon}>
-                      <path d="M4 6V12C4 12 4 15 11 15C18 15 18 12 18 12V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M11 3C18 3 18 6 18 6C18 6 18 9 11 9C4 9 4 6 4 6C4 6 4 3 11 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M11 21C4 21 4 18 4 18V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M18 22H19.5H21M19.5 19.4286H21.8333V16H17.1666V19.4286H19.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Backend
-                  </h3>
-                  <div className={styles.skillBlocks}>
-                    <span className={styles.skillBlock} data-skill="node.js">Node.js</span>
-                    <span className={styles.skillBlock} data-skill="express">Express</span>
-                    <span className={styles.skillBlock} data-skill="fastapi">FastAPI</span>
-                    {/* <span className={styles.skillBlock} data-skill="mongodb">MongoDB</span> */}
-                    {/* <span className={styles.skillBlock} data-skill="firebase">Firebase</span> */}
-                    <span className={styles.skillBlock} data-skill="restful">RESTful API</span>
-                    <span className={styles.skillBlock} data-skill="graphql">GraphQL</span>
-                  </div>
-                </div>
-
-                <div className={styles.skillCategory}>
-                  <h3>
-                    <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className={styles.categoryIcon}>
-                      <title>dev-ops-solid</title>
-                      <g id="Layer_2" data-name="Layer 2">
-                        <g id="invisible_box" data-name="invisible box">
-                          <rect width="48" height="48" fill="none"/>
-                        </g>
-                        <g id="icons_Q2" data-name="icons Q2">
-                          <path d="M46,24A12,12,0,0,0,34,12c-5.2,0-9.5,4.1-11.9,11.4C20.3,28.9,17.3,32,14,32a8,8,0,0,1,0-16h1.2l-1.6,1.6a1.9,1.9,0,0,0,.2,3,2.1,2.1,0,0,0,2.7-.2l4.9-5a1.9,1.9,0,0,0,0-2.8l-4.9-5a2.1,2.1,0,0,0-2.7-.2,1.9,1.9,0,0,0-.2,3L15.2,12H14a12,12,0,0,0,0,24c5.2,0,9.5-4.1,11.9-11.4C27.7,19.1,30.7,16,34,16a8,8,0,0,1,0,16H32.8l1.6-1.6a1.9,1.9,0,0,0-.2-3,2.1,2.1,0,0,0-2.7.2l-4.9,5a1.9,1.9,0,0,0,0,2.8l4.9,5a2.1,2.1,0,0,0,2.7.2,1.9,1.9,0,0,0,.2-3L32.8,36H34A12,12,0,0,0,46,24Z" fill="currentColor"/>
-                        </g>
-                      </g>
-                    </svg>
-                    DevOps
-                  </h3>
-                  <div className={styles.skillBlocks}>
-                    <span className={styles.skillBlock} data-skill="docker">Docker</span>
-                    <span className={styles.skillBlock} data-skill="redis">Redis</span>
-                    {/* <span className={styles.skillBlock} data-skill="aws">AWS</span> */}
-                    {/* <span className={styles.skillBlock} data-skill="vercel">Vercel</span> */}
-                    <span className={styles.skillBlock} data-skill="git">Git & GitHub</span>
-                    <span className={styles.skillBlock} data-skill="ci/cd">CI/CD</span>
-                  </div>
-                </div>
-
-                <div className={styles.skillCategory}>
-                  <h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={styles.categoryIcon}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-                    </svg>
-                    Tools
-                  </h3>
-                  <div className={styles.skillBlocks}>
-                    <span className={styles.skillBlock} data-skill="figma">Figma</span>
-                    <span className={styles.skillBlock} data-skill="blender">Blender</span>
-                    <span className={styles.skillBlock} data-skill="vscode">VS Code</span>
-                    <span className={styles.skillBlock} data-skill="webpack">Webpack</span>
-                    <span className={styles.skillBlock} data-skill="ui/ux">UI/UX</span>
-                  </div>
-                </div>
-
-                <div className={styles.skillCategory}>
-                  <h3>자격증</h3>
-                  <div className={styles.certificationBlocks}>
-                    <div className={styles.certificationItem}>
-                      <span className={styles.certificationName}>정보처리기사</span>
-                      <span className={styles.certificationDate}>2025</span>
+                <div className={styles.skillsPanel}>
+                  {skillGroups.map((group) => (
+                    <div key={group.title} className={styles.skillRow}>
+                      <div className={styles.skillRowHeader}>
+                        <span className={`${styles.skillGroupIcon} ${styles[`skillGroupIcon--${group.variant}`] ?? ""}`}>
+                          <SkillGroupIcon variant={group.variant} />
+                        </span>
+                        <span className={styles.skillRowTitle}>{group.title}</span>
+                      </div>
+                      <div className={styles.skillRowBody}>
+                        {group.items.map((item) => (
+                          <span
+                            key={`${group.title}-${item}`}
+                            className={`${styles.skillPill} ${styles[`skillPill--${skillPillVariants[item] ?? "default"}`] ?? ""}`}
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className={styles.certificationItem}>
-                      <span className={styles.certificationName}>컴퓨터활용능력 2급</span>
-                      <span className={styles.certificationDate}>2018</span>
-                    </div>
+                  ))}
+                </div>
+
+                <div className={styles.certificationsSection}>
+                  <h3 className={styles.sectionSubTitle}>자격증</h3>
+                  <div className={styles.certificationsList}>
+                    {certifications.map((cert) => (
+                      <div key={`${cert.name}-${cert.date}`} className={styles.certificationCard}>
+                        <div className={styles.certLeft}>
+                          <h4 className={styles.certName}>{cert.name}</h4>
+                          <div className={styles.certIssuer}>{cert.issuer}</div>
+                        </div>
+                        <div className={styles.certRight}>
+                          <div className={styles.certDate}>{cert.date}</div>
+                          <div className={styles.certStatus}>{cert.status}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -273,7 +393,7 @@ export default function About() {
                       <div className={styles.timelineDate}>2020 - 2025</div>
                       <h3 className={styles.timelineTitle}>안양대학교</h3>
                       <div className={styles.timelineCompany}>소프트웨어학과 학사</div>
-                      <div className={styles.timelineQuote}>"다양한 기술을 활용한 창의적 프로젝트 개발"</div>
+                      <div className={styles.timelineQuote}>{"“다양한 기술을 활용한 창의적 프로젝트 개발”"}</div>
                       <div className={styles.timelineTags}>
                         <span className={styles.timelineTag}>Frontend 개발</span>
                         <span className={styles.timelineTag}>Backend 개발</span>

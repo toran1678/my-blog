@@ -1,19 +1,21 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useLocation } from "react-router-dom"
 import { getPostBySlug } from "../../utils/markdownLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import TableOfContents from "../TableOfContents/TableOfContents"
-import { getImageUrl, debugImagePath } from "../../utils/placeholderImage"
+import Utterances from "../Comments/Utterances"
+import { useTheme } from "../../contexts/ThemeContext"
 import styles from "./PostDetail.module.css"
 
 export default function PostDetail() {
   const { slug } = useParams()
+  const location = useLocation()
+  const { theme } = useTheme()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [imageError, setImageError] = useState(false)
   const contentRef = useRef(null)
   const heroRef = useRef(null)
   const [tocOpacity, setTocOpacity] = useState(0)
@@ -91,31 +93,11 @@ export default function PostDetail() {
     return <div className="not-found">포스트를 찾을 수 없습니다.</div>
   }
 
-  // 포스트 날짜 포맷팅
-  const formattedDate = new Date(post.date).toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-
-  // 읽는 시간 계산 (평균 분당 200단어 기준)
-  const calculateReadingTime = (content) => {
-    const words = content.trim().split(/\s+/).length
-    const minutes = Math.ceil(words / 200)
-    return minutes
-  }
-
-  const readingTime = calculateReadingTime(post.content)
-
-  // 커버 이미지 URL 처리
-  let coverImageUrl = post.coverImage || ""
-
-  // 이미지 경로 처리
-  if (coverImageUrl) {
-    coverImageUrl = getImageUrl(coverImageUrl)
-    // 디버깅을 위한 로그 추가
-    debugImagePath(post.coverImage, coverImageUrl)
-  }
+  // 포스트 날짜 포맷팅: YYYY.MM.DD
+  const d = new Date(post.date)
+  const formattedDate = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(
+    d.getDate(),
+  ).padStart(2, "0")}`
 
   return (
     <div className={styles.postDetailContainer}>
@@ -141,17 +123,8 @@ export default function PostDetail() {
 
       <div className={styles.postHero} ref={heroRef}>
         <div className={styles.postHeroContent}>
-          <h1 className={styles.postTitle}>{post.title}</h1>
-
-          <div className={styles.postMeta}>
-            <div className={styles.postDetails}>
-              <time dateTime={post.date} className={styles.postDate}>
-                {formattedDate}
-              </time>
-              <span className={styles.postReadingTime}>{readingTime}분 소요</span>
-            </div>
-
-            {post.tags && post.tags.length > 0 && (
+          {post.tags && post.tags.length > 0 && (
+            <div className={styles.postTagsHeader} aria-label="태그">
               <div className={styles.postTags}>
                 {post.tags.map((tag) => (
                   <Link key={tag} to={`/posts?tag=${encodeURIComponent(tag)}`} className={styles.tagPill}>
@@ -159,26 +132,15 @@ export default function PostDetail() {
                   </Link>
                 ))}
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* 커버 이미지 - 존재할 때만 표시 */}
-        {coverImageUrl && !imageError ? (
-          <div className={styles.coverImageWrapper}>
-            <div className={styles.coverImageContainer}>
-              <img
-                src={coverImageUrl || "/placeholder.svg"}
-                alt={`${post.title} 커버 이미지`}
-                className={styles.coverImage}
-                onError={() => {
-                  console.error("이미지 로딩 실패:", coverImageUrl)
-                  setImageError(true)
-                }}
-              />
             </div>
-          </div>
-        ) : null}
+          )}
+
+          <h1 className={styles.postTitle}>{post.title}</h1>
+
+          <time dateTime={post.date} className={styles.postDateSimple}>
+            {formattedDate}
+          </time>
+        </div>
       </div>
       {/* 커버 하단 센티넬: 이 지점을 지나면 목차 표시 */}
       <div ref={heroEndRef} className={styles.heroEndSentinel} aria-hidden="true" />
@@ -194,7 +156,7 @@ export default function PostDetail() {
           transition: 'opacity 0.3s ease'
         }}
       >
-        <TableOfContents content={post.content} containerRef={contentRef} />
+        <TableOfContents content={post.content} containerRef={contentRef} className={styles.postToc} />
       </div>
 
       <div className={styles.postContentWrapper}>
@@ -235,6 +197,16 @@ export default function PostDetail() {
               </Link>
             </div>
           </div>
+
+          <section className={styles.commentsSection} aria-label="댓글">
+            <Utterances
+              key={location.pathname}
+              repo="toran1678/my-blog"
+              issueTerm="pathname"
+              label="comments"
+              theme={theme === "dark" ? "photon-dark" : "github-light"}
+            />
+          </section>
         </article>
 
         {/* 기존 사이드 목차 제거 */}

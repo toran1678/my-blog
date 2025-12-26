@@ -136,7 +136,7 @@ html.dark-theme .tag:hover,
 .projectLinks {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -289,12 +289,18 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
 
 .floatingToc {
   position: fixed;
-  top: calc(var(--header-height) + 8px);
-  right: max(24px, calc((100vw - var(--max-width)) / 2 + -80px));
+  top: calc(var(--header-height) + 20px);
+  right: max(24px, calc((100vw - var(--max-width)) / 2 + -150px));
   z-index: 30;
   pointer-events: auto;
   opacity: 0.9;
   transition: opacity 0.3s ease;
+}
+
+.projectToc {
+  position: static;
+  top: auto;
+  margin: 0;
 }
 
 /* 반응형 목차 스타일 */
@@ -309,7 +315,7 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
     top: calc(var(--header-height) + 6px);
     right: 8px;
   }
-  .floatingToc :global(.tableOfContents) {
+  .projectToc {
     width: min(88vw, 320px);
   }
 }

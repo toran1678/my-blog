@@ -33,6 +33,13 @@
   align-items: center;
 }
 
+/* 헤더 우측 영역(네비 + 테마토글 + 모바일버튼) */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* 로고 스타일 */
 .logo {
   display: flex;
@@ -233,7 +240,7 @@
 .themeToggleContainer {
   display: flex;
   align-items: center;
-  margin-left: 1.5rem;
+  margin-left: 0;
 }
 
 /* 반응형 디자인 */
@@ -353,10 +360,8 @@
     margin-top: 1rem;
   }
 
-  .themeToggleContainer {
-    position: absolute;
-    right: 4rem;
-    margin-left: 0;
+  .headerRight {
+    gap: 0.75rem;
   }
 }
 

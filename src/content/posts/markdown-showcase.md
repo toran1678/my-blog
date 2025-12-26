@@ -6,9 +6,6 @@ tags: [마크다운, 스타일, 가이드]
 # coverImage: "/my-blog/images/1.png"
 #coverImage: "/placeholder.svg?height=600&width=1200&query=colorful abstract design"
 ---
-
-# 마크다운 스타일 쇼케이스
-
 이 포스트는 블로그의 다양한 마크다운 스타일을 보여주기 위한 예시입니다. 여러 마크다운 요소들이 어떻게 스타일링되는지 확인할 수 있습니다.
 
 ## 텍스트 스타일링

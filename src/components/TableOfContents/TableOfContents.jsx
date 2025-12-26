@@ -4,29 +4,11 @@ import { useState, useEffect, useRef } from "react"
 import styles from "./TableOfContents.module.css"
 import PropTypes from "prop-types"
 
-export default function TableOfContents({ content, containerRef }) {
+export default function TableOfContents({ content, containerRef, className }) {
   const [headings, setHeadings] = useState([])
   const [activeId, setActiveId] = useState("")
-  const [isOpen, setIsOpen] = useState(() => {
-    // 모바일에서는 접힌 상태로 시작, 데스크톱에서는 열린 상태로 시작
-    return typeof window !== 'undefined' ? window.innerWidth > 1024 : true
-  })
   const tocRef = useRef(null)
   const tocContentRef = useRef(null)
-
-  // 창 크기 변경 시 목차 상태 조정
-  useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth <= 1024
-      if (isMobile && isOpen) {
-        // 모바일로 변경될 때 자동으로 접기
-        setIsOpen(false)
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [isOpen])
 
   // 한글 포함 유니코드 안전 슬러그 생성
   const slugify = (text) => {
@@ -52,7 +34,8 @@ export default function TableOfContents({ content, containerRef }) {
 
       // 마크다운 본문 영역만 스캔
       const markdownRoot = root.querySelector('[data-markdown-root]') || root
-      const headingEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+      // 요청사항: h1, h2만 목차로 사용
+      const headingEls = Array.from(markdownRoot.querySelectorAll("h1, h2"))
       
       if (headingEls.length === 0) {
         setHeadings([])
@@ -79,7 +62,7 @@ export default function TableOfContents({ content, containerRef }) {
       setHeadings(next)
       // DOM 변경 감지를 위한 옵저버 (이미지/코드 하이라이트 등으로 구조가 바뀔 때 보정)
       const mutationObserver = new MutationObserver(() => {
-        const updatedEls = Array.from(markdownRoot.querySelectorAll("h1, h2, h3"))
+        const updatedEls = Array.from(markdownRoot.querySelectorAll("h1, h2"))
         if (updatedEls.length !== headingEls.length) {
           const used = new Set()
           const nextHeads = updatedEls.map((el) => {
@@ -238,15 +221,6 @@ export default function TableOfContents({ content, containerRef }) {
 
     // CSS의 scroll-margin-top을 활용해 자연스러운 스크롤
     element.scrollIntoView({ behavior: "smooth", block: "start" })
-
-    if (window.innerWidth <= 1024) {
-      setIsOpen(false)
-    }
-  }
-
-  // 목차 토글 기능
-  const toggleToc = () => {
-    setIsOpen(!isOpen)
   }
 
   if (headings.length === 0) {
@@ -254,35 +228,26 @@ export default function TableOfContents({ content, containerRef }) {
   }
 
   return (
-    <nav className={`${styles.tableOfContents} ${isOpen ? styles.open : styles.closed}`} ref={tocRef} aria-label="목차">
-      <div className={styles.tocHeader} onClick={toggleToc}>
-        <h2 className={styles.tocTitle}>
-          목차
-          <span className={styles.tocToggle}>{isOpen ? "▼" : "▲"}</span>
-        </h2>
-      </div>
-
-      <div className={styles.tocContent} ref={tocContentRef}>
-        <ul className={styles.tocList}>
-          {headings.map((heading) => (
-            <li
-              key={heading.id}
-              className={`${styles.tocItem} ${styles[`level${heading.level}`]} ${
-                activeId === heading.id ? styles.active : ""
-              }`}
-              data-heading-id={heading.id}
+    <nav className={`${styles.tableOfContents} ${className || ""}`} ref={tocRef} aria-label="목차">
+      <ul className={styles.tocList} ref={tocContentRef}>
+        {headings.map((heading) => (
+          <li
+            key={heading.id}
+            className={`${styles.tocItem} ${styles[`level${heading.level}`]} ${
+              activeId === heading.id ? styles.active : ""
+            }`}
+            data-heading-id={heading.id}
+          >
+            <button
+              onClick={() => scrollToHeading(heading.id)}
+              className={styles.tocLink}
+              aria-current={activeId === heading.id ? "true" : "false"}
             >
-              <button
-                onClick={() => scrollToHeading(heading.id)}
-                className={styles.tocLink}
-                aria-current={activeId === heading.id ? "true" : "false"}
-              >
-                {heading.text}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              {heading.text}
+            </button>
+          </li>
+        ))}
+      </ul>
     </nav>
   )
 }
@@ -290,4 +255,5 @@ export default function TableOfContents({ content, containerRef }) {
 TableOfContents.propTypes = {
   content: PropTypes.string,
   containerRef: PropTypes.shape({ current: PropTypes.any }),
+  className: PropTypes.string,
 }

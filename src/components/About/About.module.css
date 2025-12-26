@@ -216,6 +216,240 @@ html.dark-theme .tabButton:hover,
   gap: 2.5rem;
 }
 
+/* ===== resume 스타일 기반: Skill Panel (row + pill) ===== */
+.skillsPanel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(250, 250, 250, 0.82) 100%);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
+}
+
+.skillRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.skillRow + .skillRow {
+  border-top: 1px solid rgba(17, 24, 39, 0.06);
+}
+
+.skillRowHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.skillRowTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.skillGroupIcon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+}
+
+.skillGroupIcon svg {
+  display: block;
+}
+
+.skillGroupIcon--language { color: #8e44ad; }
+.skillGroupIcon--frontend { color: #4A90E2; }
+.skillGroupIcon--backend { color: #27ae60; }
+.skillGroupIcon--devops { color: #f39c12; }
+.skillGroupIcon--tools { color: #34495e; }
+
+.skillRowBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skillPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  cursor: default;
+}
+
+.skillPill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+  filter: brightness(1.06) saturate(1.05);
+}
+
+.skillPill--default { background: #6b7280; }
+.skillPill--javascript { background: #f7df1e; color: #111111; }
+.skillPill--typescript { background: #3178c6; }
+.skillPill--python { background: #3776ab; }
+.skillPill--java { background: #e24a3b; }
+.skillPill--ccpp { background: #64748b; }
+.skillPill--react { background: #0ea5e9; }
+.skillPill--nextjs { background: #111827; }
+.skillPill--vite { background: #a855f7; }
+.skillPill--html { background: #e34f26; }
+.skillPill--css { background: #1572b6; }
+.skillPill--sass { background: #cc6699; }
+.skillPill--tailwind { background: #06b6d4; }
+.skillPill--responsive { background: #3b82f6; }
+.skillPill--nodejs { background: #3c873a; }
+.skillPill--express { background: #374151; }
+.skillPill--fastapi { background: #059669; }
+.skillPill--restful { background: #2563eb; }
+.skillPill--graphql { background: #e10098; }
+.skillPill--docker { background: #2496ed; }
+.skillPill--redis { background: #dc2626; }
+.skillPill--git { background: #f05033; }
+.skillPill--cicd { background: #d97706; }
+.skillPill--figma { background: #a259ff; }
+.skillPill--blender { background: #f97316; }
+.skillPill--vscode { background: #007acc; }
+.skillPill--webpack { background: #1e90ff; }
+.skillPill--uiux { background: #34495e; }
+
+/* ===== Certifications (resume 느낌 카드) ===== */
+.certificationsSection {
+  margin-top: 0.5rem;
+}
+
+.sectionSubTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--text-color);
+}
+
+.certificationsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.certificationCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 1.1rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  gap: 1rem;
+}
+
+.certLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.certName {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.certIssuer {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.certRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.certDate {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: rgba(var(--primary-rgb), 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.certStatus {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+/* 다크 모드 */
+html.dark-theme .skillsPanel,
+[data-theme="dark"] .skillsPanel {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.dark-theme .skillRow + .skillRow,
+[data-theme="dark"] .skillRow + .skillRow {
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark-theme .certificationCard,
+[data-theme="dark"] .certificationCard {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.dark-theme .certIssuer,
+html.dark-theme .certStatus,
+[data-theme="dark"] .certIssuer,
+[data-theme="dark"] .certStatus {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+@media (max-width: 768px) {
+  .skillsPanel {
+    padding: 1.1rem;
+  }
+  .skillRow {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .skillRowHeader {
+    min-width: 0;
+  }
+  .certificationCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .certRight {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .certificationsList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .skillCategory {
   margin-bottom: 0.8rem;
 }

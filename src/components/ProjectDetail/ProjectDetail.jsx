@@ -227,7 +227,7 @@ export default function ProjectDetail() {
           transition: 'opacity 0.3s ease'
         }}
       >
-        <TableOfContents content={project.content} containerRef={contentRef} />
+        <TableOfContents content={project.content} containerRef={contentRef} className={styles.projectToc} />
       </div>
 
       <div className={styles.projectContentWrapper}>

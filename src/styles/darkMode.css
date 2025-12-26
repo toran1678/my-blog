@@ -7,9 +7,9 @@ html.dark-theme,
   --bg-tertiary: #3a3a3a;
 
   /* 텍스트 색상 */
-  --text-primary: #ecf0f1;
-  --text-secondary: #bdc3c7;
-  --text-muted: #95a5a6;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.85);
 
   /* 강조 색상 */
   --accent-primary: #4fc0ff;
@@ -63,7 +63,7 @@ html.dark-theme,
   li,
   td,
   th {
-    color: var(--text-secondary) !important;
+    color: var(--text-primary) !important;
   }
 
   /* 링크 스타일 오버라이드 */

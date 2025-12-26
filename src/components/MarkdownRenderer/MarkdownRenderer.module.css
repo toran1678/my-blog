@@ -27,7 +27,6 @@
   max-width: 100%;
   height: auto;
   display: block; /* 인라인 이미지의 베이스라인 공백 제거 */
-  vertical-align: top;
   border-radius: var(--border-radius);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -57,7 +56,7 @@
   min-height: 3rem; /* 살짝 더 높은 캡션 영역 */
   font-size: 1rem;
   line-height: 1.4;
-  font-family: "Pretendard", "Noto Sans KR", var(--font-sans);
+  font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: 0.2px;
   transform: translateY(100%);
@@ -149,13 +148,17 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 
 .heading1 {
   font-size: 2.25rem;
-  border-bottom: 1px solid var(--light-gray);
+  border-bottom: none;
   padding-bottom: 0.5rem;
+  /* h1 위/아래 여백을 조금 더 타이트하게 */
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+  padding-top: 4px;
 }
 
 .heading2 {
   font-size: 1.875rem;
-  border-bottom: 1px solid var(--light-gray);
+  border-bottom: 2px solid var(--light-gray);
   padding-bottom: 0.5rem;
 }
 
@@ -177,8 +180,7 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 }
 
 /* 헤딩 앞에 장식 추가 */
-.heading2::before,
-.heading3::before {
+.heading2::before {
   content: "";
   display: inline-block;
   width: 4px;
@@ -217,28 +219,46 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 
 /* 기본 인용구 */
 .blockquote {
-  margin: 2rem 0;
+  /* margin: 2rem 0;
   padding: 1.5rem 2rem;
   border-left: 4px solid var(--primary-color);
   background-color: rgba(var(--primary-rgb), 0.05);
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   font-style: italic;
   color: var(--text-light);
-  position: relative;
+  position: relative; */
+  margin: 1.25rem 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  color: #6A737D;
 }
 
 .blockquote::before {
-  content: '"';
+  /* content: '"';
   position: absolute;
   top: -0.5rem;
   left: 0.5rem;
   font-size: 3rem;
   color: rgba(var(--primary-rgb), 0.2);
-  font-family: serif;
+  font-family: serif; */
+  content: none;
 }
 
 .blockquote p {
   margin: 0;
+}
+
+/* 다크 모드에서도 blockquote 텍스트는 회색 유지 */
+html.dark-theme .blockquote,
+[data-theme="dark"] .blockquote {
+  color: #6A737D !important;
+}
+
+html.dark-theme .blockquote p,
+[data-theme="dark"] .blockquote p {
+  color: inherit !important;
 }
 
 /* 특별한 콘텐츠 블록 */
