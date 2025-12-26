@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon2.svg" />
+    <link rel="icon" type="image/svg+xml" href="/my-blog/favicon2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TORAN's Blog</title>
     
@@ -21,34 +21,27 @@
     <meta property="og:url" content="https://toran1678.github.io/my-blog/" />
     <meta property="og:image" content="https://toran1678.github.io/my-blog/images/profile.png" />
     
-    <style>
-      /* 다크 모드에서 버튼 텍스트 가독성 향상을 위한 긴급 스타일 */
-      html.dark-theme .primaryButton,
-      [data-theme="dark"] .primaryButton,
-      html.dark-theme .demoLink,
-      [data-theme="dark"] .demoLink {
-        color: #FFFFFF !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
-        font-weight: 700 !important;
-        background-color: #00b4ff !important;
-      }
-    </style>
     <base href="/my-blog/" />
     <script>
-      // GitHub Pages에서 SPA 라우팅을 위한 처리
-      // 404.html이 표시될 때, 현재 경로를 유지하면서 React Router가 처리하도록 함
-      // GitHub Pages는 404 에러 시 404.html을 표시하지만, 브라우저 URL은 원래 경로를 유지함
-      // 따라서 React Router가 현재 URL을 읽어서 올바른 라우트를 렌더링할 수 있음
-      
-      // 단, /my-blog/404.html로 직접 접근한 경우에만 index.html로 리다이렉트
-      if (window.location.pathname.endsWith('/404.html')) {
-        window.location.replace('/my-blog/index.html');
-      }
+      // GitHub Pages(project pages)에서 BrowserRouter(SPA) 직접접속/새로고침 대응
+      // 예: /my-blog/about 로 직접 접근하면 정적 서버는 파일을 못 찾아 404.html을 반환함
+      // 여기서 /my-blog/?p=/about 형태로 리다이렉트하고, index.html에서 원래 경로로 복원한다.
+      (function () {
+        var base = "/my-blog";
+        var path = window.location.pathname;
+        // base를 제외한 경로만 추출 (/about, /posts/slug 등)
+        var relative = path.indexOf(base) === 0 ? path.slice(base.length) : path;
+        if (!relative) relative = "/";
+
+        var search = window.location.search || "";
+        var hash = window.location.hash || "";
+        var target = base + "/?p=" + encodeURIComponent(relative) + "&q=" + encodeURIComponent(search + hash);
+        window.location.replace(target);
+      })();
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
+    <noscript>JavaScript가 필요합니다.</noscript>
   </body>
 </html>
 

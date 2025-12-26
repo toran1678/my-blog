@@ -34,6 +34,26 @@
       }
     </style>
     <base href="/my-blog/" />
+    <script>
+      // 404.html에서 /?p=... 로 넘어온 경우, React가 뜨기 전에 원래 경로로 복원
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var p = params.get("p");
+        if (!p) return;
+
+        var q = params.get("q") || "";
+        try {
+          p = decodeURIComponent(p);
+        } catch (e) {}
+        try {
+          q = decodeURIComponent(q);
+        } catch (e) {}
+
+        var base = "/my-blog";
+        var nextUrl = base + (p.startsWith("/") ? p : "/" + p) + q;
+        window.history.replaceState(null, "", nextUrl);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

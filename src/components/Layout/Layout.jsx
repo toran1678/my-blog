@@ -13,6 +13,11 @@ function LayoutContent() {
   const location = useLocation()
   useTheme()
 
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    setIsMenuOpen(false)
+  }
+
   // 스크롤 이벤트 감지
   useEffect(() => {
     const handleScroll = () => {
@@ -32,8 +37,12 @@ function LayoutContent() {
 
   // 페이지 변경 시 메뉴 닫기
   useEffect(() => {
+    // 햄버거 메뉴에서 이동한 경우(메뉴가 열려있던 경우) 스크롤을 맨 위로
+    if (isMenuOpen) {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }
     setIsMenuOpen(false)
-  }, [location])
+  }, [location.pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 현재 활성화된 링크 확인
   const isActive = (path) => {
@@ -47,7 +56,7 @@ function LayoutContent() {
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.headerContent}>
           <div className={styles.logo}>
-            <Link to="/" className={styles.logoLink}>
+            <Link to="/" className={styles.logoLink} onClick={handleLogoClick}>
               <span className={styles.logoText}>{"toran's"}</span>
               <span className={styles.logoAccent}>Blog</span>
             </Link>
