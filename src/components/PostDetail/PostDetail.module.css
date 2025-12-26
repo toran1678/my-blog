@@ -317,6 +317,56 @@ html.dark-theme .tag:hover,
   margin-top: 2rem;
 }
 
+.prevNextNav {
+  margin-top: 1.5rem;
+}
+
+.prevNextGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.prevNextLink {
+  display: block;
+  padding: 1rem 1.1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--medium-gray);
+  background-color: var(--white);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.prevNextLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-color);
+}
+
+.prevNextLabel {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.35rem;
+}
+
+.prevNextTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.disabled {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
 .commentsSection {
   margin-top: 2.5rem;
 }
@@ -363,6 +413,15 @@ html.dark-theme .tag:hover,
 
   .coverImageWrapper {
     padding-bottom: 60%; /* 모바일에서 약간 더 높은 비율 */
+  }
+}
+
+@media (max-width: 640px) {
+  .prevNextGrid {
+    grid-template-columns: 1fr;
+  }
+  .alignRight {
+    text-align: left;
   }
 }
 

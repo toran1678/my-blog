@@ -530,13 +530,13 @@ html.dark-theme .blockquote p,
 
 /* 코드 */
 .inlineCode {
-  background-color: rgba(27, 31, 35, 0.06);
-  color: #24292e;
-  padding: 0.18rem 0.4rem;
+  color: #e74c3c;
+  background: rgba(135, 131, 120, 0.15);
+  margin: 0 2px;
+  padding: 2px 1px;
   border-radius: 4px;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  font-family: var(--font-mono);
+  border: none;
+  /* font-family: var(--font-mono); */
   font-size: 0.92em;
   line-height: 1.2;
   white-space: nowrap;
@@ -551,10 +551,9 @@ html.dark-theme .blockquote p,
 /* 다크 모드 인라인 코드 */
 html.dark-theme .inlineCode,
 [data-theme="dark"] .inlineCode {
-  background-color: #2a2f3a;
-  color: #e2e8f0;
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  color: #eb5757;
+  background: rgba(135, 131, 120, 0.15);
+  border: none;
 }
 
 .codeBlockContainer {
