@@ -13,6 +13,23 @@ export default function MarkdownRenderer({ content }) {
   const [processedContent, setProcessedContent] = useState("")
   const [copyNotification, setCopyNotification] = useState(false)
 
+  // 일부 환경(IME/모바일 키보드)에서 전각 기호(＞, ＊ 등)가 들어오면 마크다운 문법으로 인식되지 않음
+  // 필요한 기호만 ASCII로 정규화해서 파싱이 깨지지 않도록 보정
+  const normalizeMarkdownSyntax = (md) => {
+    if (!md) return md
+    return (
+      md
+        // BOM 제거
+        .replace(/^\uFEFF/, "")
+        // 전각 기호 → ASCII (마크다운 문법에 직접 영향 있는 문자만)
+        .replace(/\uFF1E/g, ">") // ＞
+        .replace(/\uFF0A/g, "*") // ＊
+        .replace(/\uFF03/g, "#") // ＃
+        .replace(/\uFF40/g, "`") // ｀
+        .replace(/\uFF5E/g, "~") // ～
+    )
+  }
+
   // 유니코드 안전 슬러그 (TOC와 동일 규칙)
   const slugify = (text) => {
     return text
@@ -67,7 +84,7 @@ export default function MarkdownRenderer({ content }) {
 
     console.log("원본 마크다운 콘텐츠:", content.substring(0, 200) + "...")
     // 사전 치환 없이 원본을 그대로 넘겨 렌더러에서 처리
-    setProcessedContent(content)
+    setProcessedContent(normalizeMarkdownSyntax(content))
   }, [content])
 
   // 코드 복사 기능

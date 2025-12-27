@@ -136,14 +136,15 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 .heading4,
 .heading5,
 .heading6 {
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
+  /* 기본 헤딩 여백(너무 넓지 않게) */
+  margin-top: 2rem;
+  margin-bottom: 1.1rem;
   font-weight: 700;
   line-height: 1.3;
   color: var(--secondary-color);
   position: relative;
   scroll-margin-top: 80px; /* 헤더 높이를 고려한 여백 */
-  padding-top: 10px; /* 추가 여백 */
+  padding-top: 6px; /* 추가 여백(타이트하게) */
 }
 
 .heading1 {
@@ -151,19 +152,24 @@ html.dark-theme .markdownContent :global(.placeholder-text),
   border-bottom: none;
   padding-bottom: 0.5rem;
   /* h1 위/아래 여백을 조금 더 타이트하게 */
-  margin-top: 1.8rem;
-  margin-bottom: 1rem;
-  padding-top: 4px;
+  margin-top: 1.6rem;
+  margin-bottom: 0.9rem;
+  padding-top: 3px;
 }
 
 .heading2 {
   font-size: 1.875rem;
   border-bottom: 2px solid var(--light-gray);
   padding-bottom: 0.5rem;
+  /* h2 상단 여백을 조금 더 타이트하게 */
+  margin-top: 1.8rem;
+  margin-bottom: 0.95rem;
 }
 
 .heading3 {
   font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.85rem;
 }
 
 .heading4 {
@@ -227,7 +233,7 @@ html.dark-theme .markdownContent :global(.placeholder-text),
   font-style: italic;
   color: var(--text-light);
   position: relative; */
-  margin: 1.25rem 0;
+  margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -248,6 +254,7 @@ html.dark-theme .markdownContent :global(.placeholder-text),
 
 .blockquote p {
   margin: 0;
+  padding: 0;
 }
 
 /* 다크 모드에서도 blockquote 텍스트는 회색 유지 */
@@ -568,6 +575,7 @@ html.dark-theme .inlineCode,
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   background-color: #2d2d2d;
   padding: 0.6rem 1rem;
   color: #e6e6e6;
@@ -579,6 +587,12 @@ html.dark-theme .inlineCode,
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
+  /* 좁은 화면에서 '예: JSX' 같은 라벨이 버튼을 밀어내지 않도록 */
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .copyButton {
@@ -593,6 +607,10 @@ html.dark-theme .inlineCode,
   cursor: pointer;
   font-size: 0.8rem;
   transition: all 0.2s ease;
+  /* 모바일에서 '복사' 텍스트가 글자 단위로 줄바꿈되는 현상 방지 */
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
 }
 
 .copyButton:hover {
@@ -700,13 +718,8 @@ html.dark-theme .inlineCode,
 .horizontalRule {
   margin: 3rem 0;
   border: 0;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(var(--primary-rgb), 0),
-    rgba(var(--primary-rgb), 0.5),
-    rgba(var(--primary-rgb), 0)
-  );
+  height: 2px;
+  background: var(--light-gray); /* h2 하단 라인과 동일 색상 */
 }
 
 /* 반응형 디자인 */
@@ -728,7 +741,8 @@ html.dark-theme .inlineCode,
   }
 
   .blockquote {
-    padding: 1.2rem 1.5rem;
+    margin: 0;
+    padding: 0;
   }
 
   .specialBlock .blockContent {
@@ -767,14 +781,15 @@ html.dark-theme .inlineCode,
     font-size: 1.25rem;
   }
 
+  /* 모바일에서도 코드 헤더는 한 줄 유지(라벨은 ellipsis로 줄임) */
   .codeHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    flex-direction: row;
+    align-items: center;
   }
 
-  .copyButton {
-    align-self: flex-end;
+  /* 아주 작은 화면에서는 텍스트 대신 아이콘만 노출해 공간 확보 */
+  .copyButton span {
+    display: none;
   }
 
   /* 작은 모바일에서 이미지 크기 강제 제한 */

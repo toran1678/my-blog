@@ -6,8 +6,6 @@ excerpt: "C++ Vector에 대한 게시글입니다."
 # coverImage: "/my-blog/images/1.png"
 ---
 
-# C++ Vector
-
 ## std::vector이란?
 
 C++의 `std::vector`는 C++의 표준 템플릿 라이브러리(STL)에서 가장 기본이 되고 많이 사용되는 컨테이너입니다. 간단히 말해, **크기가 자동으로 변하는 배열**이라고 생각하면 됩니다.
