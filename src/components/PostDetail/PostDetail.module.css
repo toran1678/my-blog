@@ -418,10 +418,19 @@ html.dark-theme .tag:hover,
 
 @media (max-width: 640px) {
   .prevNextGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
   }
   .alignRight {
-    text-align: left;
+    text-align: right;
+  }
+
+  .prevNextLink {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .prevNextTitle {
+    font-size: 0.95rem;
   }
 }
 

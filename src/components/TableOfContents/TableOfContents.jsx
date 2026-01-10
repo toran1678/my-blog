@@ -9,6 +9,11 @@ export default function TableOfContents({ content, containerRef, className }) {
   const [activeId, setActiveId] = useState("")
   const tocRef = useRef(null)
   const tocContentRef = useRef(null)
+  const activeIdRef = useRef("")
+
+  useEffect(() => {
+    activeIdRef.current = activeId
+  }, [activeId])
 
   // 한글 포함 유니코드 안전 슬러그 생성
   const slugify = (text) => {
@@ -93,13 +98,11 @@ export default function TableOfContents({ content, containerRef, className }) {
   useEffect(() => {
     if (headings.length === 0) return
 
-    let scrollTimeout
-    let isScrolling = false
+    let rafId = 0
 
     const findActiveHeading = () => {
-      const scrollY = window.scrollY
       const headerHeight = 80
-      const currentPosition = scrollY + headerHeight + 20 // 헤더 아래 20px 지점
+      const thresholdTop = headerHeight + 20 // 뷰포트 상단 기준 임계점(헤더 아래 20px)
       
       const elements = headings
         .map((h) => document.getElementById(h.id))
@@ -107,82 +110,39 @@ export default function TableOfContents({ content, containerRef, className }) {
       
       if (elements.length === 0) return
       
-      let activeHeading = null
-      let minDistance = Infinity
-      
-      // 모든 헤딩을 확인하여 현재 위치에 가장 가까운 헤딩 찾기
-      elements.forEach((el) => {
-        const rect = el.getBoundingClientRect()
-        const elementTop = rect.top + window.scrollY
-        const elementBottom = elementTop + rect.height
-        
-        // 헤딩이 현재 뷰포트에 보이는지 확인
-        const isVisible = elementTop <= currentPosition && elementBottom > scrollY
-        
-        if (isVisible) {
-          // 보이는 헤딩 중에서 현재 위치에 가장 가까운 것 선택
-          const distance = Math.abs(elementTop - currentPosition)
-          if (distance < minDistance) {
-            minDistance = distance
-            activeHeading = el
-          }
-        } else if (elementTop > currentPosition) {
-          // 현재 위치보다 아래에 있는 헤딩이면, 이전 헤딩이 활성화되어야 함
-          const distance = elementTop - currentPosition
-          if (distance < minDistance) {
-            minDistance = distance
-            // 이전 헤딩을 찾기 위해 현재 인덱스에서 -1
-            const currentIndex = elements.indexOf(el)
-            if (currentIndex > 0) {
-              activeHeading = elements[currentIndex - 1]
-            }
-          }
-        }
-      })
-      
-      // 활성 헤딩이 없으면 첫 번째 헤딩을 활성화
-      if (!activeHeading && elements.length > 0) {
-        activeHeading = elements[0]
-      }
-      
-      if (activeHeading && activeHeading.id !== activeId) {
-        console.log('목차 활성화:', {
-          newActiveId: activeHeading.id,
-          oldActiveId: activeId,
-          scrollY: scrollY,
-          currentPosition: currentPosition,
-          headingText: activeHeading.textContent
-        })
-        setActiveId(activeHeading.id)
+      // thresholdTop 위로 올라온(이미 지난) 헤딩들 중 가장 아래(가장 최근) 것을 활성화
+      const passed = elements.filter((el) => el.getBoundingClientRect().top <= thresholdTop)
+      const nextActive = (passed.length ? passed[passed.length - 1] : elements[0])?.id
+
+      if (nextActive && nextActive !== activeIdRef.current) {
+        activeIdRef.current = nextActive
+        setActiveId(nextActive)
       }
     }
 
-    // 스크롤 이벤트 핸들러 (throttle 적용)
     const handleScroll = () => {
-      if (isScrolling) return
-      
-      isScrolling = true
-      if (scrollTimeout) clearTimeout(scrollTimeout)
-      
-      scrollTimeout = setTimeout(() => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0
         findActiveHeading()
-        isScrolling = false
-      }, 50) // 50ms throttle
+      })
     }
 
     // 초기 실행
     findActiveHeading()
 
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll, { passive: true })
+    // 어떤 요소에서 스크롤되든 잡히도록 capture로 등록 (scroll은 bubble되지 않음)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    document.addEventListener("scroll", handleScroll, { passive: true, capture: true })
+    window.addEventListener("resize", handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-      if (scrollTimeout) clearTimeout(scrollTimeout)
+      window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("scroll", handleScroll, { capture: true })
+      window.removeEventListener("resize", handleScroll)
+      if (rafId) window.cancelAnimationFrame(rafId)
     }
-  }, [headings]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [headings])
 
   // 활성화된 목차 항목으로 자동 스크롤
   useEffect(() => {

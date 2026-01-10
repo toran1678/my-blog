@@ -7,7 +7,10 @@
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  padding: 0;
+  /* 목차 영역 좌측 구분선 */
+  border-left: 2px solid var(--light-gray);
+  padding: 0 0 0 0.85rem;
+  box-sizing: border-box;
   margin: 0;
   z-index: 10;
   overflow-y: auto;
@@ -38,16 +41,21 @@
   .tocItem {
     margin-bottom: 0.45rem;
   }
+
+  /* JSX에서 styles.active로 붙는 활성 클래스 */
+  .active {}
   
   .tocLink {
     display: block;
-    color: var(--text-light);
+    /* 화이트 모드: 기본은 회색, hover 시 더 진하게 */
+    color: var(--dark-gray);
     text-decoration: none;
     font-size: 0.9rem;
     line-height: 1.5;
-    padding: 0.15rem 0;
+    padding: 0.22rem 0.4rem;
     border: none;
-    transition: color 0.2s ease;
+    border-radius: 6px;
+    transition: color 0.2s ease, transform 0.15s ease;
     text-align: left;
     background: none;
     cursor: pointer;
@@ -58,31 +66,64 @@
   }
   
   .tocItem.active .tocLink {
-    /* 현재 위치도 하이라이트 하지 않고 동일한 회색으로 표시 */
-    color: var(--text-light) !important;
-    background: transparent !important;
-    font-weight: inherit !important;
-  }
-  
-  /* 레벨별 활성 상태 강조 */
-  .level1.active .tocLink {
-    font-weight: inherit !important;
-  }
-  
-  .level2.active .tocLink {
-    font-weight: inherit !important;
+    /* 현재 읽고 있는 섹션 표시 (hover처럼) */
+    color: var(--text-color);
+    background: transparent;
+    font-weight: 600;
+    transform: translateY(-1px);
   }
   
   .tocLink:hover {
-    /* hover도 색상 변화 없이 회색 유지 */
-    color: var(--text-light);
+    color: var(--text-color);
+    transform: translateY(-1px);
+  }
+
+  /* active 상태에서도 hover 색상 변경이 먹도록 */
+  .tocItem.active .tocLink:hover {
+    color: var(--text-color);
+    transform: translateY(-1px);
+  }
+
+  .tocLink:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.35);
+  }
+
+  /* 다크 모드에서 hover/구분선 톤 조정 */
+  html.dark-theme .tableOfContents,
+  [data-theme="dark"] .tableOfContents {
+    border-left-color: var(--card-border);
+  }
+
+  html.dark-theme .tocLink,
+  [data-theme="dark"] .tocLink {
+    color: var(--text-primary);
+  }
+
+  html.dark-theme .tocItem.active .tocLink,
+  [data-theme="dark"] .tocItem.active .tocLink {
+    /* 다크 모드에서도 현재 섹션을 hover처럼 강조 */
+    color: var(--accent-primary);
+    font-weight: 600;
+    transform: translateY(-1px);
+  }
+
+  html.dark-theme .tocLink:hover,
+  [data-theme="dark"] .tocLink:hover {
+    color: var(--accent-primary);
+    transform: translateY(-1px);
+  }
+
+  html.dark-theme .tocItem.active .tocLink:hover,
+  [data-theme="dark"] .tocItem.active .tocLink:hover {
+    color: var(--accent-primary);
+    transform: translateY(-1px);
   }
   
   /* 헤딩 레벨에 따른 구분 */
   .level1 .tocLink {
     font-weight: inherit;
     font-size: 0.9rem;
-    color: var(--text-light);
     padding-left: 0; /* h1: 기준선 */
   }
   
@@ -90,7 +131,6 @@
     padding-left: 0.9rem; /* h2: 들여쓰기 */
     font-size: 0.85rem;
     font-weight: inherit;
-    color: var(--text-light);
   }
   
   /* 중간 크기 화면에서의 스타일 */
