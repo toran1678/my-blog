@@ -3,7 +3,7 @@ title: "뉴스 요약 · 감성 분석 + 주가 예측 & 카카오 알림"
 date: "2024-09-01"
 tags: [Python, AI/ML, API]
 excerpt: 뉴스 정보 수집/요약 및 감성 분석, 주식 가격을 예측하는 AI 프로그램
-coverImage: "/my-blog/images/project_img/news-stock/2.png"
+coverImage: "/my-blog/images/project_img/news-stock/img2.png"
 # demoUrl: "https://toran1678.github.io/my-blog"
 repoUrl: "https://github.com/toran1678/news-stock-analysis-system"
 ---
@@ -27,13 +27,13 @@ repoUrl: "https://github.com/toran1678/news-stock-analysis-system"
 - **카카오 메시지 전송**: 분석된 주식 예측 결과를 카카오톡 메시지로 전송
 
 **메인 화면:** 주식 선택 후 주가 예측, 키워드를 통한 뉴스 감성 분석, 뉴스 검색 화면으로 이동 가능
-![메인 화면](/my-blog/images/project_img/news-stock/1.png|400)
+![메인 화면](/my-blog/images/project_img/news-stock/img1.png|400)
 
 
 ---
 
 **주가 예측 화면:** 주가 예측을 위해 선택했던 주식의 1년 동안의 주가, 예측한 주가와 30일 후 예측 주가 표시
-![주가 예측 그래프](/my-blog/images/project_img/news-stock/2.png|600)
+![주가 예측 그래프](/my-blog/images/project_img/news-stock/img2.png|600)
 
 ## 기술 스택
 
@@ -51,10 +51,10 @@ repoUrl: "https://github.com/toran1678/news-stock-analysis-system"
 - **Kakao API**: 카카오톡 메시지로 예측 결과 전송
 
 **카카오톡 메시지 화면:** 주가 예측 후 사용자에게 전송되는 메시지 표시
-![카카오톡 메시지 전송](/my-blog/images/project_img/news-stock/3.png|300)
+![카카오톡 메시지 전송](/my-blog/images/project_img/news-stock/img3.png|300)
 
 **뉴스 검색 및 요약 화면:** 회사 이름을 검색해 해당하는 뉴스를 검색 및 표시, 요약 버튼을 통해 뉴스 기사 요약
-![뉴스 수집 및 요약](/my-blog/images/project_img/news-stock/4.png|400)
+![뉴스 수집 및 요약](/my-blog/images/project_img/news-stock/img4.png|400)
 
 ---
 
