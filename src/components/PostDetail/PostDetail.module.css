@@ -250,6 +250,13 @@ html.dark-theme .tagPill:hover,
   max-height: calc(100vh - var(--header-height) - 160px);
 }
 
+/* 중간 화면 크기에서 목차 숨김 (768px ~ 1400px) */
+@media (min-width: 768px) and (max-width: 1400px) {
+  .floatingToc {
+    display: none !important;
+  }
+}
+
 /* 모바일에서도 상단 우측에 고정되도록 보정 */
 @media (max-width: 1024px) {
   .floatingToc {
@@ -393,6 +400,14 @@ html.dark-theme .tag:hover,
   .postContent {
     width: 100%;
     max-width: 100%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1200px) {
+  .postContent {
+    max-width: 820px;
+    padding: 0 1rem;
+    margin: 0 auto 3rem;
   }
 }
 

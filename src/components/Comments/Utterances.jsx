@@ -13,6 +13,9 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
     const container = containerRef.current
     if (!container) return
 
+    // 컴포넌트가 언마운트되었는지 추적
+    let isMounted = true
+
     // 기존 스크립트 제거
     if (scriptRef.current && scriptRef.current.parentNode) {
       scriptRef.current.parentNode.removeChild(scriptRef.current)
@@ -21,6 +24,11 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
 
     // 컨테이너 초기화
     container.innerHTML = ""
+
+    // 컨테이너가 여전히 DOM에 있는지 확인
+    if (!container.parentNode) {
+      return
+    }
 
     // 새로운 스크립트 생성
     const script = document.createElement("script")
@@ -34,20 +42,51 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
 
     // 에러 핸들링
     script.onerror = () => {
-      console.error("Utterances 스크립트를 로드하는 중 오류가 발생했습니다.")
+      if (isMounted) {
+        console.error("Utterances 스크립트를 로드하는 중 오류가 발생했습니다.")
+      }
     }
 
-    container.appendChild(script)
-    scriptRef.current = script
+    // 스크립트 로드 완료 후 컨테이너 존재 여부 확인
+    script.onload = () => {
+      if (!isMounted || !container.parentNode) {
+        // 컴포넌트가 언마운트되었거나 컨테이너가 DOM에서 제거된 경우
+        if (script.parentNode) {
+          script.parentNode.removeChild(script)
+        }
+        return
+      }
+    }
+
+    // 컨테이너가 여전히 DOM에 있는지 다시 확인 후 추가
+    if (container.parentNode) {
+      container.appendChild(script)
+      scriptRef.current = script
+    }
 
     // 정리 함수
     return () => {
-      if (scriptRef.current && scriptRef.current.parentNode) {
-        scriptRef.current.parentNode.removeChild(scriptRef.current)
+      isMounted = false
+      
+      // 스크립트 제거
+      if (scriptRef.current) {
+        try {
+          if (scriptRef.current.parentNode) {
+            scriptRef.current.parentNode.removeChild(scriptRef.current)
+          }
+        } catch {
+          // 이미 제거된 경우 무시
+        }
         scriptRef.current = null
       }
-      if (container) {
-        container.innerHTML = ""
+      
+      // 컨테이너 초기화 (안전하게)
+      if (container && container.parentNode) {
+        try {
+          container.innerHTML = ""
+        } catch {
+          // 이미 제거된 경우 무시
+        }
       }
     }
   }, [repo, issueTerm, label, theme, location.pathname])
