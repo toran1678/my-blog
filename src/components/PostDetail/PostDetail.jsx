@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useParams, Link, useLocation } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { getPosts } from "../../utils/markdownLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import TableOfContents from "../TableOfContents/TableOfContents"
@@ -11,7 +11,6 @@ import styles from "./PostDetail.module.css"
 
 export default function PostDetail() {
   const { slug } = useParams()
-  const location = useLocation()
   const { theme } = useTheme()
   const [post, setPost] = useState(null)
   const [prevPost, setPrevPost] = useState(null) // 이전 글(더 오래된 글)
@@ -262,9 +261,8 @@ export default function PostDetail() {
 
           <section className={styles.commentsSection} aria-label="댓글">
             <Utterances
-              key={location.pathname}
               repo="toran1678/my-blog"
-              issueTerm="url"
+              issueTerm="pathname"
               label="comments"
               theme={theme === "dark" ? "photon-dark" : "github-light"}
             />
