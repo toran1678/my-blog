@@ -8,7 +8,14 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
   const containerRef = useRef(null)
   const location = useLocation()
   const scriptRef = useRef(null)
+  const themeRef = useRef(theme) // 현재 테마를 ref로 추적
 
+  // 테마 변경 시 ref 업데이트
+  useEffect(() => {
+    themeRef.current = theme
+  }, [theme])
+
+  // 스크립트 초기화 (경로 변경 시에만 재로드, 테마 변경 시에는 재로드하지 않음)
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -37,7 +44,7 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
     script.setAttribute("repo", repo)
     script.setAttribute("issue-term", issueTerm)
     if (label) script.setAttribute("label", label)
-    script.setAttribute("theme", theme)
+    script.setAttribute("theme", themeRef.current) // 초기 테마 설정
     // crossorigin 속성 제거 - GitHub OAuth 인증을 위해 필요함
 
     // 에러 핸들링
@@ -89,24 +96,43 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
         }
       }
     }
-  }, [repo, issueTerm, label, theme, location.pathname])
+  }, [repo, issueTerm, label, location.pathname]) // theme을 의존성에서 제거
 
-  // 테마는 재삽입 없이 iframe에 postMessage로 변경 가능
+  // 테마 변경 시 postMessage로만 테마 업데이트 (스크립트 재로드 없음)
   useEffect(() => {
     if (!containerRef.current) return
     const iframe = containerRef.current.querySelector("iframe.utterances-frame")
     if (!iframe) return
 
     // iframe이 완전히 로드된 후에 테마 변경 메시지 전송
-    const handleLoad = () => {
-      iframe.contentWindow?.postMessage({ type: "set-theme", theme }, "https://utteranc.es")
+    const sendThemeMessage = () => {
+      try {
+        iframe.contentWindow?.postMessage({ type: "set-theme", theme: themeRef.current }, "https://utteranc.es")
+      } catch {
+        // postMessage 실패 시 무시 (iframe이 아직 준비되지 않았을 수 있음)
+      }
     }
 
+    // iframe이 이미 로드되어 있으면 즉시 전송, 아니면 로드 이벤트 대기
     if (iframe.contentDocument?.readyState === "complete") {
-      handleLoad()
+      sendThemeMessage()
     } else {
+      const handleLoad = () => {
+        sendThemeMessage()
+        iframe.removeEventListener("load", handleLoad)
+      }
       iframe.addEventListener("load", handleLoad)
-      return () => iframe.removeEventListener("load", handleLoad)
+      
+      // 타임아웃으로도 시도 (일부 경우 iframe이 로드 이벤트를 발생시키지 않을 수 있음)
+      const timeoutId = setTimeout(() => {
+        sendThemeMessage()
+        iframe.removeEventListener("load", handleLoad)
+      }, 1000)
+
+      return () => {
+        iframe.removeEventListener("load", handleLoad)
+        clearTimeout(timeoutId)
+      }
     }
   }, [theme])
 
