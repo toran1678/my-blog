@@ -262,7 +262,7 @@ export default function PostDetail() {
           <section className={styles.commentsSection} aria-label="댓글">
             <Utterances
               repo="toran1678/my-blog"
-              issueTerm="pathname"
+              issueTerm="url"
               label="comments"
               theme={theme === "dark" ? "photon-dark" : "github-light"}
             />

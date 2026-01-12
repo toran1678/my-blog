@@ -10,7 +10,8 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
   const scriptRef = useRef(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const container = containerRef.current
+    if (!container) return
 
     // 기존 스크립트 제거
     if (scriptRef.current && scriptRef.current.parentNode) {
@@ -19,7 +20,7 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
     }
 
     // 컨테이너 초기화
-    containerRef.current.innerHTML = ""
+    container.innerHTML = ""
 
     // 새로운 스크립트 생성
     const script = document.createElement("script")
@@ -31,7 +32,12 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
     script.setAttribute("theme", theme)
     // crossorigin 속성 제거 - GitHub OAuth 인증을 위해 필요함
 
-    containerRef.current.appendChild(script)
+    // 에러 핸들링
+    script.onerror = () => {
+      console.error("Utterances 스크립트를 로드하는 중 오류가 발생했습니다.")
+    }
+
+    container.appendChild(script)
     scriptRef.current = script
 
     // 정리 함수
@@ -40,8 +46,8 @@ export default function Utterances({ repo, issueTerm = "pathname", label, theme 
         scriptRef.current.parentNode.removeChild(scriptRef.current)
         scriptRef.current = null
       }
-      if (containerRef.current) {
-        containerRef.current.innerHTML = ""
+      if (container) {
+        container.innerHTML = ""
       }
     }
   }, [repo, issueTerm, label, theme, location.pathname])
