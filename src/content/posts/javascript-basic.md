@@ -91,7 +91,7 @@ let none;
 
 > 알아볼 것: 나머지를 구하는 연산은 모듈러 연산이라고 부르는데 이를 알아보기
 ### Null과 Undefined의 차이점
-![관리자 대시보드](/my-blog/images/post-img/javascript-basic/undefined-null.png)
+![Null과 Undefined의 차이점](/my-blog/images/post_img/javascript-basic/undefined-null.png)
 
 - null은 주소값이 없는 것
 - undefined는 값이 할당되지 않은 것
