@@ -6,7 +6,7 @@ excerpt: "JavaScript 기초 핵심 요약"
 coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"
 ---
 
-# \[JavaScript] 자바스크립트 기초 핵심 요약
+# \[ JavaScript ] 자바스크립트 기초 핵심 요약
 ## JavaScript는 무슨 역할을 하는 언어일까?
 > HTML, CSS와 함께 Web 페이지를 개발하기 위해 만들어진 언어
 
