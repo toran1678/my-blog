@@ -55,8 +55,6 @@ export function ThemeProvider({ children }) {
       document.body.classList.remove("dark-theme")
     }
 
-    // 디버깅을 위한 콘솔 로그
-    console.log("Theme changed to:", theme)
   }, [theme])
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
