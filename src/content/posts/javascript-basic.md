@@ -13,7 +13,7 @@ coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"
 - *HTML*: 웹의 뼈대 (구조와 내용)
 - *CSS*: 웹의 피부 (스타일과 디자인)
 - *JavaScript*: 웹의 근육 (기능과 동작)
-정적인 웹 페이지에 클릭 이벤트, 데이터 통신 등 다양한 **상호작용**을 불어넣습니다.
+  - 정적인 웹 페이지에 클릭 이벤트, 데이터 통신 등 다양한 **상호작용**을 불어넣습니다.
 
 ## JavaScript는 어떻게 실행될까?
 > JavaScript는 "JavaScript 엔진"에 의해 실행 됨
