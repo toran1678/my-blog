@@ -2,7 +2,7 @@
 title: "JavaScript 심화"
 date: "2026-02-03"
 tags: [JavaScript]
-excerpt: "JavaScript 심화화 핵심 요약"
+excerpt: "JavaScript 심화 핵심 요약"
 coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"
 ---
 
