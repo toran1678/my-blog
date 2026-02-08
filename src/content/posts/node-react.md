@@ -105,7 +105,7 @@ export default function multiply(a, b) { return a * b; }
 > 컴포넌트(Component)란 우리말로 "구성요소"라는 뜻
 > 화면을 구성하는 요소, UI를 구성하는 요소를 말함
 
-![컴포넌트](/my-blog/images/post_img/node-react/컴포넌트트.png)
+![컴포넌트](/my-blog/images/post_img/node-react/컴포넌트.png)
 리액트에서는 웹페이지를 하나의 거대한 통으로 만들지 않고, 헤더(`Header.js`), 메인(`Main.js`), 푸터(`Footer.js`)처럼 각 영역을 독립적인 **컴포넌트(Component)** 단위로 분리해 모듈화할 수 있습니다. 이렇게 나뉜 부품들을 마치 레고 블록을 조립하듯 하나로 합쳐 완성합니다. 코드 관리도 쉬워지고, 재사용성도 극대화됩니다.
 
 ```html
