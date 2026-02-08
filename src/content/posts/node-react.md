@@ -1,3 +1,11 @@
+---
+title: "JavaScript 심화"
+date: "2026-02-03"
+tags: [Node.js, React]
+excerpt: "Node.js 기초 & React.js 개론"
+coverImage: "/my-blog/images/post_img/javascript-basic/node-react.jpg"
+---
+
 # \[ Node.js 기초 React.js 개론 ]
 ## Node.js란?
 > 웹 브라우저 밖에서 자바스크립트 코드를 실행할 수 있게 해주는 환경(런타임)
