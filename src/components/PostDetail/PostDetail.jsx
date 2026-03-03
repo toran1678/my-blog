@@ -101,7 +101,12 @@ export default function PostDetail() {
   }, [post])
 
   if (loading) {
-    return <div className="loading">포스트를 불러오는 중...</div>
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
+        <p>포스트를 불러오는 중...</p>
+      </div>
+    )
   }
 
   if (error) {
