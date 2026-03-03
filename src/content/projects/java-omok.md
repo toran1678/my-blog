@@ -5,7 +5,7 @@ tags: [Game, Java, Socket, MySQL]
 excerpt: "Java Socket 통신을 기반으로 개발된 실시간 멀티플레이어 오목 게임입니다. 다중 사용자 환경에서 실시간 채팅, 1대1 채팅, 파일 전송, 사용자 관리 등 다양한 기능을 제공하는 종합적인 게임 플랫폼입니다."
 coverImage: "/my-blog/images/project_img/java-omok/game_screen.png"
 repoUrl: "https://github.com/toran1678/Java-Socket-Omok"
-period: "2024-09 ~ 2024-11"
+period: "2024-09 ~ 2024-12"
 language: "Java 8+"
 skills: "Socket Programming, MySQL, Swing GUI"
 type: "개인 프로젝트 (대학교 자바프로그래밍II 과제)"

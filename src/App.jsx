@@ -17,11 +17,25 @@ import "./App.css"
 
 // 스크롤 위치 초기화 컴포넌트
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
+    // pathname이나 hash가 변경될 때마다 맨 위로(혹은 hash 위치로) 스크롤
+    // setTimeout을 이용해 렌더링 후 스크롤을 강제함
+    setTimeout(() => {
+      if (!hash) {
+        window.scrollTo(0, 0);
+      } else {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView();
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }
+    }, 10);
+  }, [pathname, hash])
 
   return null
 }

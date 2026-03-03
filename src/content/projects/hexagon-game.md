@@ -4,7 +4,7 @@ date: "2018-01-01"
 tags: [Game, Unity, C#, Mobile]
 excerpt: "Unity로 개발한 모바일 회전 피하기 게임입니다. 플레이어는 중앙을 중심으로 회전하며 구멍이 있는 육각형 장애물을 피해야 합니다."
 coverImage: "/my-blog/images/project_img/hexagon-game/game_screen.png"
-period: "2018-01 ~"
+period: "2018-03 ~ 2018-05"
 language: "C#"
 skills: "Unity, C#, Unity 2D Physics"
 type: "개인 프로젝트 (SW 개발자 대회 출품작)"

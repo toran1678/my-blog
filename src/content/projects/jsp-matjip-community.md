@@ -5,7 +5,7 @@ tags: [Java, JSP, Servlet, MySQL, Kakao API]
 excerpt: "JSP/Servlet을 기반으로 개발된 맛집 추천 커뮤니티 웹 애플리케이션입니다. 카카오 지도 API 연동, 이메일 인증, 관리자 시스템 등 다양한 기능을 제공하는 종합적인 웹 플랫폼입니다."
 coverImage: "/my-blog/images/project_img/jsp-matjip/matjip_map.png"
 repoUrl: "https://github.com/toran1678/jsp-matjip-community"
-period: "2025-05 ~ 2025-06"
+period: "2025-04 ~ 2025-07"
 language: "Java 21, JSP, JavaScript"
 skills: "JSP/Servlet, MySQL, Kakao Map API, SMTP"
 type: "개인 프로젝트 (웹&앱 프로그래밍 과제)"

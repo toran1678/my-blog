@@ -5,7 +5,7 @@ tags: [OpenCV, PyQt5, Image Processing, Python]
 excerpt: "OpenCV와 PyQt5를 활용하여 개발된 포토샵과 유사한 기능을 제공하는 이미지 편집 프로그램입니다. 다양한 필터, 그리기 도구, 고급 이미지 처리 기능을 통합한 종합적인 이미지 편집 솔루션입니다."
 coverImage: "/my-blog/images/project_img/opencv-photomate/main.png"
 repoUrl: "https://github.com/toran1678/PhotoMate"
-period: "2024-11 ~ 2024-12"
+period: "2024-09 ~ 2024-12"
 language: "Python 3.7+"
 skills: "OpenCV, PyQt5, NumPy"
 type: "개인 프로젝트 (컴퓨터 비전 학습)"

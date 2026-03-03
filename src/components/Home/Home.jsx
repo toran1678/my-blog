@@ -282,7 +282,7 @@ export default function Home() {
         <div className={styles.ctaContent}>
           <h2 className={styles.ctaTitle}>함께 일해보세요</h2>
           <p className={styles.ctaText}>새로운 프로젝트나 협업 기회가 있으시다면 언제든지 연락주세요.</p>
-          <Link to="/about" className={styles.ctaButton}>
+          <Link to="/intro" className={styles.ctaButton}>
             연락처 보기
           </Link>
         </div>

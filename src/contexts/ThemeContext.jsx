@@ -4,7 +4,7 @@ import { createContext, useState, useEffect, useContext } from "react"
 
 // 테마 컨텍스트 생성
 export const ThemeContext = createContext({
-  theme: "light",
+  theme: "dark",
   toggleTheme: () => {},
 })
 
@@ -13,8 +13,8 @@ export const useTheme = () => useContext(ThemeContext)
 
 // 테마 프로바이더 컴포넌트
 export function ThemeProvider({ children }) {
-  // 로컬 스토리지에서 테마 불러오기 또는 기본값 설정
-  const [theme, setTheme] = useState("light") // 초기값을 light로 설정
+  // 로컬 스토리지에서 테마 불러오기 또는 기본값 설정 (기본값: dark)
+  const [theme, setTheme] = useState("dark")
 
   // 컴포넌트 마운트 시 로컬 스토리지에서 테마 불러오기
   useEffect(() => {
@@ -23,9 +23,9 @@ export function ThemeProvider({ children }) {
     // 저장된 테마가 있으면 사용
     if (savedTheme) {
       setTheme(savedTheme)
-    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      // 시스템 다크 모드 설정 확인
-      setTheme("dark")
+    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+      // 시스템 화이트 모드 설정 확인, 그 외에는 dark 유지
+      setTheme("light")
     }
   }, [])
 
