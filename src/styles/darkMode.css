@@ -67,8 +67,19 @@ html.dark-theme,
   }
 
   /* 링크 스타일 오버라이드 */
-  a:not(.primaryButton):not(.secondaryButton) {
+  a:not(.primaryButton):not(.secondaryButton):not([data-hero-btn]) {
     color: var(--accent-primary) !important;
+  }
+
+  /* hero 소셜 버튼 - 다크 모드에서도 원래 색상 유지 */
+  a[data-hero-btn="github"] {
+    color: #fff !important;
+  }
+  a[data-hero-btn="email"] {
+    color: #fff !important;
+  }
+  a[data-hero-btn="linkedin"] {
+    color: #fff !important;
   }
 
   /* 모든 링크에 대해 hover 시 밑줄 제거 */

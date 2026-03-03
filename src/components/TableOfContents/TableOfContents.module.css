@@ -1,15 +1,20 @@
+@font-face {
+  font-family: 'NationalPension';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontRegular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
 .tableOfContents {
   /* 박스 제거: 텍스트만 보이도록 */
   position: sticky;
   top: 6rem;
   max-height: calc(100vh - 8rem);
-  width: 220px;
+  width: 280px;
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  /* 목차 영역 좌측 구분선 */
-  border-left: 2px solid var(--light-gray);
-  padding: 0 0 0 0.85rem;
+  padding: 0 0 0 0.5rem;
   box-sizing: border-box;
   margin: 0;
   z-index: 10;
@@ -17,6 +22,7 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color) transparent;
+  font-family: 'NationalPension', var(--font-sans);
 }
   
   .tableOfContents::-webkit-scrollbar {
@@ -42,27 +48,28 @@
     margin-bottom: 0.45rem;
   }
 
-  /* JSX에서 styles.active로 붙는 활성 클래스 */
-  .active {}
-  
+
   .tocLink {
     display: block;
     /* 화이트 모드: 기본은 회색, hover 시 더 진하게 */
     color: var(--dark-gray);
+    font-family: 'NationalPension', var(--font-sans);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.95rem; /* 폰트에 맞게 약간 조정 */
     line-height: 1.5;
-    padding: 0.22rem 0.4rem;
+    padding: 0.25rem 0.5rem;
     border: none;
     border-radius: 6px;
-    transition: color 0.2s ease, transform 0.15s ease;
+    transition: color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
     text-align: left;
     background: none;
     cursor: pointer;
     width: 100%;
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
+    
+    /* 한 줄 말줄임(ellipsis) 처리 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   .tocItem.active .tocLink {
@@ -87,12 +94,6 @@
   .tocLink:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.35);
-  }
-
-  /* 다크 모드에서 hover/구분선 톤 조정 */
-  html.dark-theme .tableOfContents,
-  [data-theme="dark"] .tableOfContents {
-    border-left-color: var(--card-border);
   }
 
   html.dark-theme .tocLink,
@@ -123,20 +124,29 @@
   /* 헤딩 레벨에 따른 구분 */
   .level1 .tocLink {
     font-weight: inherit;
-    font-size: 0.9rem;
-    padding-left: 0; /* h1: 기준선 */
+    font-size: 1rem;
+    padding-left: 0.5rem; /* h1: 기준선 */
   }
   
   .level2 .tocLink {
-    padding-left: 0.9rem; /* h2: 들여쓰기 */
-    font-size: 0.85rem;
+    /* h2: 들여쓰기 및 끊어지는 부드러운 좌측 선 */
+    margin-left: 0.5rem;
+    padding-left: 0.75rem; 
+    font-size: 0.9rem;
     font-weight: inherit;
+    border-left: 2px solid var(--light-gray);
+    border-radius: 0 4px 4px 0;
+  }
+
+  html.dark-theme .level2 .tocLink,
+  [data-theme="dark"] .level2 .tocLink {
+    border-left-color: rgba(255, 255, 255, 0.15);
   }
   
   /* 중간 크기 화면에서의 스타일 */
   @media (max-width: 1200px) and (min-width: 1025px) {
     .tableOfContents {
-      width: 220px;
+      width: 280px;
     }
   }
   

@@ -9,7 +9,9 @@ import PostDetail from "./components/PostDetail/PostDetail"
 import ProjectList from "./components/ProjectList/ProjectList"
 import ProjectDetail from "./components/ProjectDetail/ProjectDetail"
 import About from "./components/About/About"
+import Intro from "./components/Intro/Intro"
 import NotFound from "./components/NotFound/NotFound"
+import SearchPage from "./pages/SearchPage/SearchPage"
 import { useEffect } from "react"
 import "./App.css"
 
@@ -37,6 +39,8 @@ function App() {
             <Route path="projects" element={<ProjectList />} />
             <Route path="projects/:id" element={<ProjectDetail />} />
             <Route path="about" element={<About />} />
+            <Route path="intro" element={<Intro />} />
+            <Route path="search" element={<SearchPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

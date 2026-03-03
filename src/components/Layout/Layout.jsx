@@ -4,6 +4,7 @@ import { Outlet, Link, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { ThemeProvider, useTheme } from "../../contexts/ThemeContext"
 import ThemeToggle from "../ThemeToggle/ThemeToggle"
+import HeaderSearch from "../Search/HeaderSearch"
 import styles from "./Layout.module.css"
 
 // 레이아웃 내부 컴포넌트
@@ -80,16 +81,20 @@ function LayoutContent() {
                     Projects
                   </Link>
                 </li>
+
                 <li className={styles.navItem}>
-                  <Link to="/about" className={`${styles.navLink} ${isActive("/about") ? styles.active : ""}`}>
+                  <Link to="/intro" className={`${styles.navLink} ${isActive("/intro") ? styles.active : ""}`}>
                     About
                   </Link>
                 </li>
               </ul>
             </nav>
 
-            <div className={styles.themeToggleContainer}>
-              <ThemeToggle />
+            <div className={styles.headerControls}>
+              <HeaderSearch />
+              <div className={styles.themeToggleContainer}>
+                <ThemeToggle />
+              </div>
             </div>
 
             <button

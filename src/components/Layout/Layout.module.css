@@ -236,7 +236,13 @@
   color: var(--primary-color);
 }
 
-/* 테마 전환 버튼 컨테이너 */
+/* 테마 전환 버튼 컨테이너 및 헤더 컨트롤 */
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .themeToggleContainer {
   display: flex;
   align-items: center;

@@ -263,6 +263,112 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
   color: inherit; /* 호버 시에도 부모 요소의 색상을 상속 */
 }
 
+/* 프로젝트 메타 정보 스타일 */
+.projectMetaContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background-color: var(--card-bg, #ffffff); 
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  /* 프로젝트 본문과 좌우 여백을 얼추 비슷하게 맞춥니다 */
+  border: 1px solid var(--border-color, #eaeaea);
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.metaItemSkills {
+  flex-basis: 100%; /* Force to full width on a new line */
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color, #eaeaea);
+}
+
+.metaLabelGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gray, #7f8c8d);
+}
+
+.metaIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+.metaLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.metaValue {
+  font-size: 0.95rem;
+  color: var(--text-color, #2c3e50);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.metaSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.metaSkillTag {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--bg-color, #f8f9fa); 
+  color: var(--primary-color, #3498db);
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #eaeaea);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.metaSkillTag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-color, #3498db);
+}
+
+/* 다크 모드 통합 지원 */
+html.dark-theme .projectMetaContainer,
+[data-theme="dark"] .projectMetaContainer {
+  background-color: rgba(30, 32, 37, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+html.dark-theme .metaItemSkills,
+[data-theme="dark"] .metaItemSkills {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark-theme .metaSkillTag,
+[data-theme="dark"] .metaSkillTag {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--primary-light, #5dade2);
+}
+
+html.dark-theme .metaSkillTag:hover,
+[data-theme="dark"] .metaSkillTag:hover {
+  border-color: var(--primary-light, #5dade2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 .projectContentWrapper {
   position: relative;
 }
@@ -271,10 +377,10 @@ html.dark-theme a.projectLink.repoLink:hover .linkIcon,
   font-size: 1.1rem;
   line-height: 1.8;
   margin-bottom: 3rem;
-  background-color: var(--white);
-  padding: 2.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  /* 박스와 테두리/그림자 제거 */
+  background-color: transparent;
+  padding: 1rem 0;
+  box-shadow: none;
 }
 
 /* 목차 관련 스타일 */
