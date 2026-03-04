@@ -176,6 +176,7 @@ export default function ProjectList() {
               tags={project.tags}
               date={project.date}
               type={project.type}
+              period={project.period}
             />
           ))
         ) : (

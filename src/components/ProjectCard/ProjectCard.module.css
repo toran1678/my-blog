@@ -15,24 +15,8 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
-.projectCard:hover .projectImage {
-  transform: scale(1.05);
-}
-
 .projectCard:hover .projectTitle {
   color: var(--primary-color);
-}
-
-.projectCard:hover .viewProjectIcon {
-  transform: translateX(5px);
-}
-
-.projectCard:hover .viewProjectIcon {
-  transform: translateX(5px);
-}
-
-.projectCard:hover .viewProjectIcon {
-  transform: translateX(5px);
 }
 
 /* 다크 모드에서 프로젝트 카드 그림자 강화 */
@@ -146,7 +130,24 @@ html.dark-theme .projectDate,
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagMore {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+html.dark-theme .tagMore,
+[data-theme="dark"] .tagMore {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .tag {
@@ -183,27 +184,26 @@ html.dark-theme .tag:hover,
   transform: translateY(-2px);
 }
 
-.viewProjectWrapper {
+.projectFooter {
   margin-top: auto;
-  text-align: right;
-}
-
-.viewProject {
-  display: inline-flex;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #eaeaea);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  color: var(--primary-color);
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
 }
 
-.viewProjectIcon {
-  margin-left: 0.3rem;
-  transition: transform 0.3s ease;
+.projectPeriod {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.viewProject:hover {
-  color: var(--primary-dark);
+html.dark-theme .projectFooter,
+[data-theme="dark"] .projectFooter {
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .fallbackImage {
