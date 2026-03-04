@@ -229,11 +229,15 @@
 .socialLink {
   color: var(--text-color);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .socialLink:hover {
-  color: var(--primary-color);
+  color: var(--text-light); /* 파란색 대신 회색 계열 */
+  transform: scale(1.15) translateY(-2px); /* 크기 확대 및 살짝 위로 이동하는 호버 효과 */
 }
 
 /* 테마 전환 버튼 컨테이너 및 헤더 컨트롤 */

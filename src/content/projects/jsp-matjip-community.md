@@ -1,6 +1,6 @@
 ---
 title: "JSP 기반 맛집 추천 커뮤니티 플랫폼 (맛스팟)"
-date: "2025-01-01"
+date: "2025-07-20"
 tags: [Java, JSP, Servlet, MySQL, Kakao API]
 excerpt: "JSP/Servlet을 기반으로 개발된 맛집 추천 커뮤니티 웹 애플리케이션입니다. 카카오 지도 API 연동, 이메일 인증, 관리자 시스템 등 다양한 기능을 제공하는 종합적인 웹 플랫폼입니다."
 coverImage: "/my-blog/images/project_img/jsp-matjip/matjip_map.png"

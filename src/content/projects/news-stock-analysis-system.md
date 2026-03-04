@@ -1,6 +1,6 @@
 ---
 title: "뉴스 요약 · 감성 분석 + 주가 예측 & 카카오 알림"
-date: "2024-09-01"
+date: "2024-12-10"
 tags: [Python, AI/ML, API]
 excerpt: 뉴스 정보 수집/요약 및 감성 분석, 주식 가격을 예측하는 AI 프로그램
 coverImage: "/my-blog/images/project_img/news-stock/img2.png"

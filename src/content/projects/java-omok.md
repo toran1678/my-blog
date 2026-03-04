@@ -1,6 +1,6 @@
 ---
 title: "자바 소켓 통신 기반 멀티플레이어 오목 게임"
-date: "2024-12-01"
+date: "2024-12-23"
 tags: [Game, Java, Socket, MySQL]
 excerpt: "Java Socket 통신을 기반으로 개발된 실시간 멀티플레이어 오목 게임입니다. 다중 사용자 환경에서 실시간 채팅, 1대1 채팅, 파일 전송, 사용자 관리 등 다양한 기능을 제공하는 종합적인 게임 플랫폼입니다."
 coverImage: "/my-blog/images/project_img/java-omok/game_screen.png"
