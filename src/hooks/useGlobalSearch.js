@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getPosts } from '../utils/markdownLoader';
 import { getAllProjects } from '../utils/projectLoader';
 
@@ -26,7 +26,7 @@ export function useGlobalSearch() {
     fetchData();
   }, []);
 
-  const search = (query) => {
+  const search = useCallback((query) => {
     if (!query || query.trim() === '') {
       return { posts: [], projects: [] };
     }
@@ -65,7 +65,7 @@ export function useGlobalSearch() {
       posts: matchedPosts,
       projects: matchedProjects
     };
-  };
+  }, [allPosts, allProjects]);
 
   return { search, isLoading, allPosts, allProjects };
 }

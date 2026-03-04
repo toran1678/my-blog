@@ -1,6 +1,7 @@
 ---
 title: "C++ Vector"
 date: "2025-11-16"
+category: "개발"
 tags: [C++]
 excerpt: "C++ Vector에 대한 게시글입니다."
 # coverImage: "/my-blog/images/1.png"

@@ -1,6 +1,7 @@
 ---
 title: "C++ Struct"
 date: "2025-12-27"
+category: "개발"
 tags: [C++]
 excerpt: "C++ Struct에 대한 게시글입니다."
 # coverImage: ""

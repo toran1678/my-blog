@@ -14,7 +14,6 @@ export default function ProjectList() {
   const [loading, setLoading] = useState(true)
   const [selectedTag, setSelectedTag] = useState(null)
   const [allTags, setAllTags] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 6
 
@@ -82,16 +81,10 @@ export default function ProjectList() {
       filtered = filtered.filter((project) => project.tags && project.tags.includes(selectedTag))
     }
 
-    // 검색어 필터링 (제목 검색)
-    if (searchTerm.trim()) {
-      const q = searchTerm.trim().toLowerCase()
-      filtered = filtered.filter((project) => (project.title || "").toLowerCase().includes(q))
-    }
-
     setFilteredProjects(filtered)
     // 필터 변경 시 페이지를 1페이지로 리셋
     setCurrentPage(1)
-  }, [projects, selectedTag, searchTerm])
+  }, [projects, selectedTag])
 
   // 페이지네이션 계산
   const totalItems = filteredProjects.length
@@ -158,40 +151,18 @@ export default function ProjectList() {
       {/* 태그 필터 컴포넌트 */}
       {allTags.length > 0 && (
         <div className={styles.filterSection}>
-          <h2 className={styles.filterTitle}>제목 + 태그로 필터링</h2>
+          <div className={styles.filterHeader}>
+            <h2 className={styles.filterTitle}>태그로 필터링</h2>
+            <span className={styles.resultCountBadge}>{filteredProjects.length}개의 프로젝트</span>
+          </div>
           <TagFilter
             tags={allTags}
             selectedTag={selectedTag}
             onTagSelect={handleTagSelect}
-            onSearchChange={setSearchTerm}
-            filterTagsBySearch={false}
-            searchPlaceholder="프로젝트 제목 검색"
-            posts={projects}
-            showAutocomplete={true}
-            itemType="project"
           />
         </div>
       )}
 
-      {/* 필터링 결과 표시 */}
-      {selectedTag && (
-        <div className={styles.filterInfo}>
-          <div className={styles.filterBadge}>
-            <span className={styles.tagName}>{selectedTag}</span>
-            <button className={styles.clearTagButton} onClick={() => handleTagSelect(null)} aria-label="태그 필터 제거">
-              ×
-            </button>
-          </div>
-          <p className={styles.resultText}>
-            <span className={styles.resultCount}>{filteredProjects.length}개</span>의 프로젝트를 찾았습니다
-          </p>
-          {filteredProjects.length === 0 && (
-            <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
-              모든 프로젝트 보기
-            </button>
-          )}
-        </div>
-      )}
 
       <div className={styles.projectGrid}>
         {visibleProjects.length > 0 ? (
@@ -204,6 +175,7 @@ export default function ProjectList() {
               image={project.coverImage}
               tags={project.tags}
               date={project.date}
+              type={project.type}
             />
           ))
         ) : (

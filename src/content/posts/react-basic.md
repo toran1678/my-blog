@@ -1,6 +1,7 @@
 ---
 title: "React 입문"
 date: "2026-02-28"
+category: "개발"
 tags: [React]
 excerpt: "React 입문 핵심 요약"
 coverImage: "/my-blog/images/post_img/react-basic/react.png"

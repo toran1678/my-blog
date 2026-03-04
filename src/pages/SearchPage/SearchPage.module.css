@@ -139,13 +139,13 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
+  background-color: #2c3e50; /* 다크/라이트 상관없이 쨍하고 어두운 색상 고정 */
+  color: white !important;
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
-  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .cardContent {
@@ -289,11 +289,7 @@
 }
 
 /* Dark Mode Integration */
-html.dark-theme .typeBadge,
-[data-theme="dark"] .typeBadge {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
+
 
 html.dark-theme .skillTag,
 [data-theme="dark"] .skillTag,

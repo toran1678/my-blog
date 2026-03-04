@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { useRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import styles from "./TagFilter.module.css"
 
@@ -9,204 +8,100 @@ export default function TagFilter({
   tags,
   selectedTag,
   onTagSelect,
-  onSearchChange,
-  filterTagsBySearch = true,
-  searchPlaceholder = "태그 검색...",
-  posts = [],
-  showAutocomplete = false,
-  itemType = "post", // "post" or "project"
 }) {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [showSuggestions, setShowSuggestions] = useState(false)
-  const [highlightedIndex, setHighlightedIndex] = useState(-1)
-  const searchContainerRef = useRef(null)
-  const suggestionsRef = useRef(null)
+  const scrollRef = useRef(null)
+  const [showLeftScroll, setShowLeftScroll] = useState(false)
+  const [showRightScroll, setShowRightScroll] = useState(false)
 
-  const handleChange = (value) => {
-    setSearchTerm(value)
-    if (onSearchChange) onSearchChange(value)
-    setShowSuggestions(value.length > 0 && showAutocomplete)
-    setHighlightedIndex(-1)
+  // 스크롤 위치에 따라 화살표 및 그라데이션 표시 여부 결정
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      setShowLeftScroll(scrollLeft > 0)
+      setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 1) // 오차 대비 -1
+    }
   }
 
-  // 태그 검색 필터링 (옵션)
-  const filteredTags = filterTagsBySearch
-    ? tags.filter((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-    : tags
-
-  // 자동완성: 게시글/프로젝트 제목 검색만
-  const getSuggestions = () => {
-    if (!searchTerm || !showAutocomplete) return []
-    
-    const lowerSearchTerm = searchTerm.toLowerCase()
-    const suggestions = []
-
-    // posts 또는 projects (둘 다 동일한 구조 사용)
-    const items = posts || []
-    
-    items.forEach((item) => {
-      if (item.title && item.title.toLowerCase().includes(lowerSearchTerm)) {
-        // slug 사용 (프로젝트와 포스트 모두 slug 사용)
-        const identifier = item.slug || item.id || item.title.toLowerCase().replace(/\s+/g, "-")
-        // 프로젝트인지 확인: posts prop이 전달되지 않았거나, 프로젝트 경로로 판단
-        // ProjectList에서 전달할 때 구분할 수 있도록 하기 위해 프로젝트는 slug로 판단
-        const isProject = itemType === "project"
-        suggestions.push({
-          type: "item",
-          text: item.title,
-          slug: identifier,
-          isProject: isProject,
-          onClick: () => {
-            setSearchTerm("")
-            setShowSuggestions(false)
-          },
-        })
-      }
-    })
-
-    // 최대 10개로 제한
-    return suggestions.slice(0, 10)
-  }
-
-  const suggestions = getSuggestions()
-
-  // 외부 클릭 시 자동완성 닫기
+  // 초기 렌더링 및 윈도우 리사이즈 시 스크롤 가능 여부 체크
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
-        setShowSuggestions(false)
+    handleScroll()
+    window.addEventListener("resize", handleScroll)
+    return () => window.removeEventListener("resize", handleScroll)
+  }, [tags])
+
+  // 마우스 휠을 통한 가로 스크롤 (세로 스크롤 이벤트 방지 방식을 passive: false로 적용하기 위해 별도 추가)
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    const onWheel = (e) => {
+      // 휠을 상하로 굴렸을 때만 좌우로 이동 (가로 휠이 되는 마우스 제외)
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault() // 중요: 페이지의 상하 스크롤을 막음
+        el.scrollLeft += e.deltaY * 1.5
       }
     }
 
-    if (showSuggestions) {
-      document.addEventListener("mousedown", handleClickOutside)
-      return () => document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [showSuggestions])
+    // preventDefault를 작동시키기 위해 passive: false 설정
+    el.addEventListener("wheel", onWheel, { passive: false })
+    return () => el.removeEventListener("wheel", onWheel)
+  }, [])
 
-  // 키보드 네비게이션
-  const handleKeyDown = (e) => {
-    if (!showSuggestions || suggestions.length === 0) return
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault()
-        setHighlightedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : prev))
-        break
-      case "ArrowUp":
-        e.preventDefault()
-        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : -1))
-        break
-      case "Enter":
-        e.preventDefault()
-        if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
-          suggestions[highlightedIndex].onClick()
-        }
-        break
-      case "Escape":
-        setShowSuggestions(false)
-        setHighlightedIndex(-1)
-        break
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = 200 // 한 번 클릭 시 이동할 픽셀
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      })
     }
   }
-
-  // 스크롤 처리
-  useEffect(() => {
-    if (highlightedIndex >= 0 && suggestionsRef.current) {
-      const highlightedElement = suggestionsRef.current.children[highlightedIndex]
-      if (highlightedElement) {
-        highlightedElement.scrollIntoView({ block: "nearest", behavior: "smooth" })
-      }
-    }
-  }, [highlightedIndex])
 
   return (
     <div className={styles.tagFilterContainer}>
-      <div className={styles.searchContainer} ref={searchContainerRef}>
-        <input
-          type="text"
-          placeholder={searchPlaceholder}
-          value={searchTerm}
-          onChange={(e) => handleChange(e.target.value)}
-          onFocus={() => searchTerm && showAutocomplete && setShowSuggestions(true)}
-          onKeyDown={handleKeyDown}
-          className={styles.searchInput}
-        />
-        {searchTerm && (
-          <button className={styles.clearSearch} onClick={() => handleChange("")} aria-label="검색어 지우기">
-            ×
-          </button>
-        )}
-
-        {/* 자동완성 드롭다운 */}
-        {showSuggestions && suggestions.length > 0 && (
-          <div className={styles.autocompleteDropdown} ref={suggestionsRef}>
-            {suggestions.map((suggestion, index) => {
-              const linkPath = suggestion.isProject 
-                ? `/projects/${suggestion.slug}` 
-                : `/posts/${suggestion.slug}`
-              
-              return (
-                <Link
-                  key={`item-${suggestion.slug}-${index}`}
-                  to={linkPath}
-                  className={`${styles.suggestionItem} ${index === highlightedIndex ? styles.highlighted : ""}`}
-                  onClick={suggestion.onClick}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  <svg
-                    className={styles.suggestionIcon}
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="16" y1="13" x2="8" y2="13" />
-                    <line x1="16" y1="17" x2="8" y2="17" />
-                    <polyline points="10 9 9 9 8 9" />
-                  </svg>
-                  <span className={styles.suggestionText}>{suggestion.text}</span>
-                </Link>
-              )
-            })}
-          </div>
-        )}
-      </div>
-
-      <div className={styles.tagList}>
-        <button
-          className={`${styles.tagButton} ${selectedTag === null ? styles.activeTag : ""}`}
-          onClick={() => onTagSelect(null)}
-        >
-          전체
-        </button>
-
-        {filteredTags.map((tag) => (
-          <button
-            key={tag}
-            className={`${styles.tagButton} ${selectedTag === tag ? styles.activeTag : ""}`}
-            onClick={() => onTagSelect(tag)}
+      <div className={`${styles.scrollWrapper} ${showLeftScroll ? styles.hasLeftGradient : ""} ${showRightScroll ? styles.hasRightGradient : ""}`}>
+        
+        {showLeftScroll && (
+          <button 
+            className={`${styles.scrollButton} ${styles.scrollLeft}`} 
+            onClick={() => scroll("left")}
+            aria-label="태그 이전으로 스크롤"
           >
-            {tag}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-        ))}
-
-        {filterTagsBySearch && filteredTags.length === 0 && searchTerm && !showAutocomplete && (
-          <div className={styles.noTagsFound}>
-            <p>&ldquo;{searchTerm}&rdquo;에 해당하는 태그가 없습니다.</p>
-          </div>
         )}
-        {!filterTagsBySearch && showAutocomplete && searchTerm && suggestions.length === 0 && (
-          <div className={styles.noTagsFound}>
-            <p>&ldquo;{searchTerm}&rdquo;에 해당하는 제목이 없습니다.</p>
-          </div>
+
+        <div 
+          className={styles.tagList} 
+          ref={scrollRef} 
+          onScroll={handleScroll}
+        >
+          <button
+            className={`${styles.tagButton} ${selectedTag === null ? styles.activeTag : ""}`}
+            onClick={() => onTagSelect(null)}
+          >
+            전체
+          </button>
+
+          {tags.map((tag) => (
+            <button
+              key={tag}
+              className={`${styles.tagButton} ${selectedTag === tag ? styles.activeTag : ""}`}
+              onClick={() => onTagSelect(tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {showRightScroll && (
+          <button 
+            className={`${styles.scrollButton} ${styles.scrollRight}`} 
+            onClick={() => scroll("right")}
+            aria-label="태그 다음으로 스크롤"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
         )}
       </div>
     </div>
@@ -217,10 +112,10 @@ TagFilter.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedTag: PropTypes.string,
   onTagSelect: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func,
-  filterTagsBySearch: PropTypes.bool,
-  searchPlaceholder: PropTypes.string,
-  posts: PropTypes.array,
-  showAutocomplete: PropTypes.bool,
-  itemType: PropTypes.oneOf(["post", "project"]),
+}
+
+TagFilter.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedTag: PropTypes.string,
+  onTagSelect: PropTypes.func.isRequired,
 }

@@ -43,7 +43,13 @@ function ScrollToTop() {
 function App() {
   return (
     <ThemeProvider>
-      <Router basename="/my-blog">
+      <Router 
+        basename="/my-blog"
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>

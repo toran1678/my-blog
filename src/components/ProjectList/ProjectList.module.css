@@ -43,65 +43,34 @@
   margin-bottom: 2rem;
 }
 
-.filterTitle {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: var(--secondary-color);
-  font-weight: 600;
-}
-
-.filterInfo {
-  margin-bottom: 2rem;
-  padding: 1rem 1.5rem;
-  background-color: rgba(var(--primary-rgb), 0.05);
-  border-radius: var(--border-radius);
+.filterHeader {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.filterBadge {
-  display: inline-flex;
-  align-items: center;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.4rem 0.8rem;
+.filterTitle {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+  margin: 0;
+}
+
+.resultCountBadge {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+  padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
 }
 
-.clearTagButton {
-  background: none;
-  border: none;
-  color: white;
-  margin-left: 0.5rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-}
-
-.clearTagButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.resultText {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--text-color);
-}
-
-.resultCount {
-  font-weight: bold;
-  color: var(--primary-color);
-  margin: 0 0.3rem;
+/* 다크 모드 */
+html.dark-theme .resultCountBadge,
+[data-theme="dark"] .resultCountBadge {
+  background-color: rgba(79, 192, 255, 0.15);
+  color: var(--accent-primary);
 }
 
 .clearFilterButton {
@@ -263,10 +232,7 @@
     grid-template-columns: 1fr;
   }
 
-  .filterInfo {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

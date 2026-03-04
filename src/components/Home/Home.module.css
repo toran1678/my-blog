@@ -785,21 +785,6 @@ html.dark-theme .projectTag:hover,
   transform: translateX(5px);
 }
 
-/* 다크 모드에서 프로젝트 보기 버튼 테두리 제거 및 텍스트 흰색 */
-html.dark-theme .homeContainer .projectCard .viewProjectLink,
-[data-theme="dark"] .homeContainer .projectCard .viewProjectLink,
-html.dark-theme .featuredProjects .viewProjectLink,
-[data-theme="dark"] .featuredProjects .viewProjectLink,
-html.dark-theme .viewProjectLink,
-[data-theme="dark"] .viewProjectLink {
-  color: #ffffff !important;
-  border: none !important;
-  background: none !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
 /* CTA 섹션 */
 .ctaSection {
   background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));

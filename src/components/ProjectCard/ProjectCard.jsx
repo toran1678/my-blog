@@ -6,7 +6,7 @@ import { ThumbnailPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
 import styles from "./ProjectCard.module.css"
 import PropTypes from "prop-types"
 
-export default function ProjectCard({ id, title, summary, image, tags = [], date }) {
+export default function ProjectCard({ id, title, summary, image, tags = [], date, type }) {
   const [imageError, setImageError] = useState(false)
 
   // 날짜 포맷팅 함수
@@ -46,9 +46,9 @@ export default function ProjectCard({ id, title, summary, image, tags = [], date
               <ThumbnailPlaceholder title={title} />
             </div>
           )}
-          {tags.length > 0 && (
+          {(type || tags.length > 0) && (
             <div className={styles.featuredTag}>
-              <span>{tags[0]}</span>
+              <span>{type ? (type.includes('팀') ? '팀 프로젝트' : '개인 프로젝트') : tags[0]}</span>
             </div>
           )}
         </div>
@@ -102,4 +102,5 @@ ProjectCard.propTypes = {
   image: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
   date: PropTypes.string,
+  type: PropTypes.string,
 }

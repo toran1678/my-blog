@@ -1,6 +1,7 @@
 ---
 title: "React Counter App & LifeCycle"
 date: "2026-03-03"
+category: "개발"
 tags: [React]
 excerpt: "React Counter App & LifeCycle"
 coverImage: "/my-blog/images/post_img/react-project1/counterApp.png"

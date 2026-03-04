@@ -12,10 +12,11 @@ export default function PostList() {
   const [posts, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
   const [allTags, setAllTags] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 6
   const [selectedTag, setSelectedTag] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState("전체")
+  const categories = ["전체", "개발", "일상", "알고리즘"]
   const [loading, setLoading] = useState(true)
   const [imageErrors, setImageErrors] = useState({})
 
@@ -34,16 +35,7 @@ export default function PostList() {
     loadPosts()
   }, [])
 
-  // 모든 포스트에서 고유한 태그 수집
-  useEffect(() => {
-    const tags = new Set()
-    posts.forEach((post) => {
-      if (post.tags && Array.isArray(post.tags)) {
-        post.tags.forEach((tag) => tags.add(tag))
-      }
-    })
-    setAllTags(Array.from(tags).sort())
-  }, [posts])
+
 
   // URL의 tag 쿼리 변경 시 선택된 태그만 동기화
   useEffect(() => {
@@ -54,20 +46,44 @@ export default function PostList() {
     setCurrentPage(Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam)
   }, [location.search])
 
-  // 선택된 태그, 검색어, 포스트 목록에 따라 필터링
+  // 선택된 카테고리, 태그, 검색어에 따라 포스트/태그 필터링
   useEffect(() => {
     let filtered = posts
+
+    // 1. 카테고리 필터
+    if (selectedCategory !== "전체") {
+      filtered = filtered.filter(post => {
+        const cat = post.category || ""
+        if (selectedCategory === "개발") {
+          return cat === "개발" || (!cat && post.tags && post.tags.some(t => ["React", "JavaScript", "Spring", "CSS", "Frontend", "Backend", "HTML", "Node.js"].includes(t)))
+        }
+        if (selectedCategory === "알고리즘") {
+          return cat === "알고리즘" || (!cat && post.tags && post.tags.some(t => ["Algorithm", "BOJ", "Programmers", "Python", "Java", "C++"].includes(t)))
+        }
+        if (selectedCategory === "일상") {
+          return cat === "일상" || (!cat && post.tags && post.tags.includes("Life"))
+        }
+        return false
+      })
+    }
+
+    // 2. 가용한 태그 목록 업데이트 (선택된 카테고리에 속한 포스트들의 태그만)
+    const tags = new Set()
+    filtered.forEach((post) => {
+      if (post.tags && Array.isArray(post.tags)) {
+        post.tags.forEach((tag) => tags.add(tag))
+      }
+    })
+    setAllTags(Array.from(tags).sort())
+
+    // 3. 태그 필터 적용
     if (selectedTag) {
       filtered = filtered.filter((post) => post.tags && post.tags.includes(selectedTag))
     }
-    if (searchTerm.trim()) {
-      const q = searchTerm.trim().toLowerCase()
-      filtered = filtered.filter((post) => (post.title || "").toLowerCase().includes(q))
-    }
+    
     setFilteredPosts(filtered)
-    // 필터 변경 시 페이지를 1페이지로 리셋
     setCurrentPage(1)
-  }, [posts, selectedTag, searchTerm])
+  }, [posts, selectedCategory, selectedTag])
 
   const handleImageError = (slug) => {
     setImageErrors((prev) => ({
@@ -159,40 +175,36 @@ export default function PostList() {
         <p className={styles.postsDescription}>개발 경험과 지식을 공유하는 블로그 게시글 모음입니다.</p>
       </header>
 
+      {/* 카테고리 필터 탭 */}
+      <div className={styles.categoryTabs}>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            className={`${styles.categoryTab} ${selectedCategory === cat ? styles.activeCategory : ""}`}
+            onClick={() => {
+              setSelectedCategory(cat)
+              handleTagSelect(null) // 카테고리 변경 시 태그 선택 초기화
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {allTags.length > 0 && (
         <div className={styles.filterSection}>
-          <h2 className={styles.filterTitle}>제목 + 태그로 필터링</h2>
+          <div className={styles.filterHeader}>
+            <h2 className={styles.filterTitle}>태그로 필터링</h2>
+            <span className={styles.resultCountBadge}>{filteredPosts.length}개의 게시글</span>
+          </div>
           <TagFilter
             tags={allTags}
             selectedTag={selectedTag}
             onTagSelect={handleTagSelect}
-            onSearchChange={setSearchTerm}
-            filterTagsBySearch={false}
-            searchPlaceholder="게시글 제목 검색"
-            posts={posts}
-            showAutocomplete={true}
           />
         </div>
       )}
 
-      {selectedTag && (
-        <div className={styles.filterInfo}>
-          <div className={styles.filterBadge}>
-            <span className={styles.tagName}>{selectedTag}</span>
-            <button className={styles.clearTagButton} onClick={() => handleTagSelect(null)} aria-label="태그 필터 제거">
-              ×
-            </button>
-          </div>
-          <p className={styles.resultText}>
-            <span className={styles.resultCount}>{filteredPosts.length}개</span>의 게시글을 찾았습니다
-          </p>
-          {filteredPosts.length === 0 && (
-            <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
-              모든 게시글 보기
-            </button>
-          )}
-        </div>
-      )}
 
       <div className={styles.postList}>
         {visiblePosts.length > 0 ? (
@@ -208,6 +220,16 @@ export default function PostList() {
               <article key={post.slug} className={styles.postCard}>
                 <div className={styles.postContent}>
                   <div className={styles.postImageWrapper}>
+                    {/* 카테고리 뱃지 추가 */}
+                    <div className={`${styles.postCategoryBadge} ${
+                      post.category === "개발" ? styles.categorydev :
+                      post.category === "알고리즘" ? styles.categoryalgo :
+                      post.category === "일상" ? styles.categorylife :
+                      styles.categorydefault
+                    }`}>
+                      {post.category || "개발"}
+                    </div>
+                    
                     <Link to={`/posts/${post.slug}`} className={styles.imageLink}>
                       {post.coverImage && !imageErrors[post.slug] ? (
                         <img
@@ -290,8 +312,15 @@ export default function PostList() {
               <line x1="12" y1="18" x2="12" y2="12"></line>
               <line x1="9" y1="15" x2="15" y2="15"></line>
             </svg>
-            <p className={styles.emptyMessage}>선택한 태그에 해당하는 게시글이 없습니다.</p>
-            <button className={styles.clearFilterButton} onClick={() => handleTagSelect(null)}>
+            <p className={styles.emptyMessage}>
+              {selectedTag 
+                ? "선택한 태그에 해당하는 게시글이 없습니다." 
+                : "해당 카테고리에 게시글이 없습니다."}
+            </p>
+            <button className={styles.clearFilterButton} onClick={() => {
+              handleTagSelect(null)
+              setSelectedCategory("전체")
+            }}>
               모든 게시글 보기
             </button>
           </div>

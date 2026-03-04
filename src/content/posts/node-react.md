@@ -1,6 +1,7 @@
 ---
 title: "Node.js 기초 & React.js 개론"
 date: "2026-02-09"
+category: "개발"
 tags: [Node.js, React]
 excerpt: "Node.js 기초와 React.js에 대한 글입니다."
 coverImage: "/my-blog/images/post_img/node-react/node-react.jpg"

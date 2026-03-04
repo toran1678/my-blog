@@ -50,13 +50,114 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.scrollWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.scrollWrapper.hasLeftGradient::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(to right, var(--bg-color, #ffffff), transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.scrollWrapper.hasRightGradient::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(to left, var(--bg-color, #ffffff), transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+html.dark-theme .scrollWrapper.hasLeftGradient::before,
+[data-theme="dark"] .scrollWrapper.hasLeftGradient::before {
+  background: linear-gradient(to right, var(--bg-primary, #121212), transparent);
+}
+
+html.dark-theme .scrollWrapper.hasRightGradient::after,
+[data-theme="dark"] .scrollWrapper.hasRightGradient::after {
+  background: linear-gradient(to left, var(--bg-primary, #121212), transparent);
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--white);
+  border: 1px solid var(--medium-gray);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.scrollButton:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+html.dark-theme .scrollButton,
+[data-theme="dark"] .scrollButton {
+  background-color: var(--bg-secondary);
+  border-color: var(--card-border);
+  color: var(--text-color);
+}
+
+html.dark-theme .scrollButton:hover,
+[data-theme="dark"] .scrollButton:hover {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+.scrollLeft {
+  left: -15px;
+}
+
+.scrollRight {
+  right: -15px;
+}
+
 .tagList {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem; /* 스크롤바 공간 확보 */
+  scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+  -ms-overflow-style: none; /* IE/Edge 스크롤바 숨김 */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+  padding: 0.5rem 1rem; /* 양끝 마진과 유사한 패딩 주어 그라데이션과 어우러지게 함 */
+  width: 100%;
+}
+
+/* 크롬, 사파리 등 웹킷 기반 브라우저 스크롤바 숨김 */
+.tagList::-webkit-scrollbar {
+  display: none;
 }
 
 .tagButton {
+  flex-shrink: 0; /* 내용물 잘림 방지 */
   background-color: rgba(var(--primary-rgb), 0.1);
   color: var(--text-color);
   border: none;

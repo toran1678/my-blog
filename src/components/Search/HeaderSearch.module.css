@@ -95,6 +95,17 @@
   animation: slideDown 0.2s ease forwards;
 }
 
+.projectTypeBadge {
+  display: inline-block;
+  background-color: #2c3e50; /* 변수 대신 고정된 어두운 색 적용 */
+  color: white !important;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }

@@ -1,6 +1,7 @@
 ---
 title: "JavaScript 기초"
 date: "2026-01-29"
+category: "개발"
 tags: [JavaScript]
 excerpt: "JavaScript 기초 핵심 요약"
 coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"

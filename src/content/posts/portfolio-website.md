@@ -1,6 +1,7 @@
 ---
 title: "블로그 웹사이트"
 date: "2024-12-15"
+category: "개발"
 tags: [GitHub]
 excerpt: "React + Vite로 제작한 개인 블로그 웹사이트. 마크다운 기반 콘텐츠와 GitHub Pages 배포, 다크 모드까지 포함합니다."
 # coverImage: "/my-blog/images/1.png"
