@@ -492,15 +492,163 @@ html.dark-theme .postCard:hover,
   transform: translateX(5px);
 }
 
-/* 주요 프로젝트 */
+/* 주요 프로젝트 - 캐러셀 */
 .featuredProjects {
   margin-bottom: 4rem;
 }
 
+/* 기존 grid (fallback / 사용 안 함) */
 .projectGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+}
+
+/* ── 캐러셀 래퍼 ── */
+.carouselWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+/* 가로 스크롤 스냅 트랙 (overflow 컨테이너) */
+.carouselTrack {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding-bottom: 4px; /* 스크롤바 공간 */
+  /* 스크롤바 숨기기 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* 각 슬라이드: 3장이 한 줄에 표시 */
+.carouselSlide {
+  flex: 0 0 calc(33.333% - 1rem);
+  scroll-snap-align: start;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carouselSlide:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+html.dark-theme .carouselSlide,
+[data-theme="dark"] .carouselSlide {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-theme .carouselSlide:hover,
+[data-theme="dark"] .carouselSlide:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 불필요해진 carouselViewport 제거 */
+.carouselViewport {
+  display: none;
+}
+
+/* ── 화살표 버튼 ── */
+.carouselBtn {
+  position: absolute;
+  top: calc(50% - 24px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--white);
+  color: var(--secondary-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.carouselBtn:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.35);
+}
+
+.carouselBtnPrev { left: -20px; }
+.carouselBtnNext { right: -20px; }
+
+html.dark-theme .carouselBtn,
+[data-theme="dark"] .carouselBtn {
+  background-color: var(--card-bg, #1e293b) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark-theme .carouselBtn:hover,
+[data-theme="dark"] .carouselBtn:hover {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+/* ── 점 인디케이터 ── */
+.carouselDots {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.2rem;
+}
+
+.carouselDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.carouselDotActive {
+  background-color: var(--primary-color);
+  width: 22px;
+  border-radius: 4px;
+}
+
+html.dark-theme .carouselDot,
+[data-theme="dark"] .carouselDot {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html.dark-theme .carouselDotActive,
+[data-theme="dark"] .carouselDotActive {
+  background-color: var(--primary-color) !important;
+}
+
+/* ── 모바일: 1장씩 ── */
+@media (max-width: 768px) {
+  .carouselSlide {
+    flex: 0 0 100%;
+  }
+  .carouselBtnPrev { left: 0; }
+  .carouselBtnNext { right: 0; }
 }
 
 .projectCard {
@@ -637,13 +785,14 @@ html.dark-theme .projectTag:hover,
   transform: translateX(5px);
 }
 
-/* 다크 모드에서 프로젝트 보기 버튼 테두리 제거 */
+/* 다크 모드에서 프로젝트 보기 버튼 테두리 제거 및 텍스트 흰색 */
 html.dark-theme .homeContainer .projectCard .viewProjectLink,
 [data-theme="dark"] .homeContainer .projectCard .viewProjectLink,
 html.dark-theme .featuredProjects .viewProjectLink,
 [data-theme="dark"] .featuredProjects .viewProjectLink,
 html.dark-theme .viewProjectLink,
 [data-theme="dark"] .viewProjectLink {
+  color: #ffffff !important;
   border: none !important;
   background: none !important;
   padding: 0 !important;

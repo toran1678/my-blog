@@ -1,7 +1,7 @@
 "use client"
 
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { getPosts } from "../../utils/markdownLoader"
 import { getRecentProjects } from "../../utils/projectLoader"
 import { ThumbnailPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
@@ -13,6 +13,8 @@ export default function Home() {
   const [recentPosts, setRecentPosts] = useState([])
   const [featuredProjects, setFeaturedProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const scrollRef = useRef(null)
   const { theme } = useTheme()
 
   // excerpt 길이 제한 함수
@@ -26,10 +28,10 @@ export default function Home() {
   const primaryButtonStyle =
     theme === "dark"
       ? {
-          color: "#FFFFFF !important",
+          color: "#ffffff",
           backgroundColor: "#0088cc",
           fontWeight: 700,
-          border: "none", // 테두리 제거
+          border: "none",
           letterSpacing: "0.5px",
           boxSizing: "border-box",
         }
@@ -55,7 +57,7 @@ export default function Home() {
         setRecentPosts(posts.slice(0, 3))
 
         // 최근 프로젝트 2개 가져오기
-        const projects = await getRecentProjects(2)
+        const projects = await getRecentProjects(6)
         setFeaturedProjects(projects)
       } catch (error) {
         console.error("콘텐츠를 불러오는 중 오류가 발생했습니다:", error)
@@ -67,6 +69,46 @@ export default function Home() {
     loadContent()
   }, [])
 
+  const getCardWidth = useCallback(() => {
+    if (!scrollRef.current || !scrollRef.current.children[0]) return 0
+    const card = scrollRef.current.children[0]
+    const gap = 24 // 1.5rem in px (matches CSS gap: 1.5rem)
+    return card.offsetWidth + gap
+  }, [])
+
+  const scrollToProject = useCallback((index) => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollTo({ left: index * getCardWidth(), behavior: 'smooth' })
+  }, [getCardWidth])
+
+  const handleScroll = useCallback(() => {
+    if (!scrollRef.current) return
+    const index = Math.round(scrollRef.current.scrollLeft / (getCardWidth() || 1))
+    setActiveIndex(Math.min(index, featuredProjects.length - 1))
+  }, [featuredProjects.length, getCardWidth])
+
+  const prevProject = useCallback(() => {
+    if (!scrollRef.current) return
+    const { scrollLeft } = scrollRef.current
+    if (scrollLeft <= 1) {
+      // 처음이면 끝으로 루프
+      scrollRef.current.scrollTo({ left: scrollRef.current.scrollWidth, behavior: 'smooth' })
+    } else {
+      scrollRef.current.scrollBy({ left: -getCardWidth(), behavior: 'smooth' })
+    }
+  }, [getCardWidth])
+
+  const nextProject = useCallback(() => {
+    if (!scrollRef.current) return
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+    if (scrollLeft + clientWidth >= scrollWidth - 1) {
+      // 끝이면 처음으로 루프
+      scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' })
+    } else {
+      scrollRef.current.scrollBy({ left: getCardWidth(), behavior: 'smooth' })
+    }
+  }, [getCardWidth])
+
   return (
     <div className={styles.homeContainer}>
       <section className={styles.hero}>
@@ -77,10 +119,10 @@ export default function Home() {
           </h1>
           <p className={styles.heroSubtitle}>웹 개발자로서의 저의 여정과 프로젝트들을 소개합니다</p>
           <div className={styles.heroButtons}>
-            <Link to="/projects" className={styles.primaryButton} style={primaryButtonStyle}>
+            <Link to="/projects" className={styles.primaryButton} style={primaryButtonStyle} data-custom-link="true">
               프로젝트 보기
             </Link>
-            <Link to="/posts" className={styles.secondaryButton} style={secondaryButtonStyle}>
+            <Link to="/posts" className={styles.secondaryButton} style={secondaryButtonStyle} data-custom-link="true">
               블로그 보기
             </Link>
           </div>
@@ -110,7 +152,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.introSection}>
+      {/* <section className={styles.introSection}>
         <div className={styles.introCard}>
           <div className={styles.introIcon}>
             <span className={styles.codeIcon}>
@@ -144,12 +186,12 @@ export default function Home() {
           <h3>반응형 웹</h3>
           <p>모든 디바이스에서 최적의 경험을 제공하는 반응형 웹사이트</p>
         </div>
-      </section>
+      </section> */}
 
       <section className={styles.recentPosts}>
         <div className={styles.sectionHeader}>
           <h2>최근 게시글</h2>
-          <Link to="/posts" className={styles.viewAllLink}>
+          <Link to="/posts" className={styles.viewAllLink} data-custom-link="true">
             모든 게시글 보기 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
               <path d="m9 18 6-6-6-6"/>
@@ -192,7 +234,7 @@ export default function Home() {
                     })}
                   </time>
                   <p className={styles.postExcerpt}>{truncateExcerpt(post.excerpt)}</p>
-                  <Link to={`/posts/${post.slug}`} className={styles.readMoreLink}>
+                  <Link to={`/posts/${post.slug}`} className={styles.readMoreLink} data-custom-link="true">
                     더 읽기 
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
                       <path d="m9 18 6-6-6-6"/>
@@ -215,70 +257,113 @@ export default function Home() {
       <section className={styles.featuredProjects}>
         <div className={styles.sectionHeader}>
           <h2>주요 프로젝트</h2>
-          <Link to="/projects" className={styles.viewAllLink}>
-            모든 프로젝트 보기 
+          <Link to="/projects" className={styles.viewAllLink} data-custom-link="true">
+            모든 프로젝트 보기
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
               <path d="m9 18 6-6-6-6"/>
             </svg>
           </Link>
         </div>
-        <div className={styles.projectGrid}>
-          {loading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingSpinner}></div>
-              <p>프로젝트를 불러오는 중...</p>
+
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingSpinner}></div>
+            <p>프로젝트를 불러오는 중...</p>
+          </div>
+        ) : featuredProjects.length > 0 ? (
+          <div className={styles.carouselWrapper}>
+            {/* 이전 버튼 */}
+            <button
+              className={`${styles.carouselBtn} ${styles.carouselBtnPrev}`}
+              onClick={prevProject}
+              aria-label="이전 프로젝트"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+
+            {/* 스크롤 트랙 */}
+            <div
+              className={styles.carouselTrack}
+              ref={scrollRef}
+              onScroll={handleScroll}
+            >
+              {featuredProjects.map((project) => (
+                <article key={project.slug} className={styles.carouselSlide}>
+                  <div className={styles.projectImageContainer}>
+                    {project.coverImage ? (
+                      <img
+                        src={getImageUrl(project.coverImage) || "/my-blog/placeholder.svg?text=Project+Image"}
+                        alt={`${project.title} 썸네일`}
+                        className={styles.projectImage}
+                        onError={() => {}}
+                      />
+                    ) : (
+                      <div className={styles.placeholderWrapper}>
+                        <ThumbnailPlaceholder title={project.title} />
+                      </div>
+                    )}
+                    {project.tags && (
+                      <div className={styles.projectTags}>
+                        {project.tags.slice(0, 3).map((tag) => (
+                          <Link key={tag} to={`/tags/${tag}`} className={styles.projectTag}>
+                            {tag}
+                          </Link>
+                        ))}
+                        {project.tags.length > 3 && <span className={styles.moreTags}>+{project.tags.length - 3}</span>}
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.projectInfo}>
+                    <h3 className={styles.projectTitle}>{project.title}</h3>
+                    <p className={styles.projectExcerpt}>{project.excerpt}</p>
+                    <Link to={`/projects/${project.slug}`} className={styles.viewProjectLink} data-custom-link="true">
+                      자세히 보기
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
+                        <path d="m9 18 6-6-6-6"/>
+                      </svg>
+                    </Link>
+                  </div>
+                </article>
+              ))}
             </div>
-          ) : featuredProjects.length > 0 ? (
-            featuredProjects.map((project) => (
-              <article key={project.slug} className={styles.projectCard}>
-                <div className={styles.projectImageContainer}>
-                  {project.coverImage ? (
-                    <img
-                      src={getImageUrl(project.coverImage) || "/my-blog/placeholder.svg?text=Project+Image"}
-                      alt={`${project.title} 썸네일`}
-                      className={styles.projectImage}
-                      onError={() => {}}
-                    />
-                  ) : (
-                    <div className={styles.placeholderWrapper}>
-                      <ThumbnailPlaceholder title={project.title} />
-                    </div>
-                  )}
-                  {project.tags && (
-                    <div className={styles.projectTags}>
-                      {project.tags.slice(0, 3).map((tag) => (
-                        <Link key={tag} to={`/tags/${tag}`} className={styles.projectTag}>
-                          {tag}
-                        </Link>
-                      ))}
-                      {project.tags.length > 3 && <span className={styles.moreTags}>+{project.tags.length - 3}</span>}
-                    </div>
-                  )}
-                </div>
-                <div className={styles.projectInfo}>
-                  <h3 className={styles.projectTitle}>{project.title}</h3>
-                  <p className={styles.projectExcerpt}>{project.excerpt}</p>
-                  <Link to={`/projects/${project.slug}`} className={styles.viewProjectLink}>
-                    자세히 보기 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
-                      <path d="m9 18 6-6-6-6"/>
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-            ))
-          ) : (
-            <div className={styles.emptyState}>
-              <p>아직 등록된 프로젝트가 없습니다.</p>
-              <Link to="/projects" className={styles.primaryButton}>
-                프로젝트 추가하기
-              </Link>
+
+            {/* 다음 버튼 */}
+            <button
+              className={`${styles.carouselBtn} ${styles.carouselBtnNext}`}
+              onClick={nextProject}
+              aria-label="다음 프로젝트"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+
+            {/* 점 인디케이터 — 3-up 기준으로 실제 스크롤 가능한 위치 수만큼만 표시 */}
+            <div className={styles.carouselDots}>
+              {Array.from({ length: Math.max(1, featuredProjects.length - 2) }, (_, i) => (
+                <button
+                  key={i}
+                  className={`${styles.carouselDot} ${i === activeIndex ? styles.carouselDotActive : ''}`}
+                  onClick={() => { setActiveIndex(i); scrollToProject(i) }}
+                  aria-label={`프로젝트 ${i + 1}번째로 이동`}
+                />
+              ))}
             </div>
-          )}
-        </div>
+
+          </div>
+        ) : (
+          <div className={styles.emptyState}>
+            <p>아직 등록된 프로젝트가 없습니다.</p>
+            <Link to="/projects" className={styles.primaryButton}>
+              프로젝트 추가하기
+            </Link>
+          </div>
+        )}
       </section>
 
-      <section className={styles.ctaSection}>
+      {/* <section className={styles.ctaSection}>
         <div className={styles.ctaContent}>
           <h2 className={styles.ctaTitle}>함께 일해보세요</h2>
           <p className={styles.ctaText}>새로운 프로젝트나 협업 기회가 있으시다면 언제든지 연락주세요.</p>
@@ -286,7 +371,7 @@ export default function Home() {
             연락처 보기
           </Link>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

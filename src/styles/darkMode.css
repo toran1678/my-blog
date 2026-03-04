@@ -66,8 +66,8 @@ html.dark-theme,
     color: var(--text-primary) !important;
   }
 
-  /* 링크 스타일 오버라이드 */
-  a:not(.primaryButton):not(.secondaryButton):not([data-hero-btn]) {
+/* 링크 스타일 오버라이드 */
+  a:not(.primaryButton):not(.secondaryButton):not([data-hero-btn]):not([data-custom-link]) {
     color: var(--accent-primary) !important;
   }
 
