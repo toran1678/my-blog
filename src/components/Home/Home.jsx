@@ -13,8 +13,11 @@ export default function Home() {
   const [recentPosts, setRecentPosts] = useState([])
   const [featuredProjects, setFeaturedProjects] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const scrollRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0) // 프로젝트용
+  const [activePostIndex, setActivePostIndex] = useState(0) // 게시글용
+  const [itemsToShow, setItemsToShow] = useState(3)
+  const scrollRef = useRef(null) // 프로젝트용
+  const postScrollRef = useRef(null) // 게시글용
   const { theme } = useTheme()
 
   // excerpt 길이 제한 함수
@@ -52,9 +55,9 @@ export default function Home() {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        // 최근 게시글 3개 가져오기
+        // 최근 게시글 8개 가져오기
         const posts = await getPosts()
-        setRecentPosts(posts.slice(0, 3))
+        setRecentPosts(posts.slice(0, 8))
 
         // 최근 프로젝트 2개 가져오기
         const projects = await getRecentProjects(6)
@@ -67,6 +70,21 @@ export default function Home() {
     }
 
     loadContent()
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      // styles.module.css의 미디어 쿼리(1024px)와 일치시킴
+      if (window.innerWidth <= 1024) {
+        setItemsToShow(2)
+      } else {
+        setItemsToShow(3)
+      }
+    }
+    
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const getCardWidth = useCallback(() => {
@@ -108,6 +126,45 @@ export default function Home() {
       scrollRef.current.scrollBy({ left: getCardWidth(), behavior: 'smooth' })
     }
   }, [getCardWidth])
+
+  // 게시글 캐러셀 로직
+  const getPostCardWidth = useCallback(() => {
+    if (!postScrollRef.current || !postScrollRef.current.children[0]) return 0
+    const card = postScrollRef.current.children[0]
+    const gap = 24 // 1.5rem (Home.module.css의 gap: 1.5rem과 일치)
+    return card.offsetWidth + gap
+  }, [])
+
+  const scrollToPost = useCallback((index) => {
+    if (!postScrollRef.current) return
+    postScrollRef.current.scrollTo({ left: index * getPostCardWidth(), behavior: 'smooth' })
+  }, [getPostCardWidth])
+
+  const handlePostScroll = useCallback(() => {
+    if (!postScrollRef.current) return
+    const index = Math.round(postScrollRef.current.scrollLeft / (getPostCardWidth() || 1))
+    setActivePostIndex(Math.min(index, recentPosts.length - 1))
+  }, [recentPosts.length, getPostCardWidth])
+
+  const prevPost = useCallback(() => {
+    if (!postScrollRef.current) return
+    const { scrollLeft } = postScrollRef.current
+    if (scrollLeft <= 1) {
+      postScrollRef.current.scrollTo({ left: postScrollRef.current.scrollWidth, behavior: 'smooth' })
+    } else {
+      postScrollRef.current.scrollBy({ left: -getPostCardWidth(), behavior: 'smooth' })
+    }
+  }, [getPostCardWidth])
+
+  const nextPost = useCallback(() => {
+    if (!postScrollRef.current) return
+    const { scrollLeft, scrollWidth, clientWidth } = postScrollRef.current
+    if (scrollLeft + clientWidth >= scrollWidth - 1) {
+      postScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' })
+    } else {
+      postScrollRef.current.scrollBy({ left: getPostCardWidth(), behavior: 'smooth' })
+    }
+  }, [getPostCardWidth])
 
   return (
     <div className={styles.homeContainer}>
@@ -199,50 +256,67 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className={styles.postList}>
+        <div className={styles.carouselWrapper}>
+          {/* 이전 버튼 */}
+          <button
+            className={`${styles.carouselBtn} ${styles.carouselBtnPrev}`}
+            onClick={prevPost}
+            aria-label="이전 게시글"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </button>
+
           {loading ? (
             <div className={styles.loadingContainer}>
               <div className={styles.loadingSpinner}></div>
               <p>게시글을 불러오는 중...</p>
             </div>
           ) : recentPosts.length > 0 ? (
-            recentPosts.map((post) => (
-              <article key={post.slug} className={styles.postCard}>
-                <div className={styles.postImageContainer}>
-                  {post.coverImage ? (
-                    <img
-                      src={getImageUrl(post.coverImage) || "/my-blog/placeholder.svg"}
-                      alt={`${post.title} 커버 이미지`}
-                      className={styles.postImage}
-                      onError={(e) => {
-                        e.target.style.display = "none"
-                        e.target.nextElementSibling.style.display = "flex"
-                      }}
-                    />
-                  ) : null}
-                  <div className={styles.placeholderWrapper} style={{ display: post.coverImage ? "none" : "flex" }}>
-                    <ThumbnailPlaceholder title={post.title} />
+            <div
+              className={styles.carouselTrack}
+              ref={postScrollRef}
+              onScroll={handlePostScroll}
+            >
+              {recentPosts.map((post) => (
+                <article key={post.slug} className={styles.carouselSlide}>
+                  <div className={styles.postImageContainer}>
+                    {post.coverImage ? (
+                      <img
+                        src={getImageUrl(post.coverImage) || "/my-blog/placeholder.svg"}
+                        alt={`${post.title} 커버 이미지`}
+                        className={styles.postImage}
+                        onError={(e) => {
+                          e.target.style.display = "none"
+                          e.target.nextElementSibling.style.display = "flex"
+                        }}
+                      />
+                    ) : null}
+                    <div className={styles.placeholderWrapper} style={{ display: post.coverImage ? "none" : "flex" }}>
+                      <ThumbnailPlaceholder title={post.title} />
+                    </div>
                   </div>
-                </div>
-                <div className={styles.postContent}>
-                  <h3 className={styles.postTitle}>{post.title}</h3>
-                  <time className={styles.postDate} dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString("ko-KR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                  <p className={styles.postExcerpt}>{truncateExcerpt(post.excerpt)}</p>
-                  <Link to={`/posts/${post.slug}`} className={styles.readMoreLink} data-custom-link="true">
-                    더 읽기 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
-                      <path d="m9 18 6-6-6-6"/>
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-            ))
+                  <div className={styles.postContent}>
+                    <h3 className={styles.postTitle}>{post.title}</h3>
+                    <time className={styles.postDate} dateTime={post.date}>
+                      {new Date(post.date).toLocaleDateString("ko-KR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                    <p className={styles.postExcerpt}>{truncateExcerpt(post.excerpt)}</p>
+                    <Link to={`/posts/${post.slug}`} className={styles.readMoreLink} data-custom-link="true">
+                      더 읽기 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.arrow}>
+                        <path d="m9 18 6-6-6-6"/>
+                      </svg>
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
           ) : (
             <div className={styles.emptyState}>
               <p>아직 작성된 게시글이 없습니다.</p>
@@ -251,6 +325,29 @@ export default function Home() {
               </Link>
             </div>
           )}
+
+          {/* 다음 버튼 */}
+          <button
+            className={`${styles.carouselBtn} ${styles.carouselBtnNext}`}
+            onClick={nextPost}
+            aria-label="다음 게시글"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+
+          {/* 점 인디케이터 */}
+          <div className={styles.carouselDots}>
+            {Array.from({ length: Math.max(1, recentPosts.length - (itemsToShow - 1)) }, (_, i) => (
+              <button
+                key={i}
+                className={`${styles.carouselDot} ${i === activePostIndex ? styles.carouselDotActive : ''}`}
+                onClick={() => { setActivePostIndex(i); scrollToPost(i) }}
+                aria-label={`게시글 ${i + 1}번째로 이동`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -340,9 +437,9 @@ export default function Home() {
               </svg>
             </button>
 
-            {/* 점 인디케이터 — 3-up 기준으로 실제 스크롤 가능한 위치 수만큼만 표시 */}
+            {/* 점 인디케이터 — 화면에 보이는 개수 기준으로 실제 스크롤 가능한 위치 수만큼 표시 */}
             <div className={styles.carouselDots}>
-              {Array.from({ length: Math.max(1, featuredProjects.length - 2) }, (_, i) => (
+              {Array.from({ length: Math.max(1, featuredProjects.length - (itemsToShow - 1)) }, (_, i) => (
                 <button
                   key={i}
                   className={`${styles.carouselDot} ${i === activeIndex ? styles.carouselDotActive : ''}`}

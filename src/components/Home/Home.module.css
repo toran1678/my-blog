@@ -354,12 +354,6 @@ html.dark-theme .introCard:hover,
   margin-bottom: 4rem;
 }
 
-.postList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
-
 .postCard {
   background-color: var(--white);
   border-radius: var(--border-radius);
@@ -413,7 +407,8 @@ html.dark-theme .postCard:hover,
   transition: transform 0.5s ease;
 }
 
-.postCard:hover .postImage {
+/* .postCard 대신 .carouselSlide 사용 (Home.jsx에서 변경됨) */
+.carouselSlide:hover .postImage {
   transform: scale(1.05);
 }
 
@@ -455,7 +450,7 @@ html.dark-theme .postCard:hover,
   transition: color 0.3s ease;
 }
 
-.postCard:hover .postTitle {
+.carouselSlide:hover .postTitle {
   color: var(--primary-color);
 }
 
@@ -642,13 +637,13 @@ html.dark-theme .carouselDotActive,
   background-color: var(--primary-color) !important;
 }
 
-/* ── 모바일: 1장씩 ── */
-@media (max-width: 768px) {
+/* ── 모바일/태블릿: 2장씩 (화살표 버튼 위치 조정) ── */
+@media (max-width: 1024px) {
   .carouselSlide {
-    flex: 0 0 100%;
+    flex: 0 0 calc(50% - 0.75rem);
   }
-  .carouselBtnPrev { left: 0; }
-  .carouselBtnNext { right: 0; }
+  .carouselBtnPrev { left: -10px; }
+  .carouselBtnNext { right: -10px; }
 }
 
 .projectCard {
@@ -764,6 +759,13 @@ html.dark-theme .projectTag:hover,
   margin-bottom: 1.5rem;
   line-height: 1.6;
   flex-grow: 1;
+  /* 3줄 제한 및 ... 표시 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .viewProjectLink {
@@ -1031,7 +1033,6 @@ html.dark-theme .tag:hover,
     grid-template-columns: 1fr;
   }
 
-  .postList,
   .projectGrid {
     grid-template-columns: 1fr;
   }
