@@ -1,13 +1,13 @@
 ---
-title: "React Counter App & LifeCycle"
+title: "React Project 1, 2 & LifeCycle"
 date: "2026-03-03"
 category: "개발"
 tags: [React]
-excerpt: "React Counter App & LifeCycle"
+excerpt: "React Project 1, 2 & LifeCycle"
 coverImage: "/my-blog/images/post_img/react-project1/counterApp.png"
 ---
 
-# \[ React Project 1 & LifeCycle ]
+# \[ React Project 1, 2 & LifeCycle ]
 
 이번 포스팅에서는 간단한 카운터 앱(Counter App)을 만들면서 리액트의 **계층 구조**와 **State Lifting(상태 끌어올리기)** 개념에 대해 알아보겠습니다.
 
@@ -278,6 +278,114 @@ export default Even;
 이 옵션을 켜두면 화면에서 컴포넌트의 리렌더링이 발생할 때마다 해당 영역에 **랜덤한 색깔의 테두리(하이라이트)**가 잠깐 나타났다 사라지게 됩니다. 
 이를 통해 현재 **불필요하게 리렌더링이 발생하고 있는 컴포넌트가 무엇인지** 아주 쉽고 직관적으로 파악할 수 있어 성능 최적화(Optimization)를 진행할 때 매우 유용합니다.
 
+
+## 8. Todo List App (CRUD & Layout)
+
+두 번째 프로젝트로 **Todo List(할 일 관리 앱)**를 만들어 보았습니다. 이 프로젝트를 통해 데이터를 추가하고, 삭제하고, 수정하고, 검색하는 **CRUD의 모든 과정**을 익힐 수 있습니다.
+
+![Todo List 완성 화면](/my-blog/images/post_img/react-project1/project2.png)
+
+### 1) Flexbox를 이용한 가로 배치
+
+`TodoItem` 컴포넌트에서 체크박스, 할 일 내용, 날짜, 삭제 버튼을 가로로 나란히 배치하기 위해 **Display Flex** 속성을 사용했습니다.
+
+```css title="src/components/TodoItem.css"
+.TodoItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.TodoItem .content {
+  flex: 1; /* 남는 공간을 모두 차지하도록 설정 */
+}
+```
+
+`gap` 속성을 통해 요소 사이의 간격을 일정하게 유지하고, `flex: 1`을 사용하여 내용 영역이 가로 공간을 꽉 채우도록 구현했습니다.
+
+### 2) 배열 데이터를 활용한 CRUD (추가, 수정, 삭제, 검색)
+
+리액트에서 배열 형태의 데이터를 다루는 것은 매우 중요합니다. 이번 프로젝트를 통해 데이터를 다루는 핵심적인 방법들을 모두 배울 수 있었습니다.
+
+#### 데이터 추가 (Create)
+새로운 아이템을 추가할 때 기존 배열을 직접 수정하는 것이 아니라, **전개 연산자(...spread operator)**를 사용하여 기존 데이터를 포함한 새로운 배열을 만들어야 합니다.
+
+```jsx
+const onCreate = (content) => {
+  const newTodo = {
+    id: idRef.current++,
+    isDone: false,
+    content: content,
+    date: new Date().getTime(),
+  }
+  // push를 사용하지 않고 상태 변화 함수에 새 배열을 전달
+  setTodos([...todos, newTodo]);
+}
+```
+
+#### 데이터 수정 (Update)
+특정 아이템의 상태(완료 여부)를 바꿀 때는 `map` 메서드를 사용합니다. `targetId`와 일치하는 요소만 변경된 객체로 바꾸고, 나머지는 기존 그대로 유지하는 방식입니다.
+
+```jsx
+const onUpdate = (targetId) => {
+  setTodos(
+    todos.map((todo) =>
+      todo.id === targetId
+        ? { ...todo, isDone: !todo.isDone }
+        : todo
+    )
+  );
+};
+```
+
+#### 데이터 삭제 (Delete)
+데이터를 삭제할 때는 `filter` 메서드를 사용합니다. 삭제하려는 `id`를 제외한 나머지 아이템들만으로 구성된 새로운 배열을 반환합니다.
+
+```jsx
+const onDelete = (targetId) => {
+  setTodos(todos.filter((todo) => todo.id !== targetId));
+};
+```
+
+#### 데이터 검색 (Search)
+목록을 필터링하여 검색 기능을 구현할 때도 `filter`와 `includes` 메서드를 활용합니다.
+
+```jsx
+const getFilterData = () => {
+  if (search === "") {
+    return todos;
+  }
+  return todos.filter((todo) =>
+    todo.content.toLowerCase().includes(search.toLowerCase())
+  );
+};
+```
+
+**데이터 직접 수정(Push 등) 금지**
+
+리액트의 State는 **불변성(Immutability)**을 유지해야 합니다. `todos.push(newTodo)`처럼 배열을 직접 수정하면 리액트가 변화를 감지하지 못해 화면이 리렌더링되지 않습니다. 반드시 새로운 배열을 생성해서 전달해야 한다는 점이 가장 중요한 포인트입니다.
+
+
+### 3) 리스트 렌더링과 Key Prop
+
+배열 데이터를 `map`을 이용해 여러 개의 컴포넌트로 렌더링할 때는 반드시 각 컴포넌트에 고유한 `key` 값을 전달해야 합니다. 이를 통해 리액트는 어떤 요소가 추가, 수정, 삭제되었는지 정확하고 효율적으로 파악할 수 있습니다.
+
+```jsx
+{filteredData.map((todo) => {
+  return (
+    <TodoItem
+      key={todo.id} // 고유한 id 전달 필수
+      {...todo}
+      onUpdate={onUpdate}
+      onDelete={onDelete}
+    />
+  );
+})}
+```
+
+---
 
 ### Reference
 
