@@ -1,55 +1,43 @@
 ---
-title: "블로그 웹사이트"
+title: "개인 기술 블로그: My Blog"
 date: "2024-12-15"
 category: "개발"
 tags: [GitHub]
-excerpt: "React + Vite로 제작한 개인 블로그 웹사이트. 마크다운 기반 콘텐츠와 GitHub Pages 배포, 다크 모드까지 포함합니다."
-# coverImage: "/my-blog/images/1.png"
+excerpt: "React와 Vite를 활용하여 구축한 마크다운 기반의 기술 블로그 프로젝트입니다."
+coverImage: "/my-blog/images/post_img/myblog.png"
 ---
 
-> 이 프로젝트는 React와 Vite를 사용하여 개발한 개인 블로그 웹사이트입니다.
+> 이 프로젝트는 React와 Vite를 사용하여 개발한 개인 블로그 웹사이트입니다. 개발자에게 익숙한 마크다운 문법을 통해 콘텐츠를 효율적으로 관리하고 배포하는 것을 목표로 합니다.
 
 ## 주요 기능
-- 반응형 레이아웃(모바일/데스크톱)
-- 마크다운 기반 콘텐츠
-- 다크 모드 지원
 
-## 사용 기술
-- React
-- Vite
-- React Router
-- CSS Modules
-- GitHub Pages / Actions
+### 마크다운 렌더링 엔진
+- **GitHub 공식 Alert 문법 지원**: `> [!NOTE]`, `> [!TIP]` 등 GitHub 공식 문법을 지원하며, 이에 맞는 커스텀 스타일을 적용했습니다.
+- **GFM(GitHub Flavored Markdown) 지원**: 표, 체크리스트 등 표준 마크다운 확장 기능을 사용할 수 있습니다.
 
-## 구현 포인트
-### 반응형 디자인
-모바일부터 데스크톱까지 다양한 화면 크기에 대응하는 반응형 디자인을 구현했습니다.
+### 코드 블록 및 하이라이팅
+- **Prism.js 기반 하이라이팅**: 기술 포스트 작성 시 코드의 가독성을 높이기 위해 Syntax Highlighting을 적용했습니다.
+- **복사 및 알림 기능**: 코드 블록 내 복사 버튼을 제공하며, 복사 성공 시 토스트 메시지가 노출됩니다.
 
-### 배포
-GitHub Pages에 배포했고, Actions로 자동 배포 흐름을 구성했습니다.
+### 이미지 전처리 및 디자인
+- **호버 애니메이션**: 이미지 마우스 호버 시 부드러운 줌 효과를 제공합니다.
+- **캡션 시스템**: 이미지 하단에 캡션을 우아하게 노출하는 오버레이 스타일을 구현했습니다.
+- **다크 모드 지원**: CSS Variables를 활용해 라이트/다크 테마에 즉각적으로 대응합니다.
 
-```css
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-}
-```
+## 사용 기술 (Tech Stack)
 
-### 마크다운 콘텐츠
-마크다운 파일을 사용하여 블로그 포스트와 프로젝트 설명을 관리합니다.
+### 프레임워크 및 라이브러리
+- **React**: UI 컴포넌트 개발
+- **Vite**: 빌드 도구 및 개발 환경
+- **react-markdown**: 마크다운 파싱 및 렌더링
+- **Remark / Rehype**: 마크다운 트리 조작 및 HTML 변환
 
-```jsx
-import ReactMarkdown from 'react-markdown';
-
-function MarkdownContent({ content }) {
-  return <ReactMarkdown>{content}</ReactMarkdown>;
-}
-```
+### 배포 및 도구
+- **GitHub Pages**: 정적 웹사이트 호스팅
+- **GitHub Actions**: 자동 빌드 및 배포 파이프라인(CI/CD)
 
 ## 배운 점
-이 프로젝트를 통해 다음과 같은 것들을 배웠습니다:
 
-1. CSS 모듈을 활용한 스타일 관리
-2. 마크다운 기반 콘텐츠 시스템 구축
-3. GitHub Pages 배포 최적화
+1. **마크다운 기반 콘텐츠 시스템 구축**: 텍스트 파일을 파싱하여 동적인 웹 페이지로 변환하는 전 과정을 이해하고, 커스텀 마크다운 엔진을 구축하는 경험을 얻었습니다.
+2. **GitHub Pages 배포 최적화**: GitHub Actions를 통해 빌드 시간을 단축하고, 정적 자산 배포를 자동화하는 과정을 경험했습니다.
+3. **CSS 모듈을 이용한 스타일 관리**: 컴포넌트 단위로 스타일을 독립시켜 복잡한 UI 프로젝트에서도 디자인 사양을 일관성 있게 유지하는 방법을 익혔습니다.

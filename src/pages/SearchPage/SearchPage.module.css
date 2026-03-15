@@ -273,6 +273,7 @@
 
 .listImageContainer {
   width: 280px;
+  height: 180px; /* 데스크톱에서도 고정 높이를 지정하여 이미지 크롭 보장 */
   flex-shrink: 0;
   overflow: hidden;
 }

@@ -184,6 +184,10 @@ html.dark-theme .resultCountBadge,
   transform: translateX(5px);
 }
 
+.postCard:hover .tag {
+  transform: translateY(-2px);
+}
+
 /* 다크 모드에서 게시글 카드 그림자 강화 */
 html.dark-theme .postCard,
 [data-theme="dark"] .postCard {
@@ -379,6 +383,24 @@ html.dark-theme .featuredTag,
   transform: translateY(-2px);
 }
 
+.moreTags {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* 다크 모드에서의 moreTags */
+html.dark-theme .moreTags,
+[data-theme="dark"] .moreTags {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+}
+
 /* 다크 모드에서 태그 스타일 개선 */
 html.dark-theme .tag,
 [data-theme="dark"] .tag {
@@ -392,6 +414,8 @@ html.dark-theme .tag,
 html.dark-theme .tag:hover,
 [data-theme="dark"] .tag:hover {
   background-color: rgba(79, 192, 255, 0.5) !important;
+  transform: translateY(-2px);
+  text-decoration: none !important;
 }
 
 html.dark-theme .postFooter,
@@ -407,6 +431,8 @@ html.dark-theme .postFooter,
   font-size: 0.9rem;
   transition: color 0.3s ease;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .readMoreIcon {

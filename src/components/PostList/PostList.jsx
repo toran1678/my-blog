@@ -262,11 +262,14 @@ export default function PostList() {
                     <div className={styles.postFooter}>
                       {post.tags && post.tags.length > 0 && (
                         <div className={styles.postTags}>
-                          {post.tags.map((tag) => (
+                          {post.tags.slice(0, 2).map((tag) => (
                             <Link key={tag} to={`/posts?tag=${encodeURIComponent(tag)}`} className={styles.tag}>
                               {tag}
                             </Link>
                           ))}
+                          {post.tags.length > 2 && (
+                            <span className={styles.moreTags}>+{post.tags.length - 2}</span>
+                          )}
                         </div>
                       )}
 
