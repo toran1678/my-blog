@@ -355,3 +355,145 @@ const onCreate = useCallback((content) => {
 - 함수나 연산이 굉장히 많아 코드가 **무거운 컴포넌트**
 - 자식 컴포넌트를 아주 많이 포함하고 있어 리렌더링 파급 효과가 큰 **부모 컴포넌트**
 
+---
+
+## React Context
+
+**React Context**란 컴포넌트 간의 데이터를 전달하는 또 다른 방법입니다. 기존의 Props가 가지고 있는 단점을 해결할 수 있는 강력한 도구입니다.
+
+### Props의 단점: Props Drilling
+기존의 Props는 **부모 -> 자식** 방향으로만 데이터를 전달할 수 있었습니다.
+
+![props_drilling](/my-blog/images/post_img/onebite-react/react-useReducer/context.png)
+
+만약 `App -> ChildA -> ChildB` 구조에서 `App`의 데이터를 `ChildB`로 직접 전달하고 싶어도, 중간에 있는 `ChildA`가 다리 역할을 해줘야만 합니다. 서비스 규모가 커져 컴포넌트 계층이 깊어지면(`A -> B -> C -> D -> E`), 데이터를 필요로 하지 않는 중간 컴포넌트들까지 모두 props를 전달해야 하는 번거로움이 발생하는데, 이를 **Props Drilling**이라고 합니다.
+
+Context는 이러한 문제를 해결하기 위해 **데이터 보관소** 역할을 하는 객체를 생성하여, 어떤 컴포넌트든 필요한 데이터를 다이렉트로 꺼내 쓸 수 있게 해줍니다.
+
+![context_concept](/my-blog/images/post_img/onebite-react/react-useReducer/context2.png)
+
+위 이미지처럼 특정 컴포넌트 그룹은 A Context를, 다른 그룹은 B Context를 사용하도록 설정하여 데이터를 효율적으로 공급할 수 있습니다.
+
+---
+
+## Context 사용하기
+
+### 1. Context 생성
+`createContext`를 사용하여 새로운 Context를 생성합니다. 보통 컴포넌트 외부에 선언합니다.
+
+```jsx
+import { createContext } from "react";
+
+// Context 객체 생성
+export const TodoContext = createContext();
+```
+
+### 2. Provider 설정
+Context 객체 안에는 `Provider`라는 프로퍼티가 있습니다. 이 Provider로 전달받을 컴포넌트들을 감싸주면 됩니다.
+
+```jsx
+// App.jsx
+return (
+  <div className="App">
+    <Header />
+    <TodoContext.Provider value={{
+      todos,
+      onCreate,
+      onUpdate,
+      onDelete
+    }}>
+      <Editor />
+      <List />
+    </TodoContext.Provider>
+  </div>
+);
+```
+
+![context_provider](/my-blog/images/post_img/onebite-react/react-useReducer/context3.png)
+
+`Provider`의 `value` props를 통해 하위 컴포넌트들에게 전달할 데이터를 객체 등으로 묶어서 보냅니다. 이제 이 아래에 있는 모든 컴포넌트들은 `TodoContext`에 저장된 데이터를 다이렉트로 공급받을 수 있습니다.
+
+![context_value](/my-blog/images/post_img/onebite-react/react-useReducer/context4.png)
+
+### 3. useContext로 데이터 꺼내기
+컴포넌트에서 Context에 보관된 데이터를 사용할 때는 `useContext` 훅을 사용합니다.
+
+```jsx
+// Editor.jsx
+import { useContext } from "react";
+import { TodoContext } from "../App";
+
+const Editor = () => {
+  const { onCreate } = useContext(TodoContext);
+  // ...
+```
+
+---
+
+## Context 분리하기 (최적화)
+
+Context를 적용하면 코드가 깔끔해지지만, 한 가지 문제가 발생할 수 있습니다. 바로 **불필요한 리렌더링**입니다.
+
+![context_render_issue](/my-blog/images/post_img/onebite-react/react-useReducer/context5.png)
+
+`Editor`, `List`, `TodoItem` 컴포넌트들이 `TodoContext`가 공급하는 데이터를 사용하도록 설정했습니다. 하지만 이렇게 하면 기존에 적용해두었던 최적화(`memo`)가 제대로 작동하지 않는 것처럼 보일 수 있습니다.
+
+그 이유는 `Provider` 컴포넌트도 결국 React의 컴포넌트이기 때문입니다. 새로운 Todo를 추가하거나 기존 Todo를 수정/삭제하면 `App` 컴포넌트의 `TodoState`가 변경되어 `App`이 리렌더링됩니다. 이때 `Provider`에게 `value` Props로 전달하는 객체(`{ todos, onCreate, onUpdate, onDelete }`)가 매번 새롭게 생성됩니다.
+
+이전에 `TodoItem` 등에 `memo`를 적용해두었더라도, `useContext`로 불러오는 값이 변경되면 Props가 변경된 것과 동일하게 리렌더링이 발생합니다. 결과적으로 Context를 통해 전달하는 객체 자체가 다시 만들어지면서 하위 컴포넌트들의 최적화가 풀리게 되는 것입니다.
+
+이 문제는 **Context를 두 개로 분리**하여 해결할 수 있습니다.
+
+![split_context](/my-blog/images/post_img/onebite-react/react-useReducer/context6.png)
+
+1.  **TodoStateContext**: 변경될 가능성이 있는 `todos` 상태값만 공급
+2.  **TodoDispatchContext**: 절대 변경되지 않는 함수들(`onCreate`, `onUpdate`, `onDelete`)만 공급
+
+![split_provider](/my-blog/images/post_img/onebite-react/react-useReducer/context7.png)
+
+`TodoStateContext`와 `TodoDispatchContext`를 각각 생성하여 계층 구조를 만듭니다. `todos` 상태는 `TodoStateContext.Provider`를 통해 공급하고, `onCreate`, `onUpdate`, `onDelete`와 같은 함수들은 `TodoDispatchContext.Provider`를 통해 하위 컴포넌트로 전달합니다.
+
+-   **Editor 컴포넌트**: `TodoDispatchContext`에서 `onCreate` 함수를 꺼내 사용합니다.
+-   **TodoItem 컴포넌트**: `TodoDispatchContext`에서 `onUpdate`, `onDelete` 함수를 꺼내 사용합니다.
+-   **List 컴포넌트**: `todos` 상태가 필요하므로 `TodoStateContext`에서 값을 가져옵니다.
+
+이렇게 컨텍스트를 분리하면 `todos` 상태가 업데이트되어 `TodoStateContext`가 리렌더링되더라도, `TodoDispatchContext`를 사용하는 컴포넌트들(`Editor`, `TodoItem`)은 공급받는 함수 객체가 변경되지 않았으므로 불필요한 리렌더링이 발생하지 않습니다. (`memo`를 적용한 경우)
+
+### 최적화 적용 예시
+
+```jsx
+// App.jsx
+export const TodoStateContext = createContext();
+export const TodoDispatchContext = createContext();
+
+function App() {
+  const [todos, dispatch] = useReducer(reducer, mockData);
+
+  // 함수들이 재생성되지 않도록 useMemo로 묶어줍니다.
+  const memoizedDispatch = useMemo(() => {
+    return { onCreate, onUpdate, onDelete };
+  }, []);
+
+  return (
+    <div className="App">
+      <Header />
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedDispatch}>
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
+    </div>
+  );
+}
+```
+
+- `TodoStateContext`에서는 `todos`를 직접 전달합니다.
+- `TodoDispatchContext`에서는 `useMemo`로 메모이제이션한 함수 객체를 전달합니다.
+- 이제 `todos` 상태가 업데이트되어 `List` 컴포넌트가 리렌더링되더라도, `Editor`나 `TodoItem`처럼 `TodoDispatchContext`만 사용하는 컴포넌트들은 함수 객체가 그대로이므로 불필요한 리렌더링을 방지할 수 있습니다.
+
+---
+
+### Reference
+
+- 인프런 강의: [한 입 크기로 잘라 먹는 리액트(React.js) : 기초부터 실전까지] - 이정환
