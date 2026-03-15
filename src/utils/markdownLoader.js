@@ -87,8 +87,8 @@ function parseFrontMatter(markdown) {
   export async function getPosts() {
     const posts = []
   
-    // Vite의 import.meta.glob을 사용하여 모든 마크다운 파일 가져오기
-    const postFiles = import.meta.glob("/src/content/posts/*.md", { as: "raw" })
+    // Vite의 import.meta.glob을 사용하여 모든 마크다운 파일 가져오기 (하위 폴더 포함)
+    const postFiles = import.meta.glob("/src/content/posts/**/*.md", { as: "raw" })
   
     for (const path in postFiles) {
       const content = await postFiles[path]()
@@ -122,8 +122,8 @@ function parseFrontMatter(markdown) {
   export async function getProjects() {
     const projects = []
   
-    // Vite의 import.meta.glob을 사용하여 모든 마크다운 파일 가져오기
-    const projectFiles = import.meta.glob("/src/content/projects/*.md", { as: "raw" })
+    // Vite의 import.meta.glob을 사용하여 모든 마크다운 파일 가져오기 (하위 폴더 포함)
+    const projectFiles = import.meta.glob("/src/content/projects/**/*.md", { as: "raw" })
   
     for (const path in projectFiles) {
       const content = await projectFiles[path]()

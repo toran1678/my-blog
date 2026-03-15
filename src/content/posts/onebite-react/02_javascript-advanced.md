@@ -4,7 +4,7 @@ date: "2026-02-03"
 category: "개발"
 tags: [JavaScript]
 excerpt: "JavaScript 심화 핵심 요약"
-coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"
+coverImage: "/my-blog/images/post_img/onebite-react/javascript-basic/javascript.png"
 ---
 
 # \[JavaScript] 자바스크립트 심화 핵심 요약

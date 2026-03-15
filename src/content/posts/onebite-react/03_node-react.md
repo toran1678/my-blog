@@ -4,25 +4,25 @@ date: "2026-02-09"
 category: "개발"
 tags: [Node.js, React]
 excerpt: "Node.js 기초와 React.js에 대한 글입니다."
-coverImage: "/my-blog/images/post_img/node-react/node-react.jpg"
+coverImage: "/my-blog/images/post_img/onebite-react/node-react/node-react.jpg"
 ---
 
 # \[ Node.js 기초 React.js 개론 ]
 ## Node.js란?
 > 웹 브라우저 밖에서 자바스크립트 코드를 실행할 수 있게 해주는 환경(런타임)
 
-![Nodejs란?](/my-blog/images/post_img/node-react/Nodejs란.png)
+![Nodejs란?](/my-blog/images/post_img/onebite-react/node-react/Nodejs란.png)
 
 ### Node.js는 왜 만든 걸까?
 **JavaScript**는 웹 페이지 내부에 필요한 아주 단순한 기능만을 개발하기 위해 만들어진 스크립트 언어인데 이를 범용적으로 사용할 수 있도록 도와주는 **JavaScript의 실행 환경**, 즉 런타임입니다.
 
 ### 프로젝트(Project)
-![패키지](/my-blog/images/post_img/node-react/패키지.png)
+![패키지](/my-blog/images/post_img/onebite-react/node-react/패키지.png)
 
 ### 모듈(Module)이란?
 간단한 웹 쇼핑몰을 만들 때 복잡한 기능을 하나의 파일에만 작성하면 코드의 양의 어마어마할 것입니다. 이때 버그나 기능을 개선하려고 할 때 수정해야 되는 곳이 어디인지 매번 찾아가야 되기 때문에 **가독성**이 떨어지게 됩니다.
 
-![모듈이란?](/my-blog/images/post_img/node-react/모듈이란.png)
+![모듈이란?](/my-blog/images/post_img/onebite-react/node-react/모듈이란.png)
 그럴 때 위와 같이 기능별로 파일을 깔끔하게 분리하는 게 일반적입니다. 이때 `user.js`, `cart.js` 또는 `payment.js` 파일처럼 기능별로 나뉘어진 각각의 자바스크립트 파일들을 **모듈**이라고 부릅니다.
 
 ### 모듈 시스템(Module System)이란?
@@ -106,7 +106,7 @@ export default function multiply(a, b) { return a * b; }
 > 컴포넌트(Component)란 우리말로 "구성요소"라는 뜻
 > 화면을 구성하는 요소, UI를 구성하는 요소를 말함
 
-![컴포넌트](/my-blog/images/post_img/node-react/컴포넌트.png)
+![컴포넌트](/my-blog/images/post_img/onebite-react/node-react/컴포넌트.png)
 리액트에서는 웹페이지를 하나의 거대한 통으로 만들지 않고, 헤더(`Header.js`), 메인(`Main.js`), 푸터(`Footer.js`)처럼 각 영역을 독립적인 **컴포넌트(Component)** 단위로 분리해 모듈화할 수 있습니다. 이렇게 나뉜 부품들을 마치 레고 블록을 조립하듯 하나로 합쳐 완성합니다. 코드 관리도 쉬워지고, 재사용성도 극대화됩니다.
 
 ```html
@@ -135,7 +135,7 @@ export default function multiply(a, b) { return a * b; }
 
 **선언형 프로그래밍 방식**은 목적만 명시하면 되기 때문에 코드가 비교적 간결하고, **명령형 프로그래밍 방식**은 목적을 이루기 위한 모든 과정을 설명하기 때문에 코드가 비교적 길고 복잡해질 수 있음
 
-![State](/my-blog/images/post_img/node-react/State.png)
+![State](/my-blog/images/post_img/onebite-react/node-react/State.png)
 
 리액트 컴포넌트에는 **State**라고 불리는 특별한 '기억 장치'가 있습니다.
 > State란? 사용자와의 상호작용을 통해 언제든지 바뀔 수 있는 데이터 (예: 좋아요 수, 입력한 글자 등)
@@ -153,11 +153,11 @@ export default function multiply(a, b) { return a * b; }
 웹페이지는 단순히 보여주는 것을 넘어, 끊임없이 변화합니다. 리액트가 왜 빠른지 이해하려면, 먼저 브라우저가 화면을 그리는 기본 원리인 CRP를 알아야 합니다.
 
 ### 브라우저의 렌더링 과정(Critical Rendering Path)
-![브라우저의 렌더링 과정.png](/my-blog/images/post_img/node-react/브라우저의-렌더링-과정.png)
+![브라우저의 렌더링 과정.png](/my-blog/images/post_img/onebite-react/node-react/브라우저의-렌더링-과정.png)
 
 > 브라우저가 HTML, CSS 파일을 받아서 화면에 픽셀을 찍기까지의 여정으로 프론트엔드 개발의 핵심 기본 개념
 
-![DOM.png](/my-blog/images/post_img/node-react/DOM.png)
+![DOM.png](/my-blog/images/post_img/onebite-react/node-react/DOM.png)
 
 1. **객체 생성 (DOM & CSSOM):**
   - **DOM:** HTML 코드를 브라우저가 이해할 수 있는 객체로 변환
@@ -231,17 +231,17 @@ export default function multiply(a, b) { return a * b; }
 
 > 가상 돔(Virtual DOM)이란? 실제 브라우저가 렌더링하는 DOM을 자바스크립트 객체로 가볍게 복사해놓은 '복제판'
 
-![Virtual DOM](/my-blog/images/post_img/node-react/Virtual-DOM.png)
+![Virtual DOM](/my-blog/images/post_img/onebite-react/node-react/Virtual-DOM.png)
 - **특징:** 실제 화면을 그리는 게 아니라 자바스크립트 객체일 뿐이라서 수정 속도가 매우 빠릅니다.
 - **역할:** 업데이트가 발생하면 실제 DOM을 건드리기 전에, 이 가상의 복제판에 먼저 반영해 봅니다.
 
 ### 가상 돔의 동작 원리: "버퍼링(Buffering)"
 만약 동시에 3개의 업데이트가 발생했다고 가정해 봅시다.
-![Virtual DOM 예시](/my-blog/images/post_img/node-react/Virtual-DOM-예시.png)
+![Virtual DOM 예시](/my-blog/images/post_img/onebite-react/node-react/Virtual-DOM-예시.png)
 1. **동시 업데이트 발생:** 실제 DOM 대신 자바스크립트 객체인 **가상 돔**에 먼저 업데이트들을 순서대로 반영합니다.
 2. **업데이트 수집:** 가상 돔은 일종의 **버퍼(모아두는 장소)** 역할을 수행하며, 발생한 모든 변화를 차곡차곡 모읍니다.
 
-![Virtual DOM 예시2.png](/my-blog/images/post_img/node-react/Virtual-DOM-예시2.png)
+![Virtual DOM 예시2.png](/my-blog/images/post_img/onebite-react/node-react/Virtual-DOM-예시2.png)
 3. **한 번에 반영:** 모든 업데이트가 다 모이면, 리액트는 바뀐 부분만 계산하여 **실제 DOM에 딱 한 번만 반영**합니다.
 
 ### 핵심 요약: 왜 리액트가 빠를까?

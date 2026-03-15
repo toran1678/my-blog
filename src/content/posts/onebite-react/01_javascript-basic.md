@@ -4,7 +4,7 @@ date: "2026-01-29"
 category: "개발"
 tags: [JavaScript]
 excerpt: "JavaScript 기초 핵심 요약"
-coverImage: "/my-blog/images/post_img/javascript-basic/javascript.png"
+coverImage: "/my-blog/images/post_img/onebite-react/javascript-basic/javascript.png"
 ---
 
 # \[ JavaScript ] 자바스크립트 기초 핵심 요약
@@ -92,7 +92,7 @@ let none;
 
 > 알아볼 것: 나머지를 구하는 연산은 모듈러 연산이라고 부르는데 이를 알아보기
 ### Null과 Undefined의 차이점
-![Null과 Undefined의 차이점](/my-blog/images/post_img/javascript-basic/undefined-null.png)
+![Null과 Undefined의 차이점](/my-blog/images/post_img/onebite-react/javascript-basic/undefined-null.png)
 
 - null은 주소값이 없는 것
 - undefined는 값이 할당되지 않은 것

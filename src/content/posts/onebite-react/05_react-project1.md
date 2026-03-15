@@ -4,7 +4,7 @@ date: "2026-03-03"
 category: "개발"
 tags: [React]
 excerpt: "React Project 1, 2 & LifeCycle"
-coverImage: "/my-blog/images/post_img/react-project1/counterApp.png"
+coverImage: "/my-blog/images/post_img/onebite-react/react-project1/counterApp.png"
 ---
 
 # \[ React Project 1, 2 & LifeCycle ]
@@ -28,13 +28,13 @@ coverImage: "/my-blog/images/post_img/react-project1/counterApp.png"
 2. **부모-자식 관계의 필요성**: 특정 컴포넌트가 다른 컴포넌트에게 데이터를 전달하려면 반드시 두 컴포넌트는 서로 부모와 자식 관계를 가지고 있어야 합니다.
 3. **공통 부모 컴포넌트의 역할**: 그렇기 때문에 하나의 State를 여러 컴포넌트에서 관리(공유)하게 될 경우, 이 State는 반드시 **이런 컴포넌트들의 공통 부모가 되는 곳**에서 만들어야 합니다.
 
-![컴포넌트 계층 구조](/my-blog/images/post_img/react-project1/image1.png)
+![컴포넌트 계층 구조](/my-blog/images/post_img/onebite-react/react-project1/image1.png)
 
 이렇게 State를 계층 구조상에서 **위로 끌어올려서** 그 아래에 있는 컴포넌트들이 모두 공유할 수 있도록 만드는 방법을 리액트에서는 **State Lifting(상태 끌어올리기)**이라고 표현합니다.
 
-![State Lifting 동작 원리](/my-blog/images/post_img/react-project1/image2.png)
+![State Lifting 동작 원리](/my-blog/images/post_img/onebite-react/react-project1/image2.png)
 
-![데이터 흐름 및 상태 관리](/my-blog/images/post_img/react-project1/image3.png)
+![데이터 흐름 및 상태 관리](/my-blog/images/post_img/onebite-react/react-project1/image3.png)
 
 따라서 프로젝트를 설계할 때 **해당 State를 어떤 컴포넌트에 위치시킬 것인지**를 잘 고려해서 결정해야 합니다.
 
@@ -43,7 +43,7 @@ coverImage: "/my-blog/images/post_img/react-project1/counterApp.png"
 State Lifting 개념을 적용하여 간단한 카운터 앱을 구현해 보겠습니다.
 전체적인 구조는 최상위 부모인 `App` 컴포넌트가 `count` State를 가지고 있고, 이를 자식 컴포넌트인 `Viewer`와 `Controller`에게 Props로 전달하는 형태입니다.
 
-![Counter App 완성 화면](/my-blog/images/post_img/react-project1/counterApp.png)
+![Counter App 완성 화면](/my-blog/images/post_img/onebite-react/react-project1/counterApp.png)
 
 ### Controller 컴포넌트
 버튼을 클릭하여 부모로부터 전달받은 `onClickButton` 함수를 호출해 값을 변경합니다.
@@ -131,11 +131,11 @@ export default App
 ## 4. 라이프사이클 (LifeCycle)
 **라이프사이클(LifeCycle)**이란 우리말로 "생애 주기"를 뜻하는 단어입니다.
 
-![LifeCycle](/my-blog/images/post_img/react-project1/lifeCycle.png)
+![LifeCycle](/my-blog/images/post_img/onebite-react/react-project1/lifeCycle.png)
 
 인간의 라이프사이클이 탄생부터 시작해서 죽음에 이르는 단계를 거치듯, **리액트의 컴포넌트도 비슷한 라이프사이클을 가집니다.** (물론 애기 컴포넌트, 청소년 컴포넌트, 성인 컴포넌트 같은 것은 아닙니다)
 
-![React LifeCycle](/my-blog/images/post_img/react-project1/reactLifeCycle.png)
+![React LifeCycle](/my-blog/images/post_img/onebite-react/react-project1/reactLifeCycle.png)
 
 컴포넌트의 라이프사이클은 크게 **Mount**, **Update**, **UnMount**라는 세 가지 단계로 구분할 수 있습니다.
 
@@ -266,12 +266,12 @@ export default Even;
 
 설정이 완료되었다면 개발자 도구(`F12`)를 열어보세요! 기존 탭들 옆에 이전에 없던 `Components`와 `Profiler`라는 새로운 탭이 생긴 것을 확인할 수 있습니다.
 
-![Components 탭 화면](/my-blog/images/post_img/react-project1/components.png)
+![Components 탭 화면](/my-blog/images/post_img/onebite-react/react-project1/components.png)
 
 `Components` 탭에 들어가면, 현재 화면이 어떤 리액트 컴포넌트 계층 구조로 이루어져 있는지, 각 컴포넌트의 State와 Props 값은 무엇인지 직관적으로 보여줍니다.
 
-![Developer Tools 설정 화면 1](/my-blog/images/post_img/react-project1/developerTools1.png)
-![Developer Tools 설정 화면 2](/my-blog/images/post_img/react-project1/developerTools2.png)
+![Developer Tools 설정 화면 1](/my-blog/images/post_img/onebite-react/react-project1/developerTools1.png)
+![Developer Tools 설정 화면 2](/my-blog/images/post_img/onebite-react/react-project1/developerTools2.png)
 
 또한 위 화면처럼 우측 상단의 톱니바퀴 아이콘(설정)을 눌러 **`Highlight updates when components render.`** 옵션을 체크해 보세요! 
 
@@ -283,7 +283,7 @@ export default Even;
 
 두 번째 프로젝트로 **Todo List(할 일 관리 앱)**를 만들어 보았습니다. 이 프로젝트를 통해 데이터를 추가하고, 삭제하고, 수정하고, 검색하는 **CRUD의 모든 과정**을 익힐 수 있습니다.
 
-![Todo List 완성 화면](/my-blog/images/post_img/react-project1/project2.png)
+![Todo List 완성 화면](/my-blog/images/post_img/onebite-react/react-project1/project2.png)
 
 ### 1) Flexbox를 이용한 가로 배치
 

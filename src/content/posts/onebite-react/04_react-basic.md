@@ -4,7 +4,7 @@ date: "2026-02-28"
 category: "개발"
 tags: [React]
 excerpt: "React 입문 핵심 요약"
-coverImage: "/my-blog/images/post_img/react-basic/react.png"
+coverImage: "/my-blog/images/post_img/onebite-react/react-basic/react.png"
 ---
 
 # \[ React 입문 ]
@@ -227,7 +227,7 @@ const Main = () => {
 
 React의 컴포넌트는 재사용이 가능한 코드 조각입니다. 하지만 컴포넌트가 항상 똑같은 모습만 보여준다면 활용도가 매우 떨어지게 됩니다. 이때 **Props**를 사용하면 하나의 컴포넌트에 다양한 데이터를 전달하여, 형태는 같지만 내용이 다른 다채로운 UI를 만들어낼 수 있습니다.
 
-![props](/my-blog/images/post_img/react-basic/props.png)
+![props](/my-blog/images/post_img/onebite-react/react-basic/props.png)
 위 이미지를 살펴보면, 부모 컴포넌트인 `App`에서 자식 컴포넌트인 `Button`을 3번 사용하고 있습니다.
 이때 각각 `text`와 `img`라는 이름으로 서로 다른 값을 전달하여 **하나의 버튼 컴포넌트를 3가지 용도(메일, 카페, 블로그)로 재사용**하는 것을 볼 수 있습니다.
 
@@ -447,7 +447,7 @@ const onClickButton = (e) => {
 #### 크로스 브라우징 이슈란?
 
 세상에는 크롬, 사파리, 엣지, 파이어폭스 등 다양한 웹 브라우저가 존재합니다. 브라우저마다 제조사가 다르다 보니, **내부적으로 이벤트를 처리하는 방식이나 이벤트 객체의 스펙이 조금씩 다릅니다.**
-![SyntheticBaseEvent](/my-blog/images/post_img/react-basic/SyntheticBaseEvent.png)
+![SyntheticBaseEvent](/my-blog/images/post_img/onebite-react/react-basic/SyntheticBaseEvent.png)
 
 - 예를 들어, 크롬에서는 이벤트가 발생한 요소를 `e.target`으로 가져오는데, 만약 다른 브라우저에서 이를 `e.ETarget`으로 부른다면 어떨까요? (예시일 뿐 실제 작동 방식은 더 복잡합니다.)
 - 개발자는 브라우저마다 다른 코드를 수십 줄씩 작성해야 하는 끔찍한 상황에 부딪히게 됩니다.
@@ -470,7 +470,7 @@ React에서는 이 State의 값에 따라 화면에 렌더링되는 UI가 결정
 
 이처럼 State가 변할 때마다 컴포넌트가 화면을 다시 그리는 과정을 **리렌더(Re-Render)** 또는 **리렌더링(Re-Rendering)**이라고 부릅니다.
 
-![state](/my-blog/images/post_img/react-basic/state.png)
+![state](/my-blog/images/post_img/onebite-react/react-basic/state.png)
 위 사진처럼 하나의 컴포넌트 안에서 여러 개의 독립적인 State를 만들어 관리할 수도 있습니다. 전구의 점등 상태(`isLightOn`), 고장 유무(`isBroken`), 오염 여부(`isDirty`) 등을 각각의 State로 저장해 두는 식입니다.
 
 ### 1. useState로 State 생성하기
@@ -856,7 +856,7 @@ const onChange = (e) => {
 
 #### `useRef`의 또 다른 핵심: DOM 요소 직접 조작
 
-![useRef](/my-blog/images/post_img/react-basic/useRef.png)
+![useRef](/my-blog/images/post_img/onebite-react/react-basic/useRef.png)
 
 위 사진처럼 `useRef`를 이용하면 컴포넌트가 화면에 렌더링하는 특정 DOM 요소(예: `<input>`, `<textarea>` 등)에 직접 접근할 수 있습니다.
 
