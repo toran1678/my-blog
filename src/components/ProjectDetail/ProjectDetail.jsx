@@ -6,6 +6,7 @@ import { getProjectById, getRelatedProjects } from "../../utils/projectLoader"
 import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer"
 import TableOfContents from "../TableOfContents/TableOfContents"
 import { CoverPlaceholder } from "../ImagePlaceholder/ImagePlaceholder"
+import { useTheme } from "../../contexts/ThemeContext"
 import styles from "./ProjectDetail.module.css"
 
 export default function ProjectDetail() {
@@ -16,7 +17,7 @@ export default function ProjectDetail() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [imageError, setImageError] = useState(false)
-  const [theme] = useState("light") // Example theme state, replace with your actual theme implementation
+  useTheme()
   const contentRef = useRef(null)
   const heroRef = useRef(null)
   const [tocOpacity, setTocOpacity] = useState(0)
@@ -164,7 +165,7 @@ export default function ProjectDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className={`${styles.projectLink} ${styles.demoLink}`}
-              style={{ color: theme === "dark" ? "#ffffff" : "" }} // 다크 모드에서 텍스트 색상 강제 지정
+              data-custom-link="true"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -192,6 +193,7 @@ export default function ProjectDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className={`${styles.projectLink} ${styles.repoLink}`}
+              data-custom-link="true"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

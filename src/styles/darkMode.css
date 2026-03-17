@@ -66,7 +66,7 @@ html.dark-theme,
     color: var(--text-primary) !important;
   }
 
-/* 링크 스타일 오버라이드 */
+  /* 링크 스타일 오버라이드 */
   a:not(.primaryButton):not(.secondaryButton):not([data-hero-btn]):not([data-custom-link]) {
     color: var(--accent-primary) !important;
   }
@@ -204,61 +204,6 @@ html.dark-theme,
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* 다크 모드에서 데모 링크 버튼 스타일 개선 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.demoLink,
-  a.projectLink.demoLink {
-    background-color: #0088cc !important; /* 더 진한 파란색으로 대비 향상 */
-    color: #ffffff !important; /* 순수 흰색으로 명확하게 설정 */
-  }
-
-  /* 다크 모드에서 데모 링크 버튼의 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.demoLink .linkIcon,
-  a.projectLink.demoLink .linkIcon {
-    color: #ffffff !important; /* 아이콘을 흰색으로 강제 설정 */
-    stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
-  }
-
-  /* 다크 모드에서 데모 링크 버튼 호버 스타일 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.demoLink:hover,
-  a.projectLink.demoLink:hover {
-    background-color: #0099dd !important; /* 호버 시 밝은 파란색 */
-    color: #ffffff !important; /* 호버 시에도 텍스트 색상 유지 */
-  }
-
-  /* 다크 모드에서 데모 링크 버튼 호버 시 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.demoLink:hover .linkIcon,
-  a.projectLink.demoLink:hover .linkIcon {
-    color: #ffffff !important; /* 호버 시에도 아이콘을 흰색으로 강제 설정 */
-    stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
-  }
-
-  /* 다크 모드에서 저장소 링크 버튼 스타일 개선 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.repoLink,
-  a.projectLink.repoLink {
-    background-color: #2c3e50 !important;
-    color: #ffffff !important;
-  }
-
-  /* 다크 모드에서 저장소 링크 버튼의 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.repoLink .linkIcon,
-  a.projectLink.repoLink .linkIcon {
-    color: #ffffff !important; /* 아이콘을 흰색으로 강제 설정 */
-    stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
-  }
-
-  /* 다크 모드에서 저장소 링크 버튼 호버 스타일 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.repoLink:hover,
-  a.projectLink.repoLink:hover {
-    background-color: #34495e !important;
-    color: #ffffff !important; /* 호버 시에도 텍스트 색상 유지 */
-  }
-
-  /* 다크 모드에서 저장소 링크 버튼 호버 시 아이콘 색상 강제 설정 - 더 구체적인 선택자 사용 */
-  .projectDetail .projectLinks .projectLink.repoLink:hover .linkIcon,
-  a.projectLink.repoLink:hover .linkIcon {
-    color: #ffffff !important; /* 호버 시에도 아이콘을 흰색으로 강제 설정 */
-    stroke: #ffffff !important; /* SVG stroke 색상도 흰색으로 설정 */
-  }
 
   /* 관련 프로젝트 링크 스타일 개선 */
   .viewRelatedProject {

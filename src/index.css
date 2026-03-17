@@ -59,6 +59,17 @@ html.dark-theme,
   --theme-toggle-light: #5e6687;
   --theme-toggle-dark: #f1c40f;
   --hover-bg: rgba(255, 255, 255, 0.1);
+  --transition-speed: 0.3s;
+}
+
+/* Apply transitions globally to themeable properties for smooth theme switching */
+*, *::before, *::after {
+  transition: background-color var(--transition-speed) ease, 
+              border-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease,
+              fill var(--transition-speed) ease,
+              stroke var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
 }
 
 /* 기본 스타일 */
@@ -68,7 +79,6 @@ body {
   font-family: var(--font-sans);
   background-color: var(--white);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
