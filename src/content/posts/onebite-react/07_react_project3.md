@@ -1,5 +1,5 @@
 ---
-title: "React Project 3"
+title: "감정 일기장(Emotion Diary) 프로젝트"
 date: "2026-03-25"
 category: "개발"
 tags: [React]
@@ -8,7 +8,7 @@ coverImage: "/my-blog/images/post_img/onebite-react/react-project3/thumbnail.png
 ---
 # [ 감정 일기장 프로젝트 ]
 
-이번 포스팅에서는 세 번째 프로젝트인 **감정 일기장(Emotion Diary)** 앱을 만들어보겠습니다. 이 프로젝트는 일기를 작성하고, 수정하고, 삭제하며 감정을 기록할 수 있는 간단한 다이어리 서비스입니다.
+이번 포스팅에서는 **감정 일기장(Emotion Diary)** 앱을 소개하고 그 구조를 설명하겠습니다. 이 프로젝트는 일기를 작성하고, 수정하고, 삭제하며 오늘의 감정을 기록할 수 있는 다이어리 서비스입니다.
 
 [데모 페이지 보러가기](https://toran1678.github.io/emotion-diary/)
 
@@ -34,7 +34,7 @@ coverImage: "/my-blog/images/post_img/onebite-react/react-project3/thumbnail.png
 
 ---
 
-## 2. 프로젝트 준비: 가독성과 최적화
+## 2. 가독성과 최적화
 
 프로젝트를 시작하기에 앞서, 폰트나 이미지 같은 정적 자산(Assets)을 효율적으로 관리하는 방법을 이해해야 합니다. 특히 Vite를 사용한다면 `public` 폴더와 `src/assets` 폴더 중 어디에 파일을 넣어야 할지 결정해야 합니다.
 
@@ -58,7 +58,7 @@ Data URI를 사용하면 이미지가 브라우저 메모리에 저장되므로,
 
 ---
 
-## 3. 필수 개념: 페이지 라우팅과 SPA
+## 3. 페이지 라우팅과 SPA
 
 우리가 정의한 여러 페이지들(Index, New, Edit 등) 사이를 이동하기 위해서는 **페이지 라우팅**이라는 개념을 이해해야 합니다.
 
@@ -113,13 +113,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
 ---
 
-## 4. 실무 적용: React Router 설정
+## 4. React Router 설정
 
-이론을 배웠으니, 실제로 우리 프로젝트에 라우팅 기능을 적용해 보겠습니다. 리액트에서 가장 대중적으로 사용되는 **React Router** 라이브러리를 활용합니다.
+이제 감정 일기장 앱에 실제로 라우팅 기능이 어떻게 적용되었는지 살펴보겠습니다. 리액트에서 가장 대중적으로 사용되는 **React Router** 라이브러리를 활용했습니다.
 
 ### 라이브러리 설치
 
-먼저 터미널에서 다음 명령어를 입력하여 `react-router-dom` 라이브러리를 설치합니다.
+프로젝트 구현을 위해 먼저 `react-router-dom` 라이브러리를 설치했습니다.
 
 ```bash
 npm i react-router-dom
@@ -127,7 +127,7 @@ npm i react-router-dom
 
 ### 1) BrowserRouter 설정
 
-리액트 앱 전체에서 라우팅 기능을 사용할 수 있도록 `main.jsx`에서 `BrowserRouter`로 `App` 컴포넌트를 감싸줍니다.
+리액트 앱 전체에서 라우팅 기능을 사용할 수 있도록 `main.jsx`에서 `BrowserRouter`로 `App` 컴포넌트를 감싸주었습니다.
 
 ```jsx title="src/main.jsx"
 import React from "react"
@@ -210,6 +210,20 @@ function App() {
 1.  **URL Parameter**: `/` 뒤에 아이템의 ID 등을 명시하는 방식입니다. (`/product/1`) 주로 아이템의 ID처럼 변경되지 않는 고유한 값을 전달할 때 사용합니다.
 2.  **Query String**: `?` 뒤에 변수명과 값을 명시하는 방식입니다. (`/search?q=검색어`) 주로 검색어처럼 자주 변경되거나 필터링이 필요한 값을 전달할 때 사용합니다.
 
+### useParams로 ID 가져오기
+
+`URL Parameter`로 전달된 ID 값을 컴포넌트 내에서 사용하려면 리액트 라우터의 `useParams` 훅을 사용합니다.
+
+```jsx title="src/pages/Diary.jsx"
+import { useParams } from "react-router-dom";
+
+function Diary() {
+  const { id } = useParams(); // URL 파라미터에서 id 추출
+  
+  return <div>{id}번 일기 상세 페이지입니다.</div>;
+}
+```
+
 ---
 
 ## 6. 웹 스토리지 (Web Storage)
@@ -232,6 +246,18 @@ function App() {
 | **LocalStorage** | 사이트 주소 별 | 사용자가 직접 삭제하기 전까지 데이터 보관 |
 
 우리의 다이어리는 사용자가 브라우저를 껐다 켜도 데이터가 유지되어야 하므로 `localStorage`가 적합합니다.
+
+> [!TIP]
+> **객체 데이터 저장 시 주의사항**
+> `localStorage`는 오직 **문자열**만 저장할 수 있습니다. 배열이나 객체 형태의 데이터를 저장할 때는 반드시 `JSON.stringify()`를 통해 문자열로 변환하고, 꺼낼 때는 `JSON.parse()`를 사용하여 다시 객체 형태로 복원해야 합니다.
+> 
+> ```javascript
+> // 저장할 때
+> localStorage.setItem("diary", JSON.stringify(data));
+> 
+> // 불러올 때
+> const savedData = JSON.parse(localStorage.getItem("diary"));
+> ```
 
 ---
 
@@ -260,6 +286,51 @@ function App() {
 ```
 
 위와 같이 설정하면 링크 공유 시 우리가 지정한 이미지와 제목, 설명이 미리보기 형태로 나타나게 됩니다.
+
+## 8. 커스텀 훅으로 UX 개선하기
+
+리액트 앱을 개발하다 보면 여러 컴포넌트에서 공통으로 사용하는 로직이 생기기 마련입니다. 이때 **커스텀 훅(Custom Hook)**을 만들면 코드의 재사용성을 높이고 컴포넌트를 깔끔하게 유지할 수 있습니다.
+
+### 브라우저 탭 제목 바꾸기 (usePageTitle)
+
+우리는 사용자가 현재 어떤 페이지를 보고 있는지 명확히 알 수 있도록 브라우저 탭의 제목을 동적으로 변경해 줄 것입니다. 이를 위해 `useEffect`를 활용한 `usePageTitle` 훅을 만들어 보겠습니다.
+
+```jsx title="src/hooks/usePageTitle.js"
+import { useEffect } from "react";
+
+const usePageTitle = (title) => {
+  useEffect(() => {
+    const $title = document.getElementsByTagName("title")[0];
+    $title.innerText = title;
+  }, [title]);
+};
+
+export default usePageTitle;
+```
+
+### 실제 적용 사례
+
+이제 이 훅을 각 페이지 컴포넌트에서 호출하기만 하면 됩니다. 페이지가 마운트될 때 브라우저 탭 제목이 우리가 원하는 문자열로 설정됩니다.
+
+```jsx title="src/pages/Home.jsx"
+import usePageTitle from "../hooks/usePageTitle";
+
+function Home() {
+  usePageTitle("감정 일기장");
+  return <div>Home 페이지</div>;
+}
+```
+
+```jsx title="src/pages/Edit.jsx"
+import usePageTitle from "../hooks/usePageTitle";
+
+function Edit() {
+  usePageTitle("일기 수정하기");
+  return <div>Edit 페이지</div>;
+}
+```
+
+이처럼 커스텀 훅을 활용하면 복잡한 로직을 캡슐화하여 UI 로직에만 집중할 수 있게 도와줍니다.
 
 ---
 

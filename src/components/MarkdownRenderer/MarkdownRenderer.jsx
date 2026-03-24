@@ -9,6 +9,25 @@ import rehypeRaw from "rehype-raw"
 import { getImageUrl, debugImagePath } from "../../utils/placeholderImage"
 import styles from "./MarkdownRenderer.module.css"
 
+// 코드 펜스의 title 메타를 hast data-title 속성으로 옮기는 remark 플러그인
+function remarkCodeTitle() {
+  return (tree) => {
+    // tree.children를 직접 순회 (unist-util-visit 없이)
+    const visit = (node) => {
+      if (node.type === "code" && node.meta) {
+        const titleMatch = node.meta.match(/title=["']?([^"'\s]+)["']?/)
+        if (titleMatch) {
+          node.data = node.data || {}
+          node.data.hProperties = node.data.hProperties || {}
+          node.data.hProperties["data-title"] = titleMatch[1]
+        }
+      }
+      if (node.children) node.children.forEach(visit)
+    }
+    visit(tree)
+  }
+}
+
 // 특별 콘텐츠 블록 (Admonition) 컴포넌트
 const SpecialBlock = ({ dataType, children, title }) => {
   const iconMap = {
@@ -142,7 +161,7 @@ function MarkdownRenderer({ content }) {
   return (
     <div className={styles.markdownContent} data-markdown-root>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkCodeTitle]}
         rehypePlugins={[rehypeRaw]}
         components={{
           img: (props) => {
@@ -210,21 +229,26 @@ function MarkdownRenderer({ content }) {
             if (hasInvalidChild) return <div {...props}>{children}</div>
             return <p className={styles.paragraph} {...props}>{children}</p>
           },
-          code: ({ inline, className, children, ...props }) => {
-            const match = /language-(\w+)/.exec(className || "")
-            const language = match ? match[1] : ""
-            if (!inline) {
-              const raw = String(children).replace(/\n$/, "")
-              const isSingleLine = !raw.includes("\n")
-              if (!language && isSingleLine) {
-                return <code className={`${styles.inlineCode} ${styles.inlineCodeBlock}`} {...props}>{raw}</code>
-              }
-            }
-            return !inline ? (
+          pre: ({ children }) => {
+            // pre > code 구조에서 code 자식 추출
+            const codeEl = React.Children.toArray(children).find(
+              (child) => React.isValidElement(child)
+            )
+            // remark 플러그인이 code 노드의 hProperties에 data-title을 설정함
+            const codeTitle = codeEl?.props?.["data-title"] || ""
+            const language = /language-(\w+)/.exec(codeEl?.props?.className || "")?.[1] || ""
+            const rawCode = String(codeEl?.props?.children || "").replace(/\n$/, "")
+
+            return (
               <div className={styles.codeBlockContainer}>
                 <div className={styles.codeHeader}>
-                  <span className={styles.codeLanguage}>{language || "코드"}</span>
-                  <button className={styles.copyButton} onClick={() => copyToClipboard(String(children).replace(/\n$/, ""))} aria-label="코드 복사">
+                  <div className={styles.codeHeaderLeft}>
+                    {/* 언어 배지는 항상 좌측 첫 번째 */}
+                    <span className={styles.codeLanguage}>{language || "코드"}</span>
+                    {/* title이 있을 때만 파일명 표시 */}
+                    {codeTitle && <span className={styles.codeTitle}>{codeTitle}</span>}
+                  </div>
+                  <button className={styles.copyButton} onClick={() => copyToClipboard(rawCode)} aria-label="코드 복사">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -232,13 +256,25 @@ function MarkdownRenderer({ content }) {
                     <span>복사</span>
                   </button>
                 </div>
-                <SyntaxHighlighter style={oneDark} language={language} className={styles.codeBlock} showLineNumbers={true} wrapLines={true} lineProps={() => ({ className: "codeLine" })} {...props}>
-                  {String(children).replace(/\n$/, "")}
+                <SyntaxHighlighter style={oneDark} language={language} className={styles.codeBlock} showLineNumbers={true} wrapLines={true} lineProps={() => ({ className: "codeLine" })}>
+                  {rawCode}
                 </SyntaxHighlighter>
               </div>
-            ) : (
-              <code className={styles.inlineCode} {...props}>{children}</code>
             )
+          },
+          code: ({ inline, className, children, ...props }) => {
+            // inline 코드만 처리; 블록 코드는 pre handler가 담당
+            if (!inline) {
+              const match = /language-(\w+)/.exec(className || "")
+              const language = match ? match[1] : ""
+              const raw = String(children).replace(/\n$/, "")
+              const isSingleLine = !raw.includes("\n")
+              if (!language && isSingleLine) {
+                return <code className={`${styles.inlineCode} ${styles.inlineCodeBlock}`} {...props}>{raw}</code>
+              }
+              return null
+            }
+            return <code className={styles.inlineCode} {...props}>{children}</code>
           },
           h1: ({ children, ...props }) => <Heading level={1} {...props}>{children}</Heading>,
           h2: ({ children, ...props }) => <Heading level={2} {...props}>{children}</Heading>,

@@ -55,21 +55,15 @@ export default function ProjectList() {
   // 태그 선택 시 프로젝트 필터링
   const handleTagSelect = (tag) => {
     setSelectedTag(tag)
-
+    setCurrentPage(1)
     if (tag === null) {
-      // 전체 선택 시 모든 프로젝트 표시
       setFilteredProjects(projects)
-      // URL에서 태그 파라미터 제거
       window.history.pushState({}, "", "/my-blog/projects")
     } else {
-      // 특정 태그 선택 시 해당 태그를 가진 프로젝트만 필터링
       const filtered = projects.filter((project) => project.tags && project.tags.includes(tag))
       setFilteredProjects(filtered)
-      // URL에 태그 파라미터 추가
       window.history.pushState({}, "", `/my-blog/projects?tag=${encodeURIComponent(tag)}`)
     }
-    // 태그 변경 시 페이지 1로 이동
-    setCurrentPage(1)
   }
 
   // 검색어와 태그에 따른 프로젝트 필터링
@@ -82,8 +76,7 @@ export default function ProjectList() {
     }
 
     setFilteredProjects(filtered)
-    // 필터 변경 시 페이지를 1페이지로 리셋
-    setCurrentPage(1)
+    // ← URL에서 읽은 페이지를 보존하기 위해 여기서 currentPage를 리셋하지 않음
   }, [projects, selectedTag])
 
   // 페이지네이션 계산

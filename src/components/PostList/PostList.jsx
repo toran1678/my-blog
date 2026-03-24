@@ -82,7 +82,7 @@ export default function PostList() {
     }
     
     setFilteredPosts(filtered)
-    setCurrentPage(1)
+    // ← URL에서 읽은 페이지를 보존하기 위해 여기서 currentPage를 리셋하지 않음
   }, [posts, selectedCategory, selectedTag])
 
   const handleImageError = (slug) => {
@@ -95,11 +95,16 @@ export default function PostList() {
   // 태그 선택 시 필터링 및 URL 업데이트
   const handleTagSelect = (tag) => {
     setSelectedTag(tag)
+    setCurrentPage(1)
+    const params = new URLSearchParams(location.search)
     if (tag === null) {
-      window.history.pushState({}, "", "/my-blog/posts")
+      params.delete("tag")
     } else {
-      window.history.pushState({}, "", `/my-blog/posts?tag=${encodeURIComponent(tag)}`)
+      params.set("tag", encodeURIComponent(tag))
     }
+    params.delete("page")
+    const query = params.toString()
+    window.history.pushState({}, "", query ? `/my-blog/posts?${query}` : "/my-blog/posts")
   }
 
   // 페이지네이션 관련 계산
@@ -183,7 +188,13 @@ export default function PostList() {
             className={`${styles.categoryTab} ${selectedCategory === cat ? styles.activeCategory : ""}`}
             onClick={() => {
               setSelectedCategory(cat)
-              handleTagSelect(null) // 카테고리 변경 시 태그 선택 초기화
+              setCurrentPage(1)
+              const params = new URLSearchParams(location.search)
+              params.delete("page")
+              params.delete("tag")
+              const query = params.toString()
+              window.history.pushState({}, "", query ? `/my-blog/posts?${query}` : "/my-blog/posts")
+              handleTagSelect(null)
             }}
           >
             {cat}

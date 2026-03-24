@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'D2Coding';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
 .markdownContent {
   font-family: var(--font-sans);
   line-height: 1.8;
@@ -488,17 +495,41 @@ html.dark-theme .inlineCode,
   font-size: 0.85rem;
 }
 
-.codeLanguage {
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  /* 좁은 화면에서 '예: JSX' 같은 라벨이 버튼을 밀어내지 않도록 */
+.codeHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
+}
+
+.codeLanguage {
+  font-family: 'D2Coding', monospace;
+  font-size: 0.8rem;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  color: #aab4c8;
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* 파일 경로 타이틀 */
+.codeTitle {
+  font-family: 'D2Coding', monospace;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #9ca3b0;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  /* 구분선 효과 */
+  padding-left: 0.6rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
+
 
 .copyButton {
   display: flex;
