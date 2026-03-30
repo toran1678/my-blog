@@ -96,7 +96,7 @@ function MarkdownRenderer({ content }) {
         .replace(/\uFF40/g, "`")
         .replace(/\uFF5E/g, "~")
         .replace(/(\p{L})\*\*/gu, `$1${zws}**`)
-        .replace(/([)\]"!])\*\*/g, `$1${zws}**`)
+        .replace(/([)\]"'!])\*\*/g, `$1${zws}**`)
         .replace(/\)\*\*(\p{L})/gu, `)**${zws}$1`)
     )
   }
